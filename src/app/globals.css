@@ -1,69 +1,77 @@
 @import "tailwindcss";
 
 /*
-  Polices Akzidenz Grotesk, fournies en .otf par Antonino (public/fonts/).
-  "Akzidenz Grotesk" = texte courant, "Akzidenz Grotesk Condensed" = titres impactants.
+  Polices alignées sur l'export Claude Design (figma-export/site-all-in-one.html) :
+  "AG" = texte courant, "AGCond" = titres/labels condensés.
+  Fichiers .woff2 "Pro" fournis par Antonino dans public/fonts/.
 */
 @font-face {
-  font-family: "Akzidenz Grotesk";
-  src: url("/fonts/AkzidenzGrotesk-Light.otf") format("opentype");
+  font-family: "AG";
+  src: url("/fonts/AkzidenzGroteskPro-Light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Akzidenz Grotesk";
-  src: url("/fonts/AkzidenzGrotesk-Regular.otf") format("opentype");
+  font-family: "AG";
+  src: url("/fonts/AkzidenzGroteskPro-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Akzidenz Grotesk";
-  src: url("/fonts/AkzidenzGrotesk-Medium.otf") format("opentype");
+  font-family: "AG";
+  src: url("/fonts/AkzidenzGroteskPro-Md.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Akzidenz Grotesk";
-  src: url("/fonts/AkzidenzGrotesk-Bold.otf") format("opentype");
+  font-family: "AG";
+  src: url("/fonts/AkzidenzGroteskPro-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Akzidenz Grotesk";
-  src: url("/fonts/AkzidenzGrotesk-ExtraBold.otf") format("opentype");
+  font-family: "AG";
+  src: url("/fonts/AkzidenzGroteskPro-XBd.woff2") format("woff2");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Akzidenz Grotesk";
-  src: url("/fonts/AkzidenzGrotesk-Super.otf") format("opentype");
+  font-family: "AG";
+  src: url("/fonts/AkzidenzGroteskPro-Super.woff2") format("woff2");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Akzidenz Grotesk Condensed";
-  src: url("/fonts/AkzidenzGrotesk-MediumCond.otf") format("opentype");
+  font-family: "AGCond";
+  src: url("/fonts/AkzidenzGroteskPro-Cn.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "AGCond";
+  src: url("/fonts/AkzidenzGroteskPro-MdCn.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Akzidenz Grotesk Condensed";
-  src: url("/fonts/AkzidenzGrotesk-BoldCond.otf") format("opentype");
+  font-family: "AGCond";
+  src: url("/fonts/AkzidenzGroteskPro-BoldCn.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Akzidenz Grotesk Condensed";
-  src: url("/fonts/AkzidenzGrotesk-ExtraBoldCond.otf") format("opentype");
-  font-weight: 800;
+  font-family: "AGCond";
+  src: url("/fonts/AkzidenzGroteskPro-XBdCn.woff2") format("woff2");
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
@@ -72,10 +80,10 @@
   --color-bg: #0a0a0a;
   --color-bg-raised: #141414;
   --color-card: #f2f0ea;
-  --color-ink: #ffffff;
-  --color-muted: #9a9a9a;
-  --color-line: #262626;
-  --color-accent: #d7fa3c;
+  --color-ink: #f4f4f1;
+  --color-muted: #9c9c96;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-accent: #c9f133;
   --color-accent-ink: #0a0a0a;
 }
 
@@ -89,8 +97,11 @@
   --color-accent: var(--color-accent);
   --color-accent-ink: var(--color-accent-ink);
 
-  --font-sans: "Akzidenz Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Akzidenz Grotesk Condensed", "Akzidenz Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "AG", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "AGCond", "AG", "Helvetica Neue", Arial, sans-serif;
+
+  /* Bascule desktop/mobile de l'export Claude Design (au lieu du 768px par défaut de Tailwind) */
+  --breakpoint-md: 860px;
 }
 
 body {

@@ -16,14 +16,14 @@ export function Logo({ className = "" }: { className?: string }) {
   );
 }
 
-export function FooterLogo({ className = "" }: { className?: string }) {
+export function FooterLogo({ className = "w-auto" }: { className?: string }) {
   return (
     <Image
       src="/logo/behybrid-logo-footer-menu.png"
       alt="BEHYBRID"
       width={2841}
       height={285}
-      className={`h-8 w-auto ${className}`}
+      className={className}
     />
   );
 }

@@ -22,21 +22,18 @@ export function NewsletterForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex w-full max-w-md flex-col gap-3 sm:flex-row"
-    >
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 md:flex-row md:gap-3">
       <input
         type="email"
         required
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="you@example.com"
-        className="w-full rounded-full border border-line bg-bg-raised px-5 py-3 text-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none"
+        className="w-full rounded-full border border-white/15 bg-bg px-[18px] py-[13px] text-[13px] text-ink placeholder:text-muted focus:border-accent focus:outline-none md:w-[280px] md:bg-bg-raised md:px-[22px] md:py-3.5 md:text-sm"
       />
       <button
         type="submit"
-        className="whitespace-nowrap rounded-full bg-accent px-6 py-3 text-sm font-bold uppercase tracking-wide text-accent-ink transition-opacity hover:opacity-90"
+        className="whitespace-nowrap rounded-full bg-accent px-7 py-[13px] text-center font-display text-[13px] font-extrabold uppercase tracking-wide text-accent-ink transition-opacity hover:opacity-90 md:py-3.5"
       >
         Subscribe
       </button>

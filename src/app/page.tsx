@@ -1,8 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 import {
   Users,
-  CalendarClock,
+  CalendarDays,
   Dumbbell,
   Gauge,
   Footprints,
@@ -10,158 +10,200 @@ import {
   Shirt,
   CalendarCheck,
   Percent,
-} from "lucide-react";
+} from 'lucide-react';
+import { Container } from '@/components/ui/container';
 
 const FEATURES = [
   {
     icon: Users,
-    title: "Community",
-    description: "Connect with runners who push limits and never settle.",
+    title: 'Community',
+    description: 'Connect with runners who push limits and never settle.',
   },
   {
-    icon: CalendarClock,
-    title: "Weekly Events",
-    description: "Perform & Connect runs every week, rain or shine.",
+    icon: CalendarDays,
+    title: 'Weekly Events',
+    description: 'Perform & Connect runs every week, rain or shine.',
   },
   {
     icon: Dumbbell,
-    title: "Training",
-    description: "Programs built for runners and hybrid athletes.",
+    title: 'Training',
+    description: 'Programs built for runners and hybrid athletes.',
   },
   {
     icon: Gauge,
-    title: "For All Paces",
-    description: "Everyone is welcome. No ego. Just the love of running.",
+    title: 'For All Paces',
+    description: 'Everyone is welcome. No ego. Just the love of running.',
   },
 ];
 
 const MEMBER_STEPS = [
   {
-    number: "01",
-    title: "Follow",
-    description: "Follow us on Instagram or TikTok.",
+    number: '01',
+    title: 'Follow',
+    description: 'Follow us on Instagram or TikTok.',
   },
   {
-    number: "02",
-    title: "Reach Out",
-    description: "Send us a DM, tell us about yourself.",
+    number: '02',
+    title: 'Reach Out',
+    description: 'Send us a DM, tell us about yourself.',
   },
   {
-    number: "03",
-    title: "Free Trial",
-    description: "Join a free run, no strings attached.",
+    number: '03',
+    title: 'Free Trial',
+    description: 'Join a free run, no strings attached.',
   },
   {
-    number: "04",
-    title: "Become A Member",
-    description: "Sign up and forge your legend.",
+    number: '04',
+    title: 'Become A Member',
+    description: 'Sign up and forge your legend.',
   },
 ];
 
 const MEMBER_BENEFITS = [
-  { icon: Footprints, label: "1 Track Session / Week" },
-  { icon: Lightbulb, label: "Weekly Training Tips" },
-  { icon: Shirt, label: "BEHYBRID Merch" },
-  { icon: Dumbbell, label: "1 Free Strength Session" },
-  { icon: CalendarCheck, label: "Priority Access To Events" },
-  { icon: Percent, label: "15% Off Club Coaching" },
+  { icon: Footprints, label: '1 Track Session / Week' },
+  { icon: Lightbulb, label: 'Weekly Training Tips' },
+  { icon: Shirt, label: 'BEHYBRID Merch' },
+  { icon: Dumbbell, label: '1 Free Strength Session' },
+  { icon: CalendarCheck, label: 'Priority Access To Events' },
+  { icon: Percent, label: '15% Off Club Coaching' },
 ];
+
+function SquareMark({
+  icon: Icon,
+  className = '',
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[5px] border-[1.6px] border-accent md:h-[30px] md:w-[30px] md:rounded-md ${className}`}
+    >
+      <Icon className="h-[13px] w-[13px] text-accent md:h-[16px] md:w-[16px]" />
+    </div>
+  );
+}
+
+function CheckMark({
+  icon: Icon,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded border-[1.6px] border-accent">
+      <Icon className="h-[10px] w-[10px] text-accent" />
+    </div>
+  );
+}
 
 export default function Home() {
   return (
     <>
-      <section className="relative flex min-h-[560px] items-center border-b border-line">
-        <Image
-          src="/photos/hero-group-desktop.png"
-          alt="Le groupe BEHYBRID lors d'un run à Bruxelles"
-          fill
-          priority
-          sizes="100vw"
-          className="hidden object-cover brightness-75 md:block"
-        />
+      <section className="relative h-[500px] md:h-[520px]">
         <Image
           src="/photos/hero-group-mobile.jpg"
           alt="Le groupe BEHYBRID lors d'un run à Bruxelles"
           fill
           priority
           sizes="100vw"
-          className="object-cover brightness-75 md:hidden"
+          className="object-cover md:hidden"
         />
-        <div className="absolute inset-0 bg-bg/35" />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/70 to-transparent" />
-        <div className="relative mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-6 py-24 md:px-10">
-          <h1 className="font-display text-4xl font-bold uppercase leading-none tracking-tight sm:text-6xl">
-            <span className="text-accent">One</span> Club.
-            <br />
-            <span className="text-accent">One</span> Community.
-          </h1>
-          <p className="max-w-xl text-sm text-muted sm:text-base">
-            BEHYBRID RUN CLUB BRUSSELS brings together runners of every level
-            pushing limits, together. Perform, connect and forge your legend.
-          </p>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/join-us"
-              className="rounded-full bg-accent px-6 py-3 text-sm font-bold uppercase tracking-wide text-accent-ink transition-opacity hover:opacity-90"
-            >
-              Join The Club →
-            </Link>
-            <Link
-              href="/calendar"
-              className="rounded-full border border-ink px-6 py-3 text-sm font-bold uppercase tracking-wide text-ink transition-colors hover:border-accent hover:text-accent"
-            >
-              See Calendar →
-            </Link>
+        <Image
+          src="/photos/hero-group-desktop.png"
+          alt="Le groupe BEHYBRID lors d'un run à Bruxelles"
+          fill
+          priority
+          sizes="100vw"
+          className="hidden object-cover md:block"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 from-0% to-black/5 md:from-black/50 md:from-0% md:to-black/5" />
+
+        <p className="absolute inset-x-0 top-5 z-10 text-center font-display text-[16px] font-bold uppercase tracking-[3px] text-ink md:text-[18px]">
+          BEHYBRID · Run Club Brussels
+        </p>
+
+        <Container className="absolute inset-0 flex flex-col justify-center gap-4 py-5 md:py-10">
+          <div className="flex flex-col gap-4">
+            <div>
+              <h1 className="font-display text-[44px] font-black uppercase leading-[0.98] md:text-[64px] md:leading-[0.95]">
+                <span className="text-accent">One</span> Club.
+                <br />
+                <span className="text-accent">One</span> Community.
+              </h1>
+            </div>
+            <div className="flex flex-col gap-2.5 md:flex-row md:items-center md:gap-3.5">
+              <Link
+                href="/join-us"
+                className="rounded-full bg-accent px-[34px] py-[15px] text-center font-display text-[15px] font-extrabold uppercase tracking-wide text-accent-ink md:py-4"
+              >
+                Join The Club →
+              </Link>
+              <Link
+                href="/calendar"
+                className="rounded-full border-2 border-white/60 bg-white/20 px-[34px] py-[15px] text-center font-display text-[15px] font-bold uppercase tracking-wide text-ink md: border-2  border-white/60 md:py-4 bg-white/20"
+              >
+                See Calendar →
+              </Link>
+            </div>
           </div>
-        </div>
+        </Container>
       </section>
 
-      <div className="border-b border-line px-6 py-4 md:px-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-3 text-sm">
-            <span className="text-accent">→</span>
-            <span className="font-bold uppercase tracking-wide text-accent">
-              Next Event
-            </span>
-            <span className="font-medium">Hard Run 1-1</span>
-            <span className="text-muted">
-              1 July 2026 · 19:00 · Parc du Cinquantenaire
-            </span>
-          </div>
+      <div className="border-y border-line border-l-[3px] border-l-accent bg-[#111111]">
+        <Container className="flex flex-col gap-1.5 py-[18px] md:flex-row md:items-center md:gap-7 md:py-5">
+          <span className="font-display text-[11px] font-bold uppercase tracking-[2px] text-accent md:text-[13px]">
+            → Next Event
+          </span>
+          <span className="font-display text-lg font-bold uppercase">
+            Hard Run 1-1
+          </span>
+          <span className="text-[13px] text-muted md:text-sm">
+            1 July 2026 · 19:00 · Parc du Cinquantenaire
+          </span>
           <button
             type="button"
-            className="self-start rounded-full border border-ink px-4 py-1.5 text-xs font-bold uppercase tracking-wide sm:self-auto"
+            className="mt-2 self-start rounded-full border border-white/30 px-5 py-2 font-display text-xs font-bold uppercase tracking-wide md:mt-0 md:ml-auto md:self-auto"
           >
             Add +
           </button>
-        </div>
+        </Container>
       </div>
 
-      <section className="border-b border-line px-6 py-20 md:px-10">
-        <div className="mx-auto max-w-7xl text-center">
-          <h2 className="font-display text-2xl font-bold uppercase sm:text-3xl">
-            What&apos;s <span className="text-accent">BEHYBRID</span>?
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-muted">
-            BEHYBRID is a group of individuals pushing their limits, at their
-            own level, toward their own goals. Different paces, same spirit:
-            run, improve and enjoy. BEHYBRID, it&apos;s you, them and us.
-          </p>
-          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-x-12 gap-y-10 text-left sm:grid-cols-2">
+      <Container className="pt-12 text-center md:pt-[72px] md:text-left">
+        <div className="md:grid md:grid-cols-2 md:items-center md:gap-16">
+          <div className="mx-auto max-w-[900px] md:mx-0 md:max-w-none">
+            <h2 className="font-display text-[30px] font-black uppercase md:text-[44px]">
+              What&apos;s <span className="text-accent">BEHYBRID</span>?
+            </h2>
+            <p className="mt-4 text-sm leading-[1.7] text-[#b7b7b1] md:mt-5 md:text-base">
+              BEHYBRID is a run club in Brussels bringing together runners of
+              every level. A community of individuals pushing their limits, at
+              their own pace, toward their own goals. Different paces, different
+              ambitions, same spirit: run, improve and enjoy. BEHYBRID, it’s
+              you, them and us.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-9 grid max-w-[900px] grid-cols-2 gap-6 md:mx-0 md:mt-0 md:max-w-none md:gap-8">
             {FEATURES.map((feature) => (
-              <div key={feature.title} className="flex flex-col items-center gap-2 text-center sm:items-start sm:text-left">
-                <feature.icon className="h-6 w-6 text-accent" strokeWidth={1.5} />
-                <p className="font-bold uppercase tracking-wide">
+              <div
+                key={feature.title}
+                className="flex flex-col items-center gap-1.5 text-center md:items-start md:text-left"
+              >
+                <SquareMark icon={feature.icon} />
+                <p className="font-display text-sm font-bold uppercase md:text-lg">
                   {feature.title}
                 </p>
-                <p className="text-sm text-muted">{feature.description}</p>
+                <p className="text-xs leading-normal text-muted md:text-sm">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Container>
 
-      <section className="relative border-b border-line px-6 py-20 md:px-10">
+      <section className="relative mt-14 py-11 md:mt-[72px] md:py-14">
         <Image
           src="/photos/how-we-move-desktop-mobile.jpg"
           alt="Session de run BEHYBRID"
@@ -169,87 +211,90 @@ export default function Home() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-bg/70" />
-        <div className="relative mx-auto max-w-7xl">
-          <p className="text-xs font-bold uppercase tracking-wide text-accent">
+        <div className="absolute inset-0 bg-black/55 md:bg-black/60" />
+
+        <Container className="relative">
+          <p className="mb-2 font-display text-xs font-bold uppercase tracking-[2px] text-accent">
             Weekly Runs
           </p>
-          <h2 className="font-display text-3xl font-bold uppercase">
+          <h2 className="mb-6 font-display text-[28px] font-black uppercase md:mb-7 md:text-[40px]">
             How We <span className="text-accent">Move</span>
           </h2>
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div className="rounded-lg border border-accent bg-bg/60 p-6">
-              <span className="rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase text-accent-ink">
+          <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6">
+            <div className="rounded-lg border border-accent bg-bg/50 p-[22px] md:rounded-[10px] md:p-7">
+              <span className="mb-3.5 inline-block rounded-full bg-accent px-3 py-1.5 font-display text-[11px] font-extrabold tracking-wide text-accent-ink">
                 1 Run / Week
               </span>
-              <p className="mt-4 font-display text-xl font-bold uppercase">
+              <p className="mb-2.5 font-display text-[22px] font-extrabold uppercase md:text-2xl">
                 Perform
               </p>
-              <p className="mt-2 text-sm text-muted">
+              <p className="text-[13px] leading-relaxed text-[#e6e6e2]">
                 Threshold efforts, VO₂ max intervals, race-specific workouts.
-                Coach-led track sessions designed to push your limits and
-                unlock new levels of performance.
+                Coach-led track sessions designed to push your limits.
               </p>
             </div>
-            <div className="rounded-lg border border-ink bg-bg/60 p-6">
-              <span className="rounded-full border border-ink px-3 py-1 text-xs font-bold uppercase">
+            <div className="rounded-lg border border-white/40 bg-bg/50 p-[22px] md:rounded-[10px] md:p-7">
+              <span className="mb-3.5 inline-block rounded-full border border-white/50 px-3 py-1.5 font-display text-[11px] font-extrabold tracking-wide">
                 2 Runs / Month
               </span>
-              <p className="mt-4 font-display text-xl font-bold uppercase">
+              <p className="mb-2.5 font-display text-[22px] font-extrabold uppercase md:text-2xl">
                 Connect
               </p>
-              <p className="mt-2 text-sm text-muted">
-                The run that brings people together. Easy-paced group runs
-                designed to create meaningful connections and make every mile
-                more enjoyable.
+              <p className="text-[13px] leading-relaxed text-[#e6e6e2]">
+                The run that brings people together. Easy-paced group runs to
+                create meaningful connections.
               </p>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
-      <section className="border-b border-line px-6 py-20 md:px-10">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="font-display text-2xl font-bold uppercase sm:text-3xl">
-            How To Become A <span className="text-accent">Member</span>
-          </h2>
-          <p className="mt-1 text-sm uppercase tracking-wide text-muted">
-            And what do I get?
-          </p>
+      <Container className="py-14 md:py-[72px]">
+        <h2 className="font-display text-[28px] font-black uppercase md:text-[40px]">
+          How To Become A <span className="text-accent">Member</span>
+        </h2>
+        <p className="mb-7 font-display text-sm font-bold uppercase text-[#5a5a56] md:mb-9 md:text-[15px]">
+          And What Do I Get?
+        </p>
 
-          <div className="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4">
+        <div className="md:grid md:grid-cols-2 md:gap-16">
+          <div className="mb-8 grid grid-cols-2 gap-5 md:mb-0 md:gap-x-10 md:gap-y-17">
             {MEMBER_STEPS.map((step) => (
               <div key={step.number}>
-                <p className="text-xs font-bold text-accent">{step.number}</p>
-                <p className="mt-1 font-bold uppercase tracking-wide">
+                <p className="mb-2 font-display text-[13px] font-extrabold text-accent">
+                  {step.number}
+                </p>
+                <p className="mb-1 font-display text-[15px] font-bold uppercase md:text-base">
                   {step.title}
                 </p>
-                <p className="mt-1 text-sm text-muted">{step.description}</p>
+                <p className="text-xs leading-snug text-muted">
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-4 rounded-lg border border-line p-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col gap-[18px] rounded-lg border border-line p-6 md:grid md:grid-flow-col md:grid-rows-3 md:gap-x-8 md:gap-y-5 md:rounded-[10px] md:p-8">
             {MEMBER_BENEFITS.map((benefit) => (
               <div key={benefit.label} className="flex items-center gap-3">
-                <benefit.icon className="h-5 w-5 shrink-0 text-accent" strokeWidth={1.5} />
-                <span className="text-sm font-medium uppercase tracking-wide">
+                <CheckMark icon={benefit.icon} />
+                <span className="text-[13px] text-[#e6e6e2] md:text-sm">
                   {benefit.label}
                 </span>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Container>
 
-      <section className="grid grid-cols-1 sm:grid-cols-3">
-        {["gallery-1.png", "gallery-2.png", "gallery-3.png"].map((file) => (
-          <div key={file} className="relative h-64 w-full">
+      <section className="grid grid-cols-1 gap-0.5 md:grid-cols-3">
+        {['gallery-1.png', 'gallery-2.png', 'gallery-3.png'].map((file) => (
+          <div key={file} className="relative h-[160px] w-full md:h-[340px]">
             <Image
               src={`/photos/${file}`}
               alt="Photo du club BEHYBRID"
               fill
-              sizes="(min-width: 640px) 33vw, 100vw"
+              sizes="(min-width: 860px) 33vw, 100vw"
               className="object-cover"
             />
           </div>
