@@ -5,13 +5,13 @@ import Link from "next/link";
 type Size = "sm" | "lg";
 
 const TEXT_SIZE: Record<Size, string> = {
-  sm: "text-sm",
-  lg: "text-3xl",
+  sm: "text-body-sm",
+  lg: "text-h2",
 };
 
 const SIGNUP_SIZE: Record<Size, string> = {
-  sm: "px-5 py-2.5 text-sm",
-  lg: "px-10 py-4 text-2xl",
+  sm: "px-5 py-2.5 text-body-sm",
+  lg: "px-10 py-4 text-h3",
 };
 
 export function NavMenuLink({

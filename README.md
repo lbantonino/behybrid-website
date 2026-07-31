@@ -184,11 +184,11 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 ### Où on en est
 
-Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec l'identité visuelle intégrée et un build de production qui passe. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile.
+Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec l'identité visuelle intégrée et un build de production qui passe. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile. Le design system a démarré : la palette de couleurs et l'échelle typographique (9 niveaux) sont formalisées en tokens dans le code et appliquées à tout le site.
 
 ### Prochaine étape
 
-Construire le design system à partir des maquettes, puis attaquer la page `/join-us`, principal parcours de conversion depuis l'accueil.
+Poursuivre le design system : espacements et rayons, puis composants (boutons, cartes, badges, champs), et enfin reconstruire la page `/style-guide` comme documentation. Ensuite, attaquer la page `/join-us`, principal parcours de conversion depuis l'accueil.
 
 ### Reste à faire (vue d'ensemble)
 
@@ -210,3 +210,4 @@ Construire le design system à partir des maquettes, puis attaquer la page `/joi
 - Rédaction du document de sécurité `docs/SECURITE.md` (stack Supabase + Stripe + Vercel, RLS, RGPD, checklist).
 - Intégration des maquettes Figma (accueil, boutique, calendrier, desktop + mobile).
 - Définition de la démarche : design-first, construit avec Claude Code et Claude Design.
+- Démarrage du design system : tokens de couleurs (palette de marque + échelle de neutres) et échelle typographique (9 niveaux), avec refactor complet du code (couleurs et tailles) et build de production validé.

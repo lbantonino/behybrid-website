@@ -118,14 +118,14 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 from-0% to-black/5 md:from-black/50 md:from-0% md:to-black/5" />
 
-        <p className="absolute inset-x-0 top-5 z-10 text-center font-display text-[16px] font-bold uppercase tracking-[3px] text-ink md:text-[18px]">
+        <p className="absolute inset-x-0 top-5 z-10 text-center font-display text-body font-bold uppercase tracking-[3px] text-ink md:text-body-lg">
           BEHYBRID · Run Club Brussels
         </p>
 
         <Container className="absolute inset-0 flex flex-col justify-center gap-4 py-5 md:py-10">
           <div className="flex flex-col gap-4">
             <div>
-              <h1 className="font-display text-[44px] font-black uppercase leading-[0.98] md:text-[64px] md:leading-[0.95]">
+              <h1 className="font-display text-h1 font-black uppercase leading-[0.98] md:text-display md:leading-[0.95]">
                 <span className="text-accent">One</span> Club.
                 <br />
                 <span className="text-accent">One</span> Community.
@@ -134,13 +134,13 @@ export default function Home() {
             <div className="flex flex-col gap-2.5 md:flex-row md:items-center md:gap-3.5">
               <Link
                 href="/join-us"
-                className="rounded-full bg-accent px-[34px] py-[15px] text-center font-display text-[15px] font-extrabold uppercase tracking-wide text-accent-ink md:py-4"
+                className="rounded-full bg-accent px-[34px] py-[15px] text-center font-display text-body font-extrabold uppercase tracking-wide text-accent-ink md:py-4"
               >
                 Join The Club →
               </Link>
               <Link
                 href="/calendar"
-                className="rounded-full border-2 border-white/60 bg-white/20 px-[34px] py-[15px] text-center font-display text-[15px] font-bold uppercase tracking-wide text-ink md: border-2  border-white/60 md:py-4 bg-white/20"
+                className="rounded-full border-2 border-white/60 bg-white/20 px-[34px] py-[15px] text-center font-display text-body font-bold uppercase tracking-wide text-ink md: border-2  border-white/60 md:py-4 bg-white/20"
               >
                 See Calendar →
               </Link>
@@ -149,20 +149,20 @@ export default function Home() {
         </Container>
       </section>
 
-      <div className="border-y border-line border-l-[3px] border-l-accent bg-[#111111]">
+      <div className="border-y border-line border-l-[3px] border-l-accent bg-bg-alt">
         <Container className="flex flex-col gap-1.5 py-[18px] md:flex-row md:items-center md:gap-7 md:py-5">
-          <span className="font-display text-[11px] font-bold uppercase tracking-[2px] text-accent md:text-[13px]">
+          <span className="font-display text-label font-bold uppercase tracking-[2px] text-accent md:text-body-sm">
             → Next Event
           </span>
-          <span className="font-display text-lg font-bold uppercase">
+          <span className="font-display text-body-lg font-bold uppercase">
             Hard Run 1-1
           </span>
-          <span className="text-[13px] text-muted md:text-sm">
+          <span className="text-body-sm text-muted md:text-body-sm">
             1 July 2026 · 19:00 · Parc du Cinquantenaire
           </span>
           <button
             type="button"
-            className="mt-2 self-start rounded-full border border-white/30 px-5 py-2 font-display text-xs font-bold uppercase tracking-wide md:mt-0 md:ml-auto md:self-auto"
+            className="mt-2 self-start rounded-full border border-white/30 px-5 py-2 font-display text-label font-bold uppercase tracking-wide md:mt-0 md:ml-auto md:self-auto"
           >
             Add +
           </button>
@@ -172,10 +172,10 @@ export default function Home() {
       <Container className="pt-12 text-center md:pt-[72px] md:text-left">
         <div className="md:grid md:grid-cols-2 md:items-center md:gap-16">
           <div className="mx-auto max-w-[900px] md:mx-0 md:max-w-none">
-            <h2 className="font-display text-[30px] font-black uppercase md:text-[44px]">
+            <h2 className="font-display text-h2 font-black uppercase md:text-h1">
               What&apos;s <span className="text-accent">BEHYBRID</span>?
             </h2>
-            <p className="mt-4 text-sm leading-[1.7] text-[#b7b7b1] md:mt-5 md:text-base">
+            <p className="mt-4 text-body-sm leading-[1.7] text-muted-light md:mt-5 md:text-body">
               BEHYBRID is a run club in Brussels bringing together runners of
               every level. A community of individuals pushing their limits, at
               their own pace, toward their own goals. Different paces, different
@@ -191,10 +191,10 @@ export default function Home() {
                 className="flex flex-col items-center gap-1.5 text-center md:items-start md:text-left"
               >
                 <SquareMark icon={feature.icon} />
-                <p className="font-display text-sm font-bold uppercase md:text-lg">
+                <p className="font-display text-body-sm font-bold uppercase md:text-body-lg">
                   {feature.title}
                 </p>
-                <p className="text-xs leading-normal text-muted md:text-sm">
+                <p className="text-label leading-normal text-muted md:text-body-sm">
                   {feature.description}
                 </p>
               </div>
@@ -214,33 +214,33 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/55 md:bg-black/60" />
 
         <Container className="relative">
-          <p className="mb-2 font-display text-xs font-bold uppercase tracking-[2px] text-accent">
+          <p className="mb-2 font-display text-label font-bold uppercase tracking-[2px] text-accent">
             Weekly Runs
           </p>
-          <h2 className="mb-6 font-display text-[28px] font-black uppercase md:mb-7 md:text-[40px]">
+          <h2 className="mb-6 font-display text-h2 font-black uppercase md:mb-7 md:text-h1">
             How We <span className="text-accent">Move</span>
           </h2>
           <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6">
             <div className="rounded-lg border border-accent bg-bg/50 p-[22px] md:rounded-[10px] md:p-7">
-              <span className="mb-3.5 inline-block rounded-full bg-accent px-3 py-1.5 font-display text-[11px] font-extrabold tracking-wide text-accent-ink">
+              <span className="mb-3.5 inline-block rounded-full bg-accent px-3 py-1.5 font-display text-label font-extrabold tracking-wide text-accent-ink">
                 1 Run / Week
               </span>
-              <p className="mb-2.5 font-display text-[22px] font-extrabold uppercase md:text-2xl">
+              <p className="mb-2.5 font-display text-h3 font-extrabold uppercase md:text-h3">
                 Perform
               </p>
-              <p className="text-[13px] leading-relaxed text-[#e6e6e2]">
+              <p className="text-body-sm leading-relaxed text-ink-soft">
                 Threshold efforts, VO₂ max intervals, race-specific workouts.
                 Coach-led track sessions designed to push your limits.
               </p>
             </div>
             <div className="rounded-lg border border-white/40 bg-bg/50 p-[22px] md:rounded-[10px] md:p-7">
-              <span className="mb-3.5 inline-block rounded-full border border-white/50 px-3 py-1.5 font-display text-[11px] font-extrabold tracking-wide">
+              <span className="mb-3.5 inline-block rounded-full border border-white/50 px-3 py-1.5 font-display text-label font-extrabold tracking-wide">
                 2 Runs / Month
               </span>
-              <p className="mb-2.5 font-display text-[22px] font-extrabold uppercase md:text-2xl">
+              <p className="mb-2.5 font-display text-h3 font-extrabold uppercase md:text-h3">
                 Connect
               </p>
-              <p className="text-[13px] leading-relaxed text-[#e6e6e2]">
+              <p className="text-body-sm leading-relaxed text-ink-soft">
                 The run that brings people together. Easy-paced group runs to
                 create meaningful connections.
               </p>
@@ -250,10 +250,10 @@ export default function Home() {
       </section>
 
       <Container className="py-14 md:py-[72px]">
-        <h2 className="font-display text-[28px] font-black uppercase md:text-[40px]">
+        <h2 className="font-display text-h2 font-black uppercase md:text-h1">
           How To Become A <span className="text-accent">Member</span>
         </h2>
-        <p className="mb-7 font-display text-sm font-bold uppercase text-[#5a5a56] md:mb-9 md:text-[15px]">
+        <p className="mb-7 font-display text-body-sm font-bold uppercase text-faintest md:mb-9 md:text-body">
           And What Do I Get?
         </p>
 
@@ -261,13 +261,13 @@ export default function Home() {
           <div className="mb-8 grid grid-cols-2 gap-5 md:mb-0 md:gap-x-10 md:gap-y-17">
             {MEMBER_STEPS.map((step) => (
               <div key={step.number}>
-                <p className="mb-2 font-display text-[13px] font-extrabold text-accent">
+                <p className="mb-2 font-display text-body-sm font-extrabold text-accent">
                   {step.number}
                 </p>
-                <p className="mb-1 font-display text-[15px] font-bold uppercase md:text-base">
+                <p className="mb-1 font-display text-body font-bold uppercase md:text-body">
                   {step.title}
                 </p>
-                <p className="text-xs leading-snug text-muted">
+                <p className="text-label leading-snug text-muted">
                   {step.description}
                 </p>
               </div>
@@ -278,7 +278,7 @@ export default function Home() {
             {MEMBER_BENEFITS.map((benefit) => (
               <div key={benefit.label} className="flex items-center gap-3">
                 <CheckMark icon={benefit.icon} />
-                <span className="text-[13px] text-[#e6e6e2] md:text-sm">
+                <span className="text-body-sm text-ink-soft md:text-body-sm">
                   {benefit.label}
                 </span>
               </div>

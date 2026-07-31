@@ -15,7 +15,7 @@ export function NewsletterForm() {
 
   if (status === "submitted") {
     return (
-      <p className="text-sm font-medium text-accent">
+      <p className="text-body-sm font-medium text-accent">
         Merci, tu es inscrit à la newsletter BEHYBRID.
       </p>
     );
@@ -29,11 +29,11 @@ export function NewsletterForm() {
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="you@example.com"
-        className="w-full rounded-full border border-white/15 bg-bg px-[18px] py-[13px] text-[13px] text-ink placeholder:text-muted focus:border-accent focus:outline-none md:w-[280px] md:bg-bg-raised md:px-[22px] md:py-3.5 md:text-sm"
+        className="w-full rounded-full border border-white/15 bg-bg px-[18px] py-[13px] text-body-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none md:w-[280px] md:bg-bg-raised md:px-[22px] md:py-3.5 md:text-body-sm"
       />
       <button
         type="submit"
-        className="whitespace-nowrap rounded-full bg-accent px-7 py-[13px] text-center font-display text-[13px] font-extrabold uppercase tracking-wide text-accent-ink transition-opacity hover:opacity-90 md:py-3.5"
+        className="whitespace-nowrap rounded-full bg-accent px-7 py-[13px] text-center font-display text-body-sm font-extrabold uppercase tracking-wide text-accent-ink transition-opacity hover:opacity-90 md:py-3.5"
       >
         Subscribe
       </button>
