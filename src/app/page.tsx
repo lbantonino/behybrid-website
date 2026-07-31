@@ -19,22 +19,22 @@ const FEATURES = [
   {
     icon: Users,
     title: 'Community',
-    description: 'Connect with runners who push limits and never settle.',
+    description: ['Connect with runners who', 'push limits and never settle.'],
   },
   {
     icon: CalendarDays,
     title: 'Weekly Events',
-    description: 'Perform & Connect runs every week, rain or shine.',
+    description: ['Perform & Connect runs every', 'week, rain or shine.'],
   },
   {
     icon: Dumbbell,
     title: 'Training',
-    description: 'Programs built for runners and hybrid athletes.',
+    description: ['Programs built for runners', 'and hybrid athletes.'],
   },
   {
     icon: Gauge,
     title: 'For All Paces',
-    description: 'Everyone is welcome. No ego. Just the love of running.',
+    description: ['Everyone is welcome. No ego.', 'Just the love of running.'],
   },
 ];
 
@@ -79,7 +79,7 @@ function SquareMark({
 }) {
   return (
     <div
-      className={`flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-xl border-[1.6px] border-accent md:h-[30px] md:w-[30px] md:rounded-xl ${className}`}
+      className={`flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded border-[1.6px] border-accent md:h-[30px] md:w-[30px] ${className}`}
     >
       <Icon className="h-[13px] w-[13px] text-accent md:h-[16px] md:w-[16px]" />
     </div>
@@ -127,7 +127,7 @@ export default function Home() {
         <Container className="absolute inset-0 flex flex-col justify-center gap-4 py-5 md:py-10">
           <div className="flex flex-col gap-4">
             <div>
-              <h1 className="font-display text-h1 font-black uppercase leading-[0.98] md:text-display md:leading-[0.95]">
+              <h1 className="font-display text-h1 font-black uppercase leading-[0.98] tracking-[-0.01em] md:text-display md:leading-[0.95]">
                 <span className="text-accent">One</span> Club.
                 <br />
                 <span className="text-accent">One</span> Community.
@@ -173,7 +173,7 @@ export default function Home() {
             <h2 className="font-display text-h2 font-black uppercase md:text-h1">
               What&apos;s <span className="text-accent">BEHYBRID</span>?
             </h2>
-            <p className="mt-4 text-body-sm leading-[1.7] text-muted md:mt-5 md:text-body">
+            <p className="mt-4 text-body-sm leading-[1.7] text-muted md:mt-5 md:max-w-[420px] md:text-body">
               BEHYBRID is a run club in Brussels bringing together runners of
               every level. A community of individuals pushing their limits, at
               their own pace, toward their own goals. Different paces, different
@@ -192,8 +192,9 @@ export default function Home() {
                 <p className="font-display text-body-sm font-bold uppercase md:text-h3">
                   {feature.title}
                 </p>
-                <p className="text-label leading-normal text-muted md:text-body-sm">
-                  {feature.description}
+                <p className="text-body-sm leading-normal text-muted md:text-body">
+                  {feature.description[0]} <br className="hidden md:block" />
+                  {feature.description[1]}
                 </p>
               </div>
             ))}
@@ -212,7 +213,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/55 md:bg-black/60" />
 
         <Container className="relative">
-          <p className="mb-2 font-display text-label font-bold uppercase tracking-[2px] text-accent">
+          <p className="font-display text-body font-bold uppercase tracking-[2px] text-accent">
             Weekly Runs
           </p>
           <h2 className="mb-6 font-display text-h2 font-black uppercase md:mb-7 md:text-h1">
