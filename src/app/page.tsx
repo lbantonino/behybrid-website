@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Users,
   CalendarDays,
@@ -77,7 +79,7 @@ function SquareMark({
 }) {
   return (
     <div
-      className={`flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[5px] border-[1.6px] border-accent md:h-[30px] md:w-[30px] md:rounded-md ${className}`}
+      className={`flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-xl border-[1.6px] border-accent md:h-[30px] md:w-[30px] md:rounded-xl ${className}`}
     >
       <Icon className="h-[13px] w-[13px] text-accent md:h-[16px] md:w-[16px]" />
     </div>
@@ -118,7 +120,7 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 from-0% to-black/5 md:from-black/50 md:from-0% md:to-black/5" />
 
-        <p className="absolute inset-x-0 top-5 z-10 text-center font-display text-body font-bold uppercase tracking-[3px] text-ink md:text-body-lg">
+        <p className="absolute inset-x-0 top-5 z-10 text-center font-display text-body font-bold uppercase tracking-[3px] text-ink md:text-h3">
           BEHYBRID · Run Club Brussels
         </p>
 
@@ -132,50 +134,46 @@ export default function Home() {
               </h1>
             </div>
             <div className="flex flex-col gap-2.5 md:flex-row md:items-center md:gap-3.5">
-              <Link
-                href="/join-us"
-                className="rounded-full bg-accent px-[34px] py-[15px] text-center font-display text-body font-extrabold uppercase tracking-wide text-accent-ink md:py-4"
-              >
+              <Button href="/join-us" variant="primary" size="lg">
                 Join The Club →
-              </Link>
-              <Link
-                href="/calendar"
-                className="rounded-full border-2 border-white/60 bg-white/20 px-[34px] py-[15px] text-center font-display text-body font-bold uppercase tracking-wide text-ink md: border-2  border-white/60 md:py-4 bg-white/20"
-              >
+              </Button>
+              <Button href="/calendar" variant="secondary" size="lg">
                 See Calendar →
-              </Link>
+              </Button>
             </div>
           </div>
         </Container>
       </section>
 
       <div className="border-y border-line border-l-[3px] border-l-accent bg-bg-alt">
-        <Container className="flex flex-col gap-1.5 py-[18px] md:flex-row md:items-center md:gap-7 md:py-5">
+        <Container className="flex flex-col gap-1.5 py-4.5 md:flex-row md:items-center md:gap-7 md:py-5">
           <span className="font-display text-label font-bold uppercase tracking-[2px] text-accent md:text-body-sm">
             → Next Event
           </span>
-          <span className="font-display text-body-lg font-bold uppercase">
+          <span className="font-display text-h3 font-bold uppercase">
             Hard Run 1-1
           </span>
           <span className="text-body-sm text-muted md:text-body-sm">
             1 July 2026 · 19:00 · Parc du Cinquantenaire
           </span>
-          <button
+          <Button
             type="button"
-            className="mt-2 self-start rounded-full border border-white/30 px-5 py-2 font-display text-label font-bold uppercase tracking-wide md:mt-0 md:ml-auto md:self-auto"
+            variant="ghost"
+            size="sm"
+            className="mt-2 self-start md:mt-0 md:ml-auto md:self-auto"
           >
             Add +
-          </button>
+          </Button>
         </Container>
       </div>
 
-      <Container className="pt-12 text-center md:pt-[72px] md:text-left">
+      <Container className="pt-12 text-center md:pt-18 md:text-left">
         <div className="md:grid md:grid-cols-2 md:items-center md:gap-16">
           <div className="mx-auto max-w-[900px] md:mx-0 md:max-w-none">
             <h2 className="font-display text-h2 font-black uppercase md:text-h1">
               What&apos;s <span className="text-accent">BEHYBRID</span>?
             </h2>
-            <p className="mt-4 text-body-sm leading-[1.7] text-muted-light md:mt-5 md:text-body">
+            <p className="mt-4 text-body-sm leading-[1.7] text-muted md:mt-5 md:text-body">
               BEHYBRID is a run club in Brussels bringing together runners of
               every level. A community of individuals pushing their limits, at
               their own pace, toward their own goals. Different paces, different
@@ -191,7 +189,7 @@ export default function Home() {
                 className="flex flex-col items-center gap-1.5 text-center md:items-start md:text-left"
               >
                 <SquareMark icon={feature.icon} />
-                <p className="font-display text-body-sm font-bold uppercase md:text-body-lg">
+                <p className="font-display text-body-sm font-bold uppercase md:text-h3">
                   {feature.title}
                 </p>
                 <p className="text-label leading-normal text-muted md:text-body-sm">
@@ -203,7 +201,7 @@ export default function Home() {
         </div>
       </Container>
 
-      <section className="relative mt-14 py-11 md:mt-[72px] md:py-14">
+      <section className="relative mt-14 py-11 md:mt-18 md:py-14">
         <Image
           src="/photos/how-we-move-desktop-mobile.jpg"
           alt="Session de run BEHYBRID"
@@ -221,26 +219,26 @@ export default function Home() {
             How We <span className="text-accent">Move</span>
           </h2>
           <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6">
-            <div className="rounded-lg border border-accent bg-bg/50 p-[22px] md:rounded-[10px] md:p-7">
-              <span className="mb-3.5 inline-block rounded-full bg-accent px-3 py-1.5 font-display text-label font-extrabold tracking-wide text-accent-ink">
+            <div className="rounded-xl border border-accent bg-bg/50 p-5.5 md:rounded-xl md:p-7">
+              <Badge variant="accent" className="mb-3.5">
                 1 Run / Week
-              </span>
+              </Badge>
               <p className="mb-2.5 font-display text-h3 font-extrabold uppercase md:text-h3">
                 Perform
               </p>
-              <p className="text-body-sm leading-relaxed text-ink-soft">
+              <p className="text-body-sm leading-relaxed text-ink">
                 Threshold efforts, VO₂ max intervals, race-specific workouts.
                 Coach-led track sessions designed to push your limits.
               </p>
             </div>
-            <div className="rounded-lg border border-white/40 bg-bg/50 p-[22px] md:rounded-[10px] md:p-7">
-              <span className="mb-3.5 inline-block rounded-full border border-white/50 px-3 py-1.5 font-display text-label font-extrabold tracking-wide">
+            <div className="rounded-xl border border-white/40 bg-bg/50 p-5.5 md:rounded-xl md:p-7">
+              <Badge variant="outline" className="mb-3.5">
                 2 Runs / Month
-              </span>
+              </Badge>
               <p className="mb-2.5 font-display text-h3 font-extrabold uppercase md:text-h3">
                 Connect
               </p>
-              <p className="text-body-sm leading-relaxed text-ink-soft">
+              <p className="text-body-sm leading-relaxed text-ink">
                 The run that brings people together. Easy-paced group runs to
                 create meaningful connections.
               </p>
@@ -249,11 +247,11 @@ export default function Home() {
         </Container>
       </section>
 
-      <Container className="py-14 md:py-[72px]">
+      <Container className="py-14 md:py-18">
         <h2 className="font-display text-h2 font-black uppercase md:text-h1">
           How To Become A <span className="text-accent">Member</span>
         </h2>
-        <p className="mb-7 font-display text-body-sm font-bold uppercase text-faintest md:mb-9 md:text-body">
+        <p className="mb-7 font-display text-body-sm font-bold uppercase text-faint md:mb-9 md:text-body">
           And What Do I Get?
         </p>
 
@@ -274,11 +272,11 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="flex flex-col gap-[18px] rounded-lg border border-line p-6 md:grid md:grid-flow-col md:grid-rows-3 md:gap-x-8 md:gap-y-5 md:rounded-[10px] md:p-8">
+          <div className="flex flex-col gap-4.5 rounded-xl border border-line p-6 md:grid md:grid-flow-col md:grid-rows-3 md:gap-x-8 md:gap-y-5 md:rounded-xl md:p-8">
             {MEMBER_BENEFITS.map((benefit) => (
               <div key={benefit.label} className="flex items-center gap-3">
                 <CheckMark icon={benefit.icon} />
-                <span className="text-body-sm text-ink-soft md:text-body-sm">
+                <span className="text-body-sm text-ink md:text-body-sm">
                   {benefit.label}
                 </span>
               </div>

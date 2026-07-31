@@ -78,34 +78,22 @@
 
 :root {
   --color-bg: #0a0a0a;
-  --color-bg-raised: #141414;
   --color-bg-alt: #111111;
-  --color-card: #f2f0ea;
   --color-ink: #f4f4f1;
-  --color-ink-soft: #e6e6e2;
-  --color-muted-light: #c0c0bb;
   --color-muted: #9c9c96;
   --color-faint: #7a7a75;
-  --color-faintest: #5a5a56;
   --color-line: rgba(255, 255, 255, 0.08);
   --color-accent: #c9f133;
-  --color-accent-ink: #0a0a0a;
 }
 
 @theme inline {
   --color-bg: var(--color-bg);
-  --color-bg-raised: var(--color-bg-raised);
   --color-bg-alt: var(--color-bg-alt);
-  --color-card: var(--color-card);
   --color-ink: var(--color-ink);
-  --color-ink-soft: var(--color-ink-soft);
-  --color-muted-light: var(--color-muted-light);
   --color-muted: var(--color-muted);
   --color-faint: var(--color-faint);
-  --color-faintest: var(--color-faintest);
   --color-line: var(--color-line);
   --color-accent: var(--color-accent);
-  --color-accent-ink: var(--color-accent-ink);
 
   --font-sans: "AG", "Helvetica Neue", Arial, sans-serif;
   --font-display: "AGCond", "AG", "Helvetica Neue", Arial, sans-serif;
@@ -115,11 +103,9 @@
   --text-h1: 44px;
   --text-h2: 30px;
   --text-h3: 22px;
-  --text-body-lg: 18px;
   --text-body: 15px;
   --text-body-sm: 13px;
   --text-label: 11px;
-  --text-caption: 10px;
 
   /* Bascule desktop/mobile de l'export Claude Design (au lieu du 768px par défaut de Tailwind) */
   --breakpoint-md: 860px;

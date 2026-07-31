@@ -133,9 +133,9 @@ Les écrans ont d'abord été conçus sur Figma, en versions desktop et mobile, 
 
 ### Le design system
 
-Base visuelle cohérente extraite des maquettes (couleurs, typographie, composants) pour garantir l'homogénéité de toutes les pages.
+Base visuelle cohérente extraite des maquettes, formalisée en tokens dans le code (couleurs, typographie, rayons) et en composants réutilisables (`Button`, `Badge`), pour garantir l'homogénéité de toutes les pages. Documentée sur la page interne `/style-guide`.
 
-_[Aperçu du design system à venir]_
+![Design system BEHYBRID : couleurs, typographie, rayons et composants](docs/images/design-system.png)
 
 ### Le site en ligne
 
@@ -184,16 +184,14 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 ### Où on en est
 
-Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec l'identité visuelle intégrée et un build de production qui passe. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile. Le design system a démarré : la palette de couleurs et l'échelle typographique (9 niveaux) sont formalisées en tokens dans le code et appliquées à tout le site.
+Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec l'identité visuelle intégrée et un build de production qui passe. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile. Le design system est terminé : couleurs, typographie, rayons et composants (`Button`, `Badge`) formalisés en tokens dans le code, appliqués à tout le site et documentés sur `/style-guide`.
 
 ### Prochaine étape
 
-Poursuivre le design system : espacements et rayons, puis composants (boutons, cartes, badges, champs), et enfin reconstruire la page `/style-guide` comme documentation. Ensuite, attaquer la page `/join-us`, principal parcours de conversion depuis l'accueil.
+Construire la page `/join-us`, principal parcours de conversion depuis l'accueil.
 
 ### Reste à faire (vue d'ensemble)
 
-- Design system (en cours)
-- Revoir la page d'accueil et le calendrier, et les modifier si nécessaire
 - Page `/join-us`
 - Authentification et espace membre (Supabase)
 - Boutique et paiement (Stripe)
@@ -211,3 +209,4 @@ Poursuivre le design system : espacements et rayons, puis composants (boutons, c
 - Intégration des maquettes Figma (accueil, boutique, calendrier, desktop + mobile).
 - Définition de la démarche : design-first, construit avec Claude Code et Claude Design.
 - Démarrage du design system : tokens de couleurs (palette de marque + échelle de neutres) et échelle typographique (9 niveaux), avec refactor complet du code (couleurs et tailles) et build de production validé.
+- Design system terminé : espacements et rayons uniformisés, composants `Button` et `Badge` extraits, palette et typo simplifiées (7 tokens couleur, 7 niveaux typo, 2 rayons), page `/style-guide` reconstruite en vitrine et capturée dans le README.

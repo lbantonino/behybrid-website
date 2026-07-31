@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 type EventTag = "PERFORM" | "CONNECT";
 
@@ -36,32 +38,32 @@ const CALENDAR_CELLS: (number | null)[] = [
 function TagPill({ tag }: { tag: EventTag }) {
   if (tag === "PERFORM") {
     return (
-      <span className="font-display text-caption font-extrabold uppercase tracking-wide text-accent-ink bg-accent rounded-full px-2.5 py-1 md:px-3.5 md:py-1.5 md:text-label">
+      <Badge variant="accent" size="sm" uppercase>
         Perform
-      </span>
+      </Badge>
     );
   }
   return (
-    <span className="rounded-full border border-white/40 px-2.5 py-1 font-display text-caption font-extrabold uppercase tracking-wide text-ink md:px-3.5 md:py-1.5 md:text-label">
+    <Badge variant="outline" size="sm" uppercase>
       Connect
-    </span>
+    </Badge>
   );
 }
 
 function EventRow({ event }: { event: CalendarEvent }) {
   return (
-    <div className="border-b border-line py-[18px] md:flex md:items-center md:gap-7 md:py-[22px]">
+    <div className="border-b border-line py-4.5 md:flex md:items-center md:gap-7 md:py-5.5">
       {/* Mobile */}
       <div className="md:hidden">
         <div className="mb-1 flex items-center gap-2.5">
-          <span className="font-display text-body-lg font-extrabold">{event.date}</span>
-          <span className="text-caption tracking-wide text-faint">{event.day}</span>
+          <span className="font-display text-h3 font-extrabold">{event.date}</span>
+          <span className="text-label tracking-wide text-faint">{event.day}</span>
           <span className="ml-auto">
             <TagPill tag={event.tag} />
           </span>
           <button
             type="button"
-            className="rounded-full border border-white/30 px-3 py-[5px] font-display text-caption font-bold uppercase"
+            className="rounded-full border border-white/30 px-3 py-1 font-display text-label font-bold uppercase"
           >
             Add +
           </button>
@@ -73,7 +75,7 @@ function EventRow({ event }: { event: CalendarEvent }) {
       {/* Desktop */}
       <div className="hidden w-[70px] shrink-0 md:block">
         <p className="font-display text-h3 font-extrabold">{event.date}</p>
-        <p className="text-caption tracking-wide text-faint">{event.day}</p>
+        <p className="text-label tracking-wide text-faint">{event.day}</p>
       </div>
       <div className="hidden md:block md:flex-1">
         <p className="font-display text-h3 font-extrabold uppercase">{event.title}</p>
@@ -82,12 +84,14 @@ function EventRow({ event }: { event: CalendarEvent }) {
       <span className="hidden md:inline-flex md:shrink-0">
         <TagPill tag={event.tag} />
       </span>
-      <button
+      <Button
         type="button"
-        className="hidden shrink-0 rounded-full border border-white/30 px-[18px] py-2 font-display text-label font-bold uppercase tracking-wide md:inline-block"
+        variant="ghost"
+        size="sm"
+        className="hidden shrink-0 md:inline-block"
       >
         Add +
-      </button>
+      </Button>
     </div>
   );
 }
@@ -109,8 +113,8 @@ export default function CalendarPage() {
 
         <div className="mt-7 flex flex-col gap-8 md:mt-10 md:grid md:grid-cols-[400px_1fr] md:items-start md:gap-14">
           <div className="rounded-xl border border-line p-5 md:p-7">
-            <div className="mb-4 flex items-center justify-between md:mb-[18px]">
-              <p className="font-display text-body-lg font-extrabold uppercase md:text-h3">
+            <div className="mb-4 flex items-center justify-between md:mb-4.5">
+              <p className="font-display text-h3 font-extrabold uppercase md:text-h3">
                 July 2026
               </p>
               <div className="flex gap-2">
@@ -131,7 +135,7 @@ export default function CalendarPage() {
 
             <div className="mb-1.5 grid grid-cols-7 gap-1">
               {WEEKDAY_LABELS.map((label) => (
-                <span key={label} className="text-center text-caption text-faint md:text-caption">
+                <span key={label} className="text-center text-label text-faint md:text-label">
                   {label}
                 </span>
               ))}
@@ -140,13 +144,13 @@ export default function CalendarPage() {
               {CALENDAR_CELLS.map((day, index) => (
                 <div
                   key={index}
-                  className={`relative flex aspect-square items-center justify-center rounded-md text-label text-ink-soft md:text-body-sm ${
+                  className={`relative flex aspect-square items-center justify-center rounded-xl text-label text-ink md:text-body-sm ${
                     day === TODAY ? "bg-white/12" : ""
                   }`}
                 >
                   {day}
                   {day !== null && EVENT_DAYS.has(day) && (
-                    <span className="absolute bottom-[5px] h-1 w-1 rounded-full bg-accent" />
+                    <span className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" />
                   )}
                 </div>
               ))}

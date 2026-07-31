@@ -57,7 +57,7 @@ export function SignUpButton({ size = "sm", onClick }: { size?: Size; onClick?: 
     <Link
       href="/sign-up"
       onClick={onClick}
-      className={`rounded-full bg-accent text-center font-extrabold uppercase tracking-wide text-accent-ink transition-opacity hover:opacity-90 ${SIGNUP_SIZE[size]}`}
+      className={`rounded-full bg-accent text-center font-extrabold uppercase tracking-wide text-bg transition-opacity hover:opacity-90 ${SIGNUP_SIZE[size]}`}
     >
       Sign Up
     </Link>

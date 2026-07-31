@@ -11,7 +11,7 @@ export function PhotoPlaceholder({
 }) {
   return (
     <div
-      className={`flex items-center justify-center bg-bg-raised text-center text-label uppercase tracking-wide text-muted ${className}`}
+      className={`flex items-center justify-center bg-bg text-center text-label uppercase tracking-wide text-muted ${className}`}
     >
       {label}
     </div>

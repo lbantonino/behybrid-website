@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { Button } from "@/components/ui/button";
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
@@ -29,14 +30,11 @@ export function NewsletterForm() {
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="you@example.com"
-        className="w-full rounded-full border border-white/15 bg-bg px-[18px] py-[13px] text-body-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none md:w-[280px] md:bg-bg-raised md:px-[22px] md:py-3.5 md:text-body-sm"
+        className="w-full rounded-full border border-white/15 bg-bg px-4.5 py-3.5 text-body-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none md:w-[280px] md:bg-bg md:px-5.5 md:py-3.5 md:text-body-sm"
       />
-      <button
-        type="submit"
-        className="whitespace-nowrap rounded-full bg-accent px-7 py-[13px] text-center font-display text-body-sm font-extrabold uppercase tracking-wide text-accent-ink transition-opacity hover:opacity-90 md:py-3.5"
-      >
+      <Button type="submit" variant="primary" size="md" className="whitespace-nowrap">
         Subscribe
-      </button>
+      </Button>
     </form>
   );
 }

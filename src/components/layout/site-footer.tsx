@@ -30,7 +30,7 @@ function FooterColumn({
         <Link
           key={link.href}
           href={link.href}
-          className="text-label text-muted-light transition-colors hover:text-ink md:text-body-sm"
+          className="text-label text-muted transition-colors hover:text-ink md:text-body-sm"
         >
           {link.label}
         </Link>
@@ -43,7 +43,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-line bg-bg">
       <div className="bg-bg-alt">
-        <Container className="flex flex-col gap-4 py-[50px] md:flex-row md:items-center md:justify-between md:gap-10">
+        <Container className="flex flex-col gap-4 py-12 md:flex-row md:items-center md:justify-between md:gap-10">
           <div>
             <p className="font-display text-h3 font-extrabold uppercase md:text-h3">
               <span className="text-accent">Stay</span> In The Loop
@@ -59,7 +59,7 @@ export function SiteFooter() {
       <Container className="grid grid-cols-3 gap-4 pb-7 pt-8 md:grid-cols-[1fr_200px_200px_220px] md:gap-10 md:pb-10 md:pt-16">
         <div className="col-span-3 md:col-span-1">
           <FooterLogo className="h-3 w-auto md:h-4 md:w-[160px]" />
-          <p className="mt-0.5 text-caption uppercase tracking-wide text-faint md:mt-2.5 md:text-label md:leading-tight md:tracking-[2px]">
+          <p className="mt-0.5 text-label uppercase tracking-wide text-faint md:mt-2.5 md:text-label md:leading-tight md:tracking-[2px]">
             Run Club Brussels.
           </p>
         </div>
