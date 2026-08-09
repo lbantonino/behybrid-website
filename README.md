@@ -44,7 +44,7 @@ Légende : ✅ en place · 🚧 en cours · ⬜ à venir
 - ✅ **Landing page** présentant le club, sa philosophie et ses valeurs
 - ✅ **Calendrier** des entraînements et sorties
 - ✅ **Header, footer et navigation** partagés sur tout le site
-- ✅ **Identité visuelle** intégrée (logos, photos, polices Akzidenz Grotesk Pro)
+- ✅ **Identité visuelle** intégrée (logos, photos, polices Archivo + Montserrat)
 - ✅ **Formulaire newsletter** (interface prête)
 - ⬜ **Page "Rejoindre"** (`/join-us`), parcours d'entrée dans la communauté
 
@@ -104,7 +104,7 @@ Chaque outil a été choisi pour une raison précise, avec la sécurité et la f
 
 ## Du web design au développement
 
-Ce projet suit une démarche design-first : penser l'expérience et l'identité visuelle avant d'écrire la première ligne de code. Un univers sombre, un accent vert signature, une typographie affirmée (Akzidenz Grotesk Pro) et une direction artistique forte, cohérente sur tout le site.
+Ce projet suit une démarche design-first : penser l'expérience et l'identité visuelle avant d'écrire la première ligne de code. Un univers sombre, un accent vert signature, une typographie affirmée (Archivo, avec Montserrat Black en accent sur certains signes) et une direction artistique forte, cohérente sur tout le site.
 
 ### Les maquettes (Figma)
 
@@ -180,18 +180,20 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-07-31**
+**Dernière mise à jour : 2026-08-09**
 
 ### Où on en est
 
-Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec l'identité visuelle intégrée et un build de production qui passe. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile. Le design system est terminé : couleurs, typographie, rayons et composants (`Button`, `Badge`) formalisés en tokens dans le code, appliqués à tout le site et documentés sur `/style-guide`.
+Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec un build de production qui passe. Grosse passe de direction artistique : toute la typographie du site est passée à **Archivo** (9 poids) avec **Montserrat Black** en accent, en remplacement d'Akzidenz Grotesk Pro. Le hero de l'accueil a été entièrement repensé (bandeau défilant, titre "PERFORM & CONNECT", carte "NEXT RUN", hauteur plein écran) et enrichi d'animations : écran de chargement "running" (coureur + barre de progression), entrées décalées des blocs, indicateur de scroll, et léger zoom du logo au survol. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile.
 
 ### Prochaine étape
 
-Construire la page `/join-us`, principal parcours de conversion depuis l'accueil.
+Terminer les ajustements desktop de l'accueil (section "What's BEHYBRID" en cours), puis passer la page d'accueil en revue sur mobile, avant d'attaquer la page `/join-us`.
 
 ### Reste à faire (vue d'ensemble)
 
+- Finitions UI de l'accueil (desktop puis mobile)
+- Mettre à jour la page `/style-guide` avec la nouvelle typo Archivo (l'ancien specimen Akzidenz est obsolète)
 - Page `/join-us`
 - Authentification et espace membre (Supabase)
 - Boutique et paiement (Stripe)
@@ -201,6 +203,14 @@ Construire la page `/join-us`, principal parcours de conversion depuis l'accueil
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-09**
+
+- Refonte typographique complète du site : passage d'Akzidenz Grotesk Pro à **Archivo** (poids Thin → Black chargés en `@font-face`), avec **Montserrat Black** réservée à l'accent (utilitaire `font-mont`, ex. le "&" de "PERFORM & CONNECT"). Cohérence des poids sur tout le site (titres en black, sous-titres extrabold, textes medium/regular). Menu en Archivo ExtraBold.
+- **Hero de l'accueil entièrement repensé** : bandeau "BEHYBRID · Run Club Brussels" défilant (marquee), titre "PERFORM & CONNECT", badge "Every Weeks", nouvelle accroche, boutons, et carte latérale "NEXT RUN" (date, lieu, workout, distance). Ancien bandeau "Next Event" supprimé. Hauteur du hero calée sur la taille de l'écran pour que le scroll arrive directement sur la section suivante ; photo en `object-cover` plein cadre.
+- **Écran de chargement (preloader)** : animation "running" avec un coureur qui parcourt une barre de progression (remplissage blanc, fond en vert accent à faible opacité), ~2 s puis fondu. Ne s'affiche qu'à l'arrivée sur le site, pas lors de la navigation entre pages.
+- **Animations d'arrivée** : entrées décalées des blocs du hero (gauche puis droite), indicateur de défilement (rond + flèche) en bas à droite qui scrolle vers la section suivante, et léger agrandissement du logo au survol.
+- Ajustements UI accueil (desktop) : resserrement et agrandissement du bloc "How To Become A Member", galerie photos collée (sans gouttière), et divers réglages d'espacement.
 
 **2026-07-31**
 

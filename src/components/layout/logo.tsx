@@ -10,20 +10,9 @@ export function Logo({ className = "" }: { className?: string }) {
         width={1158}
         height={1293}
         priority
-        className="h-9 w-auto"
+        data-navbar-logo
+        className="h-9 w-auto transition-transform duration-200 ease-out hover:scale-110"
       />
     </Link>
-  );
-}
-
-export function FooterLogo({ className = "w-auto" }: { className?: string }) {
-  return (
-    <Image
-      src="/logo/behybrid-logo-footer-menu.png"
-      alt="BEHYBRID"
-      width={2841}
-      height={285}
-      className={className}
-    />
   );
 }

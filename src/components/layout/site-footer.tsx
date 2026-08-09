@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import { NewsletterForm } from "./newsletter-form";
-import { FooterLogo } from "./logo";
 import { Container } from "@/components/ui/container";
 import {
   FOOTER_CLUB_LINKS,
@@ -58,10 +58,13 @@ export function SiteFooter() {
 
       <Container className="grid grid-cols-3 gap-4 pb-7 pt-8 md:grid-cols-[1fr_200px_200px_220px] md:gap-10 md:pb-10 md:pt-16">
         <div className="col-span-3 md:col-span-1">
-          <FooterLogo className="h-3 w-auto md:h-4 md:w-[160px]" />
-          <p className="mt-0.5 text-label uppercase tracking-wide text-faint md:mt-2.5 md:text-label md:leading-tight md:tracking-[2px]">
-            Run Club Brussels.
-          </p>
+          <Image
+            src="/logo/logo-site.png"
+            alt="BEHYBRID — Run Club Brussels"
+            width={909}
+            height={163}
+            className="h-auto w-[150px] md:w-[180px]"
+          />
         </div>
         <FooterColumn title="Explore" links={FOOTER_EXPLORE_LINKS} />
         <FooterColumn title="Club" links={FOOTER_CLUB_LINKS} />

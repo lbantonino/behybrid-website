@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { Preloader } from "@/components/layout/preloader";
 
 export const metadata: Metadata = {
   title: "BEHYBRID — Run Club Brussels",
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="h-full">
       <body className="min-h-full flex flex-col bg-bg text-ink antialiased">
+        <Preloader />
         <SiteHeader />
         <main className="flex flex-1 flex-col">{children}</main>
         <SiteFooter />

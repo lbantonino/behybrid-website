@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
-type Size = "sm" | "lg";
+type Size = 'sm' | 'lg';
 
 const TEXT_SIZE: Record<Size, string> = {
-  sm: "text-body-sm",
-  lg: "text-h2",
+  sm: 'text-[13px]',
+  lg: 'text-h2',
 };
 
 const SIGNUP_SIZE: Record<Size, string> = {
-  sm: "px-5 py-2.5 text-body-sm",
-  lg: "px-10 py-4 text-h3",
+  sm: 'px-5 py-2.5 text-[13px]',
+  lg: 'px-10 py-4 text-h3',
 };
 
 export function NavMenuLink({
   href,
   label,
   isActive,
-  size = "sm",
+  size = 'sm',
   onClick,
 }: {
   href: string;
@@ -32,7 +32,7 @@ export function NavMenuLink({
       href={href}
       onClick={onClick}
       className={`${TEXT_SIZE[size]} font-extrabold uppercase tracking-wide transition-colors hover:text-accent ${
-        isActive ? "text-accent" : "text-ink"
+        isActive ? 'text-accent' : 'text-ink'
       }`}
     >
       {label}
@@ -40,7 +40,13 @@ export function NavMenuLink({
   );
 }
 
-export function LogInLink({ size = "sm", onClick }: { size?: Size; onClick?: () => void }) {
+export function LogInLink({
+  size = 'sm',
+  onClick,
+}: {
+  size?: Size;
+  onClick?: () => void;
+}) {
   return (
     <Link
       href="/login"
@@ -52,7 +58,13 @@ export function LogInLink({ size = "sm", onClick }: { size?: Size; onClick?: () 
   );
 }
 
-export function SignUpButton({ size = "sm", onClick }: { size?: Size; onClick?: () => void }) {
+export function SignUpButton({
+  size = 'sm',
+  onClick,
+}: {
+  size?: Size;
+  onClick?: () => void;
+}) {
   return (
     <Link
       href="/sign-up"
@@ -64,7 +76,13 @@ export function SignUpButton({ size = "sm", onClick }: { size?: Size; onClick?: 
   );
 }
 
-export function AccountLink({ size = "sm", onClick }: { size?: Size; onClick?: () => void }) {
+export function AccountLink({
+  size = 'sm',
+  onClick,
+}: {
+  size?: Size;
+  onClick?: () => void;
+}) {
   return (
     <Link
       href="/account"

@@ -173,7 +173,7 @@ export default function CalendarPage() {
         </div>
       </Container>
 
-      <section className="mt-9 grid grid-cols-1 gap-0.5 md:mt-14 md:grid-cols-3">
+      <section className="mt-9 grid grid-cols-1 gap-0.5 md:mt-14 md:grid-cols-3 md:gap-0">
         {["gallery-calendar-1.png", "gallery-calendar-2.png", "gallery-calendar-3.png"].map(
           (file) => (
             <div key={file} className="relative h-[160px] w-full md:h-[340px]">
