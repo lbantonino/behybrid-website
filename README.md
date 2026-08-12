@@ -190,7 +190,7 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 
 ### Prochaine étape
 
-Retravailler la section **"What's BEHYBRID"** (desktop), puis mettre à jour la page `/style-guide` avec la nouvelle typo Archivo, avant d'attaquer la page `/join-us`.
+**Démarrage de la section "What's BEHYBRID"** (finitions desktop) à la prochaine session. Ensuite : mettre à jour la page `/style-guide` avec la nouvelle typo Archivo, avant d'attaquer la page `/join-us`.
 
 ### Reste à faire (vue d'ensemble)
 
