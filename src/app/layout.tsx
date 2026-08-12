@@ -7,6 +7,9 @@ import { Preloader } from "@/components/layout/preloader";
 export const metadata: Metadata = {
   title: "BEHYBRID — Run Club Brussels",
   description: "One club. One community. Rejoins le run club BEHYBRID à Bruxelles.",
+  // iOS Safari transforme sinon dates/heures/adresses en liens (ex. "12/08",
+  // "19:00"), ce qui modifie le DOM et casse l'hydratation React.
+  formatDetection: { telephone: false, date: false, address: false, email: false },
 };
 
 export default function RootLayout({

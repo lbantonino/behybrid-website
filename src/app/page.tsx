@@ -146,16 +146,16 @@ export default function Home() {
         </div>
 
         {/* Contenu */}
-        <Container className="relative z-10 flex min-h-[620px] flex-col justify-center gap-10 pb-14 pt-24 md:h-[calc(100vh-5rem)] md:min-h-[600px] md:flex-row md:items-center md:justify-between md:gap-12 md:pb-16 md:pt-20">
-          <div className="flex max-w-[640px] flex-col items-start gap-5 [animation:slide-in-left_3s_cubic-bezier(0.22,1,0.36,1)_2s_both] md:gap-6">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+        <Container className="relative z-10 flex h-[calc(100svh-5rem)] flex-col justify-between gap-2 pb-8 pt-20 md:h-[calc(100vh-5rem)] md:min-h-[600px] md:flex-row md:items-center md:justify-between md:gap-12 md:pb-16 md:pt-20">
+          <div className="flex max-w-[640px] flex-col items-center gap-3 text-center [animation:slide-in-left_3s_cubic-bezier(0.22,1,0.36,1)_2s_both] md:items-start md:gap-6 md:text-left">
+            <span className="inline-flex mb-3 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               <span className="font-display text-[12px] font-bold uppercase tracking-[1.5px] text-ink">
-                Every Weeks
+                Every Week
               </span>
             </span>
 
-            <h1 className="font-display text-[53pxpx] font-black uppercase leading-[0.8] tracking-[-0.02em] md:text-[70px]">
+            <h1 className="font-display text-[45px] font-black uppercase leading-[0.82] tracking-[-0.02em] md:text-[70px] md:leading-[0.8]">
               Perform
               <br />
               <span className="font-mont text-accent">&</span> Connect
@@ -167,12 +167,12 @@ export default function Home() {
               One crew moving forward together.
             </p>
 
-            <div className="mt-1 flex flex-col gap-3 md:flex-row md:items-center md:gap-3.5">
+            <div className="mt-1 flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center md:gap-3.5">
               <Button
                 href="/join-us"
                 variant="primary"
                 size="lg"
-                className="text-[16px] font-extrabold"
+                className="w-full text-[16px] font-extrabold md:w-auto"
               >
                 Join The Club →
               </Button>
@@ -180,7 +180,7 @@ export default function Home() {
                 href="/calendar"
                 variant="ghost"
                 size="lg"
-                className="text-[16px] font-extrabold"
+                className="w-full text-[16px] font-extrabold md:w-auto"
               >
                 See Calendar →
               </Button>
@@ -188,39 +188,39 @@ export default function Home() {
           </div>
 
           {/* Encadré Next Run */}
-          <div className="w-full rounded-2xl border border-white/15 bg-white/1 p-6 backdrop-blur-md [animation:slide-in-right_4s_cubic-bezier(0.22,1,0.36,1)_2.5s_both] md:w-[400px] md:shrink-0 md:p-7">
+          <div className="w-full rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md [animation:slide-in-right_4s_cubic-bezier(0.22,1,0.36,1)_2.5s_both] md:w-[400px] md:shrink-0 md:p-7">
             <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent">
               → Next Run
             </p>
-            <p className="mt-4 font-display text-[28px] font-black uppercase leading-[1.05] text-ink">
-              Wednesday - 12/08
-              <br />
-              19:00
+            <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink md:mt-4 md:text-[28px]">
+              Wednesday <span className="md:hidden">-</span>{' '}
+              <br className="hidden md:block" /> 12/08 - 19:00
             </p>
-            <p className="mt-2.5 font-display text-[15px] font-semibold uppercase tracking-wide text-ink/80">
+            <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80">
               Parc du Cinquantenaire
             </p>
 
-            <div className="my-6 h-px w-full bg-white/15" />
+            <div className="my-2 h-px w-full bg-white/15 md:my-6" />
 
             <div className="flex items-end justify-between">
-              <p className="font-display text-[21px] font-extrabold uppercase text-ink">
+              <p className="font-display text-[15px] font-extrabold uppercase text-ink md:text-[21px]">
                 Workout :
               </p>
-              <p className="font-display text-[26px] font-black leading-none text-ink">
-                8.0<span className="text-[15px] font-bold">km</span>
-              </p>
-            </div>
-            <div className="mt-1.5 flex items-end justify-between">
-              <p className="font-display text-[16px] font-light uppercase tracking-wide text-ink/80">
-                4x 5min @treshold
-              </p>
-              <p className="font-display text-[11px] font-normal uppercase tracking-wide text-muted">
-                Distance
+
+              {/* Visible uniquement sur mobile */}
+              <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted md:hidden">
+                For All Levels
               </p>
             </div>
 
-            <p className="mt-6 font-display text-[11px] font-normal uppercase tracking-[1.5px] text-muted">
+            <div className="flex items-end justify-between">
+              <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 md:text-[16px]">
+                4x 5min @treshold
+              </p>
+            </div>
+
+            {/* Visible uniquement sur desktop */}
+            <p className="mt-6 hidden font-display text-[11px] font-normal uppercase tracking-[1.5px] text-muted md:block">
               For All Levels
             </p>
           </div>

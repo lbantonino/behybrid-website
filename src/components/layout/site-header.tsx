@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Logo } from "./logo";
-import { NAV_LINKS } from "@/lib/nav-links";
-import { NavMenuLink, LogInLink, SignUpButton, AccountLink } from "./nav-items";
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Logo } from './logo';
+import { NAV_LINKS } from '@/lib/nav-links';
+import { NavMenuLink, LogInLink, SignUpButton, AccountLink } from './nav-items';
 
 // TODO: brancher sur la session Supabase une fois l'auth en place.
 const isAuthenticated = false;
@@ -13,8 +13,17 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Bloque le scroll de la page tant que le menu mobile est ouvert.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const isLinkActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+    href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg">
@@ -47,24 +56,26 @@ export function SiteHeader() {
           type="button"
           onClick={() => setIsMenuOpen((open) => !open)}
           className="flex h-10 w-10 items-center justify-center md:hidden"
-          aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           aria-expanded={isMenuOpen}
         >
           <span className="sr-only">Menu</span>
           <div className="flex flex-col gap-1.5">
             <span
-              className={`block h-0.5 w-6 bg-ink transition-transform ${isMenuOpen ? "translate-y-2 rotate-45" : ""}`}
+              className={`block h-0.5 w-6 bg-ink transition-transform ${isMenuOpen ? 'translate-y-2 rotate-45' : ''}`}
             />
-            <span className={`block h-0.5 w-6 bg-ink transition-opacity ${isMenuOpen ? "opacity-0" : ""}`} />
             <span
-              className={`block h-0.5 w-6 bg-ink transition-transform ${isMenuOpen ? "-translate-y-2 -rotate-45" : ""}`}
+              className={`block h-0.5 w-6 bg-ink transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`}
+            />
+            <span
+              className={`block h-0.5 w-6 bg-ink transition-transform ${isMenuOpen ? '-translate-y-2 -rotate-45' : ''}`}
             />
           </div>
         </button>
       </div>
 
       {isMenuOpen && (
-        <div className="fixed inset-x-0 top-20 bottom-0 z-40 flex flex-col items-center justify-center gap-16 bg-bg px-6 md:hidden">
+        <div className="fixed inset-x-0 top-20 bottom-0 z-40 flex flex-col items-center justify-between gap-16 bg-bg px-6 pt-25 pb-40 md:hidden">
           <nav className="flex flex-col items-center gap-8">
             {NAV_LINKS.map((link) => (
               <NavMenuLink

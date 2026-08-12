@@ -4,14 +4,15 @@ import Link from 'next/link';
 
 type Size = 'sm' | 'lg';
 
+// `lg` = menu mobile uniquement (le desktop utilise `sm`).
 const TEXT_SIZE: Record<Size, string> = {
   sm: 'text-[13px]',
-  lg: 'text-h2',
+  lg: 'text-[22px]',
 };
 
 const SIGNUP_SIZE: Record<Size, string> = {
   sm: 'px-5 py-2.5 text-[13px]',
-  lg: 'px-10 py-4 text-h3',
+  lg: 'px-10 py-4 text-[22px]',
 };
 
 export function NavMenuLink({
