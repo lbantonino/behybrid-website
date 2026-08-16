@@ -17,6 +17,7 @@ import { Container } from '@/components/ui/container';
 import { ScrollCue } from '@/components/layout/scroll-cue';
 import { TiltCard } from '@/components/ui/tilt-card';
 import { Reveal } from '@/components/ui/reveal';
+import { ReplayOnView } from '@/components/ui/replay-on-view';
 
 const FEATURES = [
   {
@@ -46,6 +47,19 @@ const CLUB_STATS = [
   { value: '100+', label: 'Runners' },
   { value: 'Every', label: 'Week' },
   { value: '2024', label: 'Since' },
+];
+
+/** Pastilles des cartes de la section "How We Move" (desktop uniquement). */
+const PERFORM_TAGS = ['Track Sessions', 'VO₂ Max', 'Coach-Led'];
+const CONNECT_TAGS = ['Easy Pace', 'Social', 'All Welcome'];
+
+/** Bandeau défilant en bas de "How We Move". */
+const MOVE_MARQUEE_ITEMS = [
+  'Perform',
+  'Tuesday 19:00',
+  'Parc du Cinquantenaire',
+  'All Paces Welcome',
+  'Free To Test',
 ];
 
 const MEMBER_STEPS = [
@@ -105,6 +119,46 @@ function CheckMark({
   );
 }
 
+/** Pastille de la section "How We Move" : contour vert ou neutre. */
+function Tag({
+  tone = 'accent',
+  children,
+}: {
+  tone?: 'accent' | 'neutral';
+  children: React.ReactNode;
+}) {
+  const tones = {
+    accent: 'border-accent/70 text-accent',
+    neutral: 'border-white/35 text-ink/85',
+  };
+  return (
+    <span
+      className={`rounded-full border px-2.5 py-1 font-display text-[8px] font-extrabold uppercase tracking-[1px] md:px-4 md:py-2 md:text-[11px] md:tracking-[1.5px] ${tones[tone]}`}
+    >
+      {children}
+    </span>
+  );
+}
+
+function MoveMarqueeRow() {
+  return (
+    <div className="flex shrink-0 items-center">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div key={i} className="flex shrink-0 items-center">
+          {MOVE_MARQUEE_ITEMS.map((item) => (
+            <span
+              key={item}
+              className="flex items-center gap-4 whitespace-nowrap pr-4 font-display text-[12px] font-extrabold uppercase tracking-[2.5px] text-ink/85"
+            >
+              {item} <span className="text-accent">•</span>
+            </span>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function MarqueeRow() {
   return (
     <div className="flex shrink-0 items-center">
@@ -153,87 +207,94 @@ export default function Home() {
 
         {/* Contenu */}
         <Container className="relative z-10 flex h-[calc(100svh-5rem)] flex-col justify-between gap-2 pb-8 pt-20 md:h-[calc(100vh-5rem)] md:min-h-[600px] md:flex-row md:items-center md:justify-between md:gap-12 md:pb-16 md:pt-20">
-          <div className="flex max-w-[640px] flex-col items-center gap-3 text-center [animation:slide-in-left_3s_cubic-bezier(0.22,1,0.36,1)_2s_both] md:items-start md:gap-6 md:text-left">
-            <span className="inline-flex mb-3 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              <span className="font-display text-[12px] font-bold uppercase tracking-[1.5px] text-ink">
-                Every Week
+          <ReplayOnView initialDelay={2000}>
+            <div className="flex max-w-[640px] flex-col items-center gap-3 text-center [animation:slide-in-left_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:items-start md:gap-6 md:text-left">
+              <span className="inline-flex mb-3 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                <span className="font-display text-[12px] font-bold uppercase tracking-[1.5px] text-ink">
+                  Every Week
+                </span>
               </span>
-            </span>
 
-            <h1 className="font-display text-[45px] font-black uppercase leading-[0.82] tracking-[-0.02em] md:text-[70px] md:leading-[0.8]">
-              Perform
-              <br />
-              <span className="font-mont text-accent">&</span> Connect
-            </h1>
+              <h1 className="font-display text-[45px] font-black uppercase leading-[0.82] tracking-[-0.02em] md:text-[70px] md:leading-[0.8]">
+                Perform
+                <br />
+                <span className="font-mont text-accent">&</span> Connect
+              </h1>
 
-            <p className="font-display text-[15px] font-medium leading-[1.2] text-ink/90 md:text-[17px]">
-              Different paces. Different goals.
-              <br />
-              One crew moving forward together.
-            </p>
+              <p className="font-display text-[15px] font-medium leading-[1.2] text-ink/90 md:text-[17px]">
+                Different paces. Different goals.
+                <br />
+                One crew moving forward together.
+              </p>
 
-            <div className="mt-1 flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center md:gap-3.5">
-              <Button
-                href="/join-us"
-                variant="primary"
-                size="lg"
-                className="w-full text-[16px] font-extrabold md:w-auto"
-              >
-                Join The Club →
-              </Button>
-              <Button
-                href="/calendar"
-                variant="ghost"
-                size="lg"
-                className="w-full text-[16px] font-extrabold md:w-auto"
-              >
-                See Calendar →
-              </Button>
+              <div className="mt-1 flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center md:gap-3.5">
+                <Button
+                  href="/join-us"
+                  variant="primary"
+                  size="lg"
+                  className="w-full text-[16px] font-extrabold md:w-auto"
+                >
+                  Join The Club →
+                </Button>
+                <Button
+                  href="/calendar"
+                  variant="ghost"
+                  size="lg"
+                  className="w-full text-[16px] font-extrabold md:w-auto"
+                >
+                  See Calendar →
+                </Button>
+              </div>
             </div>
-          </div>
+          </ReplayOnView>
 
           {/* Encadré Next Run. L'entrée passe par `translate` (et non
               `transform`) pour cohabiter avec l'inclinaison 3D sans parent
               animé, qui priverait la carte de son backdrop-blur. */}
-          <TiltCard className="tilt-card--flat relative w-full rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_2.5s_both] md:w-[400px] md:shrink-0 md:p-7">
-            <div>
-              <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent">
-                → Next Run
-              </p>
-              <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink md:mt-4 md:text-[28px]">
-                Wednesday <span className="md:hidden">-</span>{' '}
-                <br className="hidden md:block" /> 12/08 - 19:00
-              </p>
-              <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80">
-                Parc du Cinquantenaire
-              </p>
-
-              <div className="my-2 h-px w-full bg-white/15 md:my-6" />
-
-              <div className="flex items-end justify-between">
-                <p className="font-display text-[15px] font-extrabold uppercase text-ink md:text-[21px]">
-                  Workout :
+          <ReplayOnView
+            initialDelay={2500}
+            className="w-full md:w-[400px] md:shrink-0"
+          >
+            <TiltCard className="tilt-card--flat relative w-full rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:p-7">
+              <div>
+                <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent">
+                  → Next Run
+                </p>
+                <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink md:mt-4 md:text-[28px]">
+                  Wednesday <span className="md:hidden">-</span>{' '}
+                  <br className="hidden md:block" /> 12/08 - 19:00
+                </p>
+                <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80">
+                  Parc du Cinquantenaire
                 </p>
 
-                {/* Visible uniquement sur mobile */}
-                <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted md:hidden">
+                <div className="my-2 h-px w-full bg-white/15 md:my-6" />
+
+                <div className="flex items-end justify-between">
+                  <p className="font-display text-[15px] font-extrabold uppercase text-ink md:text-[21px]">
+                    Workout :
+                  </p>
+
+                  {/* Visible uniquement sur mobile */}
+                  <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted md:hidden">
+                    For All Levels
+                  </p>
+                </div>
+
+                <div className="flex items-end justify-between">
+                  <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 md:text-[16px]">
+                    4x 5min @treshold
+                  </p>
+                </div>
+
+                {/* Visible uniquement sur desktop */}
+                <p className="mt-6 hidden font-display text-[11px] font-normal uppercase tracking-[1.5px] text-muted md:block">
                   For All Levels
                 </p>
               </div>
-
-              <div className="flex items-end justify-between">
-                <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 md:text-[16px]">
-                  4x 5min @treshold
-                </p>
-              </div>
-
-              {/* Visible uniquement sur desktop */}
-              <p className="mt-6 hidden font-display text-[11px] font-normal uppercase tracking-[1.5px] text-muted md:block">
-                For All Levels
-              </p>
-            </div>
-          </TiltCard>
+            </TiltCard>
+          </ReplayOnView>
         </Container>
 
         {/* Indicateur de défilement (desktop) */}
@@ -272,7 +333,7 @@ export default function Home() {
               from="left"
               className="mx-auto max-w-[900px] md:mx-0 md:max-w-none"
             >
-              <h2 className="font-display text-[42px] font-black uppercase leading-[0.92] tracking-[-0.02em] md:text-[68px]">
+              <h2 className="font-display text-[42px] font-black uppercase leading-[0.92] tracking-[-0.02em] md:text-[70px]">
                 What&apos;s <br />
                 BEHYBRID?
               </h2>
@@ -338,7 +399,8 @@ export default function Home() {
                 <Reveal
                   key={feature.title}
                   from="right"
-                  delay={300 + index * 200}
+                  duration={4000}
+                  delay={index * 120}
                 >
                   <TiltCard className="relative flex h-[21svh] max-h-[220px] min-h-[120px] flex-col rounded-2xl border border-line bg-bg-alt p-4 text-left md:h-[31vh] md:max-h-[330px] md:min-h-[200px] md:p-7">
                     <div className="tilt-layer-deep flex items-start justify-between">
@@ -370,7 +432,7 @@ export default function Home() {
 
       <section
         id="how-we-move"
-        className="relative mt-14 scroll-mt-20 py-11 md:mt-0 md:py-14"
+        className="relative flex min-h-[calc(100lvh-5rem)] scroll-mt-20 flex-col overflow-hidden md:h-[calc(100vh-5rem)] md:min-h-0"
       >
         <Image
           src="/photos/how-we-move-desktop-mobile.jpg"
@@ -379,43 +441,122 @@ export default function Home() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/55 md:bg-black/60" />
+        <div className="absolute inset-0 bg-black/55 md:bg-black/72" />
 
-        <Container className="relative">
-          <p className="font-display text-body font-bold uppercase leading-none tracking-[2px] text-accent md:-mb-2 md:text-[18px]">
-            Weekly Runs
-          </p>
-          <h2 className="mb-6 font-display text-h2 font-black uppercase md:mb-7 md:text-h1">
-            How We Move
-          </h2>
-          <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-6">
-            <div className="rounded-xl border border-accent bg-bg/50 p-5.5 md:rounded-xl md:p-7">
-              <Badge variant="accent" className="mb-3.5">
-                1 Run / Week
-              </Badge>
-              <p className="mb-2.5 font-display text-h3 font-extrabold uppercase md:text-h3">
-                Perform
-              </p>
-              <p className="text-body-sm leading-relaxed text-ink">
-                Threshold efforts, VO₂ max intervals, race-specific workouts.
-                Coach-led track sessions designed to push your limits.
-              </p>
-            </div>
-            <div className="rounded-xl border border-white/40 bg-bg/50 p-5.5 md:rounded-xl md:p-7">
-              <Badge variant="outline" className="mb-3.5">
-                2 Runs / Month
-              </Badge>
-              <p className="mb-2.5 font-display text-h3 font-extrabold uppercase md:text-h3">
-                Connect
-              </p>
-              <p className="text-body-sm leading-relaxed text-ink">
-                The run that brings people together. Easy-paced group runs to
-                create meaningful connections.
+        {/* Trame technique très discrète (desktop) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 hidden md:block"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)',
+            backgroundSize: '160px 160px',
+          }}
+        />
+
+        <Container className="relative flex flex-1 flex-col pb-6 pt-7 md:justify-between md:pb-16 md:pt-14">
+          <Reveal from="left">
+            <div className="flex items-center gap-2.5 md:gap-3.5">
+              <span className="h-px w-6 bg-accent md:w-8" />
+              <p className="font-display text-label font-bold uppercase leading-none tracking-[2.5px] text-accent">
+                Weekly Runs
               </p>
             </div>
+            <h2 className="mt-9 text-center font-display text-[40px] font-black uppercase leading-none tracking-[-0.02em] md:mb-5 md:mt-4 md:text-left md:text-[70px] md:leading-[0.9]">
+              How We Move
+            </h2>
+
+            {/* Sous-titre, version mobile : centré, retours à la ligne calés */}
+            <p className="mt-4 text-center text-[14px] leading-[1.3] text-ink/75 md:hidden">
+              Two ways to run with us.
+              <br />
+              one to push your limits,
+              <br />
+              one to bring people together.
+            </p>
+
+            <p className="hidden text-[17px] leading-[1.6] text-ink/75 md:block md:max-w-[480px]">
+              Two ways to run with us — one to push your limits, one to bring
+              people together.
+            </p>
+          </Reveal>
+
+          <div className="mt-auto grid auto-rows-fr grid-cols-1 gap-6 pt-7 md:mt-0 md:auto-rows-auto md:grid-cols-2 md:gap-20 md:pt-0">
+            <ReplayOnView>
+              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-accent bg-black/25 p-5 backdrop-blur-md [animation:slide-in-right-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:p-12 md:[animation:slide-in-left-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both]">
+                <div className="flex items-start justify-between">
+                  <Badge variant="accent" size="xs" className="mb-2 md:mb-0">
+                    1 Run / Week
+                  </Badge>
+                  <span className="font-display text-[22px] font-black leading-none text-white/20 md:text-[30px]">
+                    01
+                  </span>
+                </div>
+                <p className="mb-1.5 mt-2 font-display text-[21px] font-black uppercase leading-none md:mb-4 md:mt-7 md:text-[46px]">
+                  Perform
+                </p>
+                {/* Version courte en mobile, texte complet en desktop */}
+                <p className="text-[12px] leading-[1.45] text-ink/80 md:hidden">
+                  Threshold efforts, VO₂ max intervals, race-specific workouts.
+                </p>
+                <p className="hidden text-ink/80 md:block md:text-[16px] md:leading-[1.75]">
+                  Threshold efforts, VO₂ max intervals, race-specific workouts.
+                  Coach-led track sessions designed to push your limits.
+                </p>
+                <div className="mt-auto flex flex-wrap gap-2 pt-3.5 md:mt-8 md:pt-0 md:gap-3">
+                  {PERFORM_TAGS.map((tag) => (
+                    <Tag key={tag} tone="accent">
+                      {tag}
+                    </Tag>
+                  ))}
+                </div>
+              </TiltCard>
+            </ReplayOnView>
+
+            <ReplayOnView>
+              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-white/40 bg-black/25 p-5 backdrop-blur-md [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:border-white/25 md:p-12">
+                <div className="flex items-start justify-between">
+                  <Badge variant="outline" size="xs" className="mb-2 md:mb-0">
+                    2 Runs / Month
+                  </Badge>
+                  <span className="font-display text-[22px] font-black leading-none text-white/20 md:text-[30px]">
+                    02
+                  </span>
+                </div>
+                <p className="mb-1.5 mt-2 font-display text-[21px] font-black uppercase leading-none md:mb-4 md:mt-7 md:text-[46px]">
+                  Connect
+                </p>
+                <p className="text-[12px] leading-[1.45] text-ink/80 md:text-[16px] md:leading-[1.75]">
+                  The run that brings people together. Easy-paced group runs to
+                  create meaningful connections.
+                </p>
+                <div className="mt-auto flex flex-wrap gap-2 pt-3.5 md:mt-8 md:pt-0 md:gap-3">
+                  {CONNECT_TAGS.map((tag) => (
+                    <Tag key={tag} tone="neutral">
+                      {tag}
+                    </Tag>
+                  ))}
+                </div>
+              </TiltCard>
+            </ReplayOnView>
           </div>
         </Container>
+
+        {/* Bandeau défilant, calé sur le bord bas */}
+        <div className="relative overflow-hidden border-t border-white/10 bg-black/60 py-3.5 backdrop-blur-sm">
+          <div className="flex w-max animate-marquee">
+            <MoveMarqueeRow />
+            <MoveMarqueeRow />
+          </div>
+        </div>
+
+        {/* Indicateur de défilement, au-dessus du bandeau (desktop) */}
+        <div className="absolute bottom-14 right-8 z-20 hidden md:block">
+          <ScrollCue targetId="become-a-member" />
+        </div>
       </section>
+
+      <div id="become-a-member" aria-hidden className="scroll-mt-20" />
 
       <Container className="py-14 md:py-18">
         <h2 className="font-display text-h2 font-black uppercase md:text-h1">

@@ -12,7 +12,8 @@ const FROM_CLASS: Record<Direction, string> = {
 
 /**
  * Révèle son contenu (fondu + glissement) quand il entre dans l'écran au
- * scroll. Basé sur IntersectionObserver, sans dépendance.
+ * scroll, et rejoue l'animation à chaque retour. Basé sur IntersectionObserver,
+ * sans dépendance.
  *
  * L'effet est désactivé en dessous du breakpoint desktop et si le visiteur a
  * demandé à réduire les animations : tout est géré en CSS (voir globals.css),
@@ -25,11 +26,14 @@ export function Reveal({
   className = '',
   from = 'up',
   delay = 0,
+  duration = 3000,
 }: {
   children: ReactNode;
   className?: string;
   from?: Direction;
   delay?: number;
+  /** Durée de l'animation, en ms. 3000 comme le bloc gauche du hero. */
+  duration?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [shown, setShown] = useState(false);
@@ -39,12 +43,9 @@ export function Reveal({
     if (!el) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShown(true);
-          observer.disconnect(); // une seule fois, on ne rejoue pas au re-scroll
-        }
-      },
+      // L'observation continue : l'élément se remasque en sortant de l'écran,
+      // pour que l'animation se rejoue à chaque retour sur la section.
+      ([entry]) => setShown(entry.isIntersecting),
       { threshold: 0.15 },
     );
 
@@ -56,7 +57,10 @@ export function Reveal({
     <div
       ref={ref}
       className={`reveal ${FROM_CLASS[from]} ${shown ? 'reveal-shown' : ''} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{
+        transitionDelay: `${delay}ms`,
+        transitionDuration: `${duration}ms`,
+      }}
     >
       {children}
     </div>

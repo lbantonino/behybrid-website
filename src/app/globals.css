@@ -159,6 +159,17 @@ body {
   la carte n'a pas besoin d'un parent animé (un ancêtre transformé casserait
   son backdrop-blur).
 */
+@keyframes slide-in-left-translate {
+  from {
+    opacity: 0;
+    translate: -48px 0;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+
 @keyframes slide-in-right-translate {
   from {
     opacity: 0;
@@ -199,9 +210,10 @@ body {
 */
 .reveal {
   opacity: 0;
-  transition:
-    opacity 2300ms cubic-bezier(0.16, 1, 0.3, 1),
-    translate 2300ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Mêmes distance et courbe que les entrées du hero (slide-in-left/right).
+     La durée est posée par le composant, en ligne. */
+  transition-property: opacity, translate;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal-from-left {
   translate: -48px 0;
@@ -215,18 +227,6 @@ body {
 .reveal-shown {
   opacity: 1;
   translate: none;
-}
-
-@media (min-width: 860px) {
-  .reveal-from-left {
-    translate: -90px 0;
-  }
-  .reveal-from-right {
-    translate: 90px 0;
-  }
-  .reveal-from-up {
-    translate: 0 32px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

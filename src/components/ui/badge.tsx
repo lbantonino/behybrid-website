@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 type Variant = "accent" | "outline";
-type Size = "sm" | "md";
+type Size = "xs" | "sm" | "md";
 
 const BASE = "inline-block rounded-full font-display text-label font-extrabold tracking-wide";
 
@@ -11,6 +11,8 @@ const VARIANT: Record<Variant, string> = {
 };
 
 const SIZE: Record<Size, string> = {
+  // Compact en mobile, identique à `md` au-dessus du breakpoint.
+  xs: "px-2.5 py-1 text-[10px] md:px-3 md:py-1.5 md:text-label",
   sm: "px-2.5 py-1 text-label md:px-3.5 md:py-1.5 md:text-label",
   md: "px-3 py-1.5 text-label",
 };
