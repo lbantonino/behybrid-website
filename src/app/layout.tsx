@@ -3,6 +3,7 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Preloader } from "@/components/layout/preloader";
+import { ScrollReset } from "@/components/layout/scroll-reset";
 
 export const metadata: Metadata = {
   title: "BEHYBRID — Run Club Brussels",
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className="h-full">
       <body className="min-h-full flex flex-col bg-bg text-ink antialiased">
+        <ScrollReset />
         <Preloader />
         <SiteHeader />
         <main className="flex flex-1 flex-col">{children}</main>

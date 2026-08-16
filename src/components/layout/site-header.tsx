@@ -25,6 +25,21 @@ export function SiteHeader() {
   const isLinkActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href);
 
+  /**
+   * Cliquer sur le lien de la page où l'on se trouve déjà ne déclenche aucune
+   * navigation : on remonte donc en douceur en haut de page (le hero).
+   */
+  const handleNavClick = (href: string) => (event: React.MouseEvent) => {
+    if (pathname !== href) return;
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'auto'
+        : 'smooth',
+    });
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg">
       <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
@@ -37,6 +52,7 @@ export function SiteHeader() {
               href={link.href}
               label={link.label}
               isActive={isLinkActive(link.href)}
+              onClick={handleNavClick(link.href)}
             />
           ))}
         </nav>
@@ -84,7 +100,10 @@ export function SiteHeader() {
                 label={link.label}
                 isActive={isLinkActive(link.href)}
                 size="lg"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(event) => {
+                  handleNavClick(link.href)(event);
+                  setIsMenuOpen(false);
+                }}
               />
             ))}
           </nav>

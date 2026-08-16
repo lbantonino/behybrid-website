@@ -3,13 +3,14 @@
 import { ArrowDown } from "lucide-react";
 
 /**
- * Indicateur de défilement en bas du hero (desktop) : un rond avec une flèche
- * vers le bas qui scrolle en douceur vers la section suivante au clic.
+ * Indicateur de défilement en bas de section (desktop) : un rond avec une
+ * flèche vers le bas qui scrolle en douceur vers la section suivante au clic.
+ * `targetId` est l'ancre visée, par défaut celle qui suit le hero.
  */
-export function ScrollCue() {
+export function ScrollCue({ targetId = "after-hero" }: { targetId?: string }) {
   const handleClick = () => {
     document
-      .getElementById("after-hero")
+      .getElementById(targetId)
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 

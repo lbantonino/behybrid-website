@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { ScrollCue } from '@/components/layout/scroll-cue';
+import { TiltCard } from '@/components/ui/tilt-card';
+import { Reveal } from '@/components/ui/reveal';
 
 const FEATURES = [
   {
@@ -37,6 +39,13 @@ const FEATURES = [
     title: 'For All Paces',
     description: ['Everyone is welcome. No ego.', 'Just the love of running.'],
   },
+];
+
+/** Chiffres clés de la section "What's BEHYBRID" (desktop uniquement). */
+const CLUB_STATS = [
+  { value: '100+', label: 'Runners' },
+  { value: 'Every', label: 'Week' },
+  { value: '2024', label: 'Since' },
 ];
 
 const MEMBER_STEPS = [
@@ -71,18 +80,15 @@ const MEMBER_BENEFITS = [
   { icon: Percent, label: '15% Off Club Coaching' },
 ];
 
-function SquareMark({
+/** Icône des cartes "What's BEHYBRID" : carré plein teinté accent. */
+function CardMark({
   icon: Icon,
-  className = '',
 }: {
   icon: React.ComponentType<{ className?: string }>;
-  className?: string;
 }) {
   return (
-    <div
-      className={`flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded border-[1.6px] border-accent md:h-[30px] md:w-[30px] ${className}`}
-    >
-      <Icon className="h-[13px] w-[13px] text-accent md:h-[16px] md:w-[16px]" />
+    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/12 md:h-12 md:w-12 md:rounded-xl">
+      <Icon className="h-[17px] w-[17px] text-accent md:h-[22px] md:w-[22px]" />
     </div>
   );
 }
@@ -187,43 +193,47 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Encadré Next Run */}
-          <div className="w-full rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md [animation:slide-in-right_4s_cubic-bezier(0.22,1,0.36,1)_2.5s_both] md:w-[400px] md:shrink-0 md:p-7">
-            <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent">
-              → Next Run
-            </p>
-            <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink md:mt-4 md:text-[28px]">
-              Wednesday <span className="md:hidden">-</span>{' '}
-              <br className="hidden md:block" /> 12/08 - 19:00
-            </p>
-            <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80">
-              Parc du Cinquantenaire
-            </p>
-
-            <div className="my-2 h-px w-full bg-white/15 md:my-6" />
-
-            <div className="flex items-end justify-between">
-              <p className="font-display text-[15px] font-extrabold uppercase text-ink md:text-[21px]">
-                Workout :
+          {/* Encadré Next Run. L'entrée passe par `translate` (et non
+              `transform`) pour cohabiter avec l'inclinaison 3D sans parent
+              animé, qui priverait la carte de son backdrop-blur. */}
+          <TiltCard className="tilt-card--flat relative w-full rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_2.5s_both] md:w-[400px] md:shrink-0 md:p-7">
+            <div>
+              <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent">
+                → Next Run
+              </p>
+              <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink md:mt-4 md:text-[28px]">
+                Wednesday <span className="md:hidden">-</span>{' '}
+                <br className="hidden md:block" /> 12/08 - 19:00
+              </p>
+              <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80">
+                Parc du Cinquantenaire
               </p>
 
-              {/* Visible uniquement sur mobile */}
-              <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted md:hidden">
+              <div className="my-2 h-px w-full bg-white/15 md:my-6" />
+
+              <div className="flex items-end justify-between">
+                <p className="font-display text-[15px] font-extrabold uppercase text-ink md:text-[21px]">
+                  Workout :
+                </p>
+
+                {/* Visible uniquement sur mobile */}
+                <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted md:hidden">
+                  For All Levels
+                </p>
+              </div>
+
+              <div className="flex items-end justify-between">
+                <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 md:text-[16px]">
+                  4x 5min @treshold
+                </p>
+              </div>
+
+              {/* Visible uniquement sur desktop */}
+              <p className="mt-6 hidden font-display text-[11px] font-normal uppercase tracking-[1.5px] text-muted md:block">
                 For All Levels
               </p>
             </div>
-
-            <div className="flex items-end justify-between">
-              <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 md:text-[16px]">
-                4x 5min @treshold
-              </p>
-            </div>
-
-            {/* Visible uniquement sur desktop */}
-            <p className="mt-6 hidden font-display text-[11px] font-normal uppercase tracking-[1.5px] text-muted md:block">
-              For All Levels
-            </p>
-          </div>
+          </TiltCard>
         </Container>
 
         {/* Indicateur de défilement (desktop) */}
@@ -234,42 +244,134 @@ export default function Home() {
 
       <div id="after-hero" aria-hidden className="scroll-mt-20" />
 
-      <Container className="pt-12 text-center md:pt-18 md:text-left">
-        <div className="md:grid md:grid-cols-2 md:items-center md:gap-16">
-          <div className="mx-auto max-w-[900px] md:mx-0 md:max-w-none">
-            <h2 className="font-display text-h2 font-black uppercase md:text-h1">
-              What&apos;s BEHYBRID?
-            </h2>
-            <p className="mt-4 text-body-sm leading-[1.7] text-muted md:mt-5 md:max-w-[420px] md:text-body">
-              BEHYBRID is a run club in Brussels bringing together runners of
-              every level. A community of individuals pushing their limits, at
-              their own pace, toward their own goals. Different paces, different
-              ambitions, same spirit: run, improve and enjoy. BEHYBRID, it’s
-              you, them and us.
-            </p>
-          </div>
-
-          <div className="mx-auto mt-9 grid max-w-[900px] grid-cols-2 gap-6 md:mx-0 md:mt-0 md:max-w-none md:gap-8">
-            {FEATURES.map((feature) => (
-              <div
-                key={feature.title}
-                className="flex flex-col items-center gap-1.5 text-center md:items-start md:text-left"
-              >
-                <SquareMark icon={feature.icon} />
-                <p className="font-display text-body-sm font-bold uppercase md:text-h3">
-                  {feature.title}
-                </p>
-                <p className="text-body-sm leading-normal text-muted md:text-body">
-                  {feature.description[0]} <br className="hidden md:block" />
-                  {feature.description[1]}
-                </p>
-              </div>
-            ))}
-          </div>
+      <section className="relative flex min-h-[calc(100lvh-5rem)] flex-col overflow-x-clip md:h-[calc(100vh-5rem)] md:overflow-hidden">
+        {/* Halos verts diffus : un fort en haut à droite, un discret en bas à gauche */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute -right-24 -top-24 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.20),transparent_68%)] blur-3xl md:-top-32 md:h-[700px] md:w-[700px]" />
+          <div className="absolute -bottom-24 -left-24 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.13),transparent_68%)] blur-3xl md:-bottom-32 md:h-[620px] md:w-[620px]" />
         </div>
-      </Container>
 
-      <section className="relative mt-14 py-11 md:mt-18 md:py-14">
+        {/* Barre d'en-tête de section */}
+        <Container className="relative pt-7 md:pt-10">
+          <Reveal className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5 md:gap-3.5">
+              <span className="h-px w-6 bg-accent md:w-8" />
+              <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-accent">
+                About The Club
+              </span>
+            </div>
+            <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-faint">
+              <span className="hidden md:inline">Brussels · </span>Est. 2024
+            </span>
+          </Reveal>
+        </Container>
+
+        <Container className="relative flex flex-1 items-stretch pb-4 pt-9 text-center md:items-center md:pb-0 md:pt-0 md:text-left">
+          <div className="flex w-full flex-col justify-between md:grid md:grid-cols-2 md:items-center md:gap-16">
+            <Reveal
+              from="left"
+              className="mx-auto max-w-[900px] md:mx-0 md:max-w-none"
+            >
+              <h2 className="font-display text-[42px] font-black uppercase leading-[0.92] tracking-[-0.02em] md:text-[68px]">
+                What&apos;s <br />
+                BEHYBRID?
+              </h2>
+              {/* Version courte (mobile) : le texte long ne tient pas dans un écran */}
+              <p className="mt-4 text-[13px] leading-[1.55] text-muted md:hidden">
+                BEHYBRID is a run club in Brussels bringing together runners of
+                every level. A community of individuals pushing their limits.
+              </p>
+
+              <p className="mt-4 hidden text-[13px] leading-[1.55] text-muted md:mt-6 md:block md:max-w-[470px] md:text-[16px] md:leading-[1.65]">
+                BEHYBRID is a run club in Brussels bringing together runners of
+                every level. A community of individuals pushing their limits, at
+                their own pace, toward their own goals. Different paces,
+                different ambitions, same spirit:{' '}
+                <span className="font-bold text-ink">
+                  run, improve and enjoy.
+                </span>{' '}
+                BEHYBRID, it’s you, them and us.
+              </p>
+
+              {/* Chiffres clés (desktop) : dans la colonne de gauche */}
+              <div className="mt-9 hidden text-left md:flex md:items-stretch">
+                {CLUB_STATS.map((stat, index) => (
+                  <div
+                    key={stat.label}
+                    className={`flex flex-col justify-center ${
+                      index > 0 ? 'border-l border-line pl-10' : ''
+                    } ${index < CLUB_STATS.length - 1 ? 'pr-10' : ''}`}
+                  >
+                    <p className="font-display text-h1 font-black uppercase leading-none text-accent">
+                      {stat.value}
+                    </p>
+                    <p className="mt-3 font-display text-label font-bold uppercase tracking-[2px] text-faint">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Chiffres clés (mobile) : bloc autonome, pour être réparti en
+                hauteur entre le paragraphe et les cartes */}
+            <Reveal
+              from="left"
+              delay={150}
+              className="flex justify-between text-left md:hidden"
+            >
+              {CLUB_STATS.map((stat) => (
+                <div key={stat.label} className="flex flex-col justify-center">
+                  <p className="font-display text-[30px] font-black uppercase leading-none text-accent">
+                    {stat.value}
+                  </p>
+                  <p className="mt-2 font-display text-label font-bold uppercase tracking-[2px] text-faint">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </Reveal>
+
+            {/* Features : cartes numérotées */}
+            <div className="grid grid-cols-2 gap-3 md:gap-6">
+              {FEATURES.map((feature, index) => (
+                <Reveal
+                  key={feature.title}
+                  from="right"
+                  delay={300 + index * 200}
+                >
+                  <TiltCard className="relative flex h-[21svh] max-h-[220px] min-h-[120px] flex-col rounded-2xl border border-line bg-bg-alt p-4 text-left md:h-[31vh] md:max-h-[330px] md:min-h-[200px] md:p-7">
+                    <div className="tilt-layer-deep flex items-start justify-between">
+                      <CardMark icon={feature.icon} />
+                      <span className="font-display text-[22px] font-black leading-none text-white/10 md:text-[30px]">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <div className="tilt-layer mt-auto">
+                      <p className="font-display text-[15px] font-black uppercase leading-[1.1] md:text-h3">
+                        {feature.title}
+                      </p>
+                      <p className="mt-1.5 text-[11px] leading-[1.45] text-muted md:mt-2.5 md:text-body-sm md:leading-[1.6]">
+                        {feature.description[0]} {feature.description[1]}
+                      </p>
+                    </div>
+                  </TiltCard>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </Container>
+
+        {/* Indicateur de défilement vers "How We Move" (desktop) */}
+        <div className="absolute bottom-8 right-8 z-20 hidden md:block">
+          <ScrollCue targetId="how-we-move" />
+        </div>
+      </section>
+
+      <section
+        id="how-we-move"
+        className="relative mt-14 scroll-mt-20 py-11 md:mt-0 md:py-14"
+      >
         <Image
           src="/photos/how-we-move-desktop-mobile.jpg"
           alt="Session de run BEHYBRID"

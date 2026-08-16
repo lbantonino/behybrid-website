@@ -153,6 +153,23 @@ body {
   }
 }
 
+/*
+  Même entrée par la droite, mais pilotée par la propriété `translate` plutôt
+  que par `transform` : `transform` reste ainsi libre pour l'inclinaison 3D, et
+  la carte n'a pas besoin d'un parent animé (un ancêtre transformé casserait
+  son backdrop-blur).
+*/
+@keyframes slide-in-right-translate {
+  from {
+    opacity: 0;
+    translate: 48px 0;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+
 /* Rebond lent de l'indicateur de défilement du hero */
 @keyframes cue-bounce {
   0%,
@@ -175,8 +192,114 @@ body {
   }
 }
 
+/*
+  Révélations au scroll (composant Reveal). Le glissement passe par `translate`
+  et non `transform`, pour ne pas entrer en conflit avec l'inclinaison 3D des
+  cartes. La distance parcourue est réduite en mobile, où l'écran est étroit.
+*/
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 2300ms cubic-bezier(0.16, 1, 0.3, 1),
+    translate 2300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-from-left {
+  translate: -48px 0;
+}
+.reveal-from-right {
+  translate: 48px 0;
+}
+.reveal-from-up {
+  translate: 0 24px;
+}
+.reveal-shown {
+  opacity: 1;
+  translate: none;
+}
+
+@media (min-width: 860px) {
+  .reveal-from-left {
+    translate: -90px 0;
+  }
+  .reveal-from-right {
+    translate: 90px 0;
+  }
+  .reveal-from-up {
+    translate: 0 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}
+
+/*
+  Cartes 3D de la section "What's BEHYBRID" : la carte pivote vers le curseur
+  (variables posées par le composant TiltCard), avec un reflet vert qui suit la
+  souris et un contenu décollé en profondeur.
+*/
+.tilt-card {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition:
+    transform 220ms ease-out,
+    border-color 300ms ease-out,
+    box-shadow 300ms ease-out;
+  will-change: transform;
+}
+.tilt-card:hover {
+  border-color: rgba(201, 241, 51, 0.4);
+  box-shadow: 0 26px 60px -30px rgba(201, 241, 51, 0.5);
+}
+
+/*
+  Variante pour les cartes en backdrop-blur (ex. "Next Run" du hero) : le
+  contexte 3D désactive le flou d'arrière-plan dans les navigateurs. On garde
+  donc la rotation, mais sans profondeur du contenu.
+*/
+.tilt-card--flat {
+  transform-style: flat;
+}
+
+/* Reflet lumineux, sous le contenu et transparent aux clics */
+.tilt-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+  background: radial-gradient(
+    360px circle at var(--tilt-mx, 50%) var(--tilt-my, 50%),
+    rgba(201, 241, 51, 0.16),
+    transparent 62%
+  );
+}
+.tilt-card:hover::after {
+  opacity: 1;
+}
+
+/* Profondeur du contenu : plus la valeur est haute, plus l'élément flotte */
+.tilt-layer {
+  transform: translateZ(26px);
+}
+.tilt-layer-deep {
+  transform: translateZ(46px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation: none;
+  }
+  .tilt-card,
+  .tilt-layer,
+  .tilt-layer-deep {
+    transform: none;
   }
 }

@@ -2,19 +2,33 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
+type Direction = 'left' | 'right' | 'up';
+
+const FROM_CLASS: Record<Direction, string> = {
+  left: 'reveal-from-left',
+  right: 'reveal-from-right',
+  up: 'reveal-from-up',
+};
+
 /**
- * Révèle son contenu (fondu + léger glissement vers le haut) quand il entre
- * dans l'écran au scroll. Basé sur IntersectionObserver, sans dépendance.
+ * Révèle son contenu (fondu + glissement) quand il entre dans l'écran au
+ * scroll. Basé sur IntersectionObserver, sans dépendance.
  *
- * Usage : <Reveal delay={100}><h2>Titre</h2></Reveal>
+ * L'effet est désactivé en dessous du breakpoint desktop et si le visiteur a
+ * demandé à réduire les animations : tout est géré en CSS (voir globals.css),
+ * le composant se contente de poser la classe une fois l'élément visible.
+ *
+ * Usage : <Reveal from="left" delay={120}><h2>Titre</h2></Reveal>
  */
 export function Reveal({
   children,
   className = '',
+  from = 'up',
   delay = 0,
 }: {
   children: ReactNode;
   className?: string;
+  from?: Direction;
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,12 +38,6 @@ export function Reveal({
     const el = ref.current;
     if (!el) return;
 
-    // Respect de l'accessibilité : pas d'animation si l'utilisateur la refuse.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setShown(true);
-      return;
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -37,7 +45,7 @@ export function Reveal({
           observer.disconnect(); // une seule fois, on ne rejoue pas au re-scroll
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     observer.observe(el);
@@ -47,7 +55,7 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={`reveal ${shown ? 'reveal-shown' : ''} ${className}`}
+      className={`reveal ${FROM_CLASS[from]} ${shown ? 'reveal-shown' : ''} ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}

@@ -26,7 +26,7 @@ export function NavMenuLink({
   label: string;
   isActive: boolean;
   size?: Size;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }) {
   return (
     <Link
