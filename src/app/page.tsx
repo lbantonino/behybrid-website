@@ -588,8 +588,8 @@ export default function Home() {
         </Container>
 
         {/* Étapes et avantages */}
-        <Container className="relative flex flex-1 flex-col pb-8 pt-8 phone-lg:pb-12 md:pb-0 md:pt-0">
-          <div className="flex flex-1 flex-col justify-between md:grid md:w-full md:grid-cols-[1fr_1.2fr] md:items-stretch md:gap-16">
+        <Container className="relative flex flex-1 flex-col pb-8 pt-8 phone-lg:pb-12 md:justify-center md:pb-0 md:pt-0">
+          <div className="flex flex-1 flex-col justify-between md:grid md:w-full md:flex-none md:grid-cols-2 md:items-stretch md:gap-16">
             <div className="md:flex md:items-center">
               {/* Fil vertical numéroté, révélé une étape après l'autre */}
               <div className="relative w-full">
@@ -655,7 +655,7 @@ export default function Home() {
                       className="tilt-layer flex items-center gap-2 md:gap-4"
                     >
                       <BenefitMark icon={benefit.icon} />
-                      <span className="text-[8px] font-bold leading-tight text-ink phone-lg:text-[11px] md:text-[14px]">
+                      <span className="text-[8px] font-bold leading-tight text-ink phone-lg:text-[11px] md:text-[12px]">
                         {benefit.label}
                       </span>
                     </div>
