@@ -112,6 +112,23 @@
   --breakpoint-md: 860px;
 }
 
+/*
+  Variante "grands téléphones" : iPhone Plus et Pro Max (428 à 440px de large),
+  sans jamais toucher les modèles standards (375 à 402px) ni le desktop, qui
+  commence à 860px. À utiliser en préfixe : `phone-lg:mt-10`, par exemple.
+*/
+@custom-variant phone-lg (@media (min-width: 428px) and (max-width: 859.98px));
+
+/*
+  Aucun défilement horizontal : les révélations au scroll décalent les blocs de
+  48px sur le côté avant leur arrivée, ce qui dépassait de l'écran en mobile.
+  `clip` plutôt que `hidden` : `hidden` créerait un conteneur de défilement et
+  casserait le `position: sticky` du header.
+*/
+html {
+  overflow-x: clip;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-ink);

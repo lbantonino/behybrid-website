@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-type Variant = "accent" | "outline";
+type Variant = "accent" | "outline" | "white";
 type Size = "xs" | "sm" | "md";
 
 const BASE = "inline-block rounded-full font-display text-label font-extrabold tracking-wide";
@@ -8,6 +8,7 @@ const BASE = "inline-block rounded-full font-display text-label font-extrabold t
 const VARIANT: Record<Variant, string> = {
   accent: "bg-accent text-bg",
   outline: "border border-white/50 text-ink",
+  white: "bg-ink text-bg",
 };
 
 const SIZE: Record<Size, string> = {

@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -13,7 +12,6 @@ import {
   Shirt,
   CalendarCheck,
   Percent,
-  ArrowRight,
 } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { ScrollCue } from '@/components/layout/scroll-cue';
@@ -116,21 +114,9 @@ function BenefitMark({
   icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/12">
-      <Icon className="h-4 w-4 text-accent" />
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/12 md:h-11 md:w-11 md:rounded-xl">
+      <Icon className="h-3.5 w-3.5 text-accent md:h-5 md:w-5" />
     </span>
-  );
-}
-
-function CheckMark({
-  icon: Icon,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-}) {
-  return (
-    <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded border-[1.6px] border-accent">
-      <Icon className="h-[10px] w-[10px] text-accent" />
-    </div>
   );
 }
 
@@ -221,8 +207,8 @@ export default function Home() {
         </div>
 
         {/* Contenu */}
-        <Container className="relative z-10 flex h-[calc(100svh-5rem)] flex-col justify-between gap-2 pb-8 pt-20 md:h-[calc(100vh-5rem)] md:min-h-[600px] md:flex-row md:items-center md:justify-between md:gap-12 md:pb-16 md:pt-20">
-          <ReplayOnView initialDelay={2000}>
+        <Container className="relative z-10 flex h-[calc(100svh-5rem)] flex-col justify-between gap-3 pb-8 pt-20 phone-lg:justify-center phone-lg:gap-6 phone-lg:pb-20 md:h-[calc(100vh-5rem)] md:min-h-[600px] md:flex-row md:items-center md:justify-between md:gap-12 md:pb-16 md:pt-20">
+          <ReplayOnView initialDelay={2000} className="phone-lg:mt-8">
             <div className="flex max-w-[640px] flex-col items-center gap-3 text-center [animation:slide-in-left_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:items-start md:gap-6 md:text-left">
               <span className="inline-flex mb-3 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -269,36 +255,36 @@ export default function Home() {
               animé, qui priverait la carte de son backdrop-blur. */}
           <ReplayOnView
             initialDelay={2500}
-            className="w-full md:w-[400px] md:shrink-0"
+            className="w-full flex-1 max-h-[430px] phone-lg:flex-none md:max-h-none md:w-[400px] md:flex-none md:shrink-0"
           >
-            <TiltCard className="tilt-card--flat relative w-full rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:p-7">
-              <div>
-                <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent">
+            <TiltCard className="tilt-card--flat relative flex h-full w-full flex-col rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md phone-lg:p-8 [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:p-7">
+              <div className="flex h-full flex-col justify-between md:block">
+                <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent phone-lg:text-[14px]">
                   → Next Run
                 </p>
-                <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink md:mt-4 md:text-[28px]">
+                <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink phone-lg:text-[18px] md:mt-4 md:text-[28px]">
                   Wednesday <span className="md:hidden">-</span>{' '}
                   <br className="hidden md:block" /> 12/08 - 19:00
                 </p>
-                <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80">
+                <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80 phone-lg:text-[15px]">
                   Parc du Cinquantenaire
                 </p>
 
-                <div className="my-2 h-px w-full bg-white/15 md:my-6" />
+                <div className="my-2 h-px w-full bg-white/15 phone-lg:my-5 md:my-6" />
 
                 <div className="flex items-end justify-between">
-                  <p className="font-display text-[15px] font-extrabold uppercase text-ink md:text-[21px]">
+                  <p className="font-display text-[15px] font-extrabold uppercase text-ink phone-lg:text-[17px] md:text-[21px]">
                     Workout :
                   </p>
 
                   {/* Visible uniquement sur mobile */}
-                  <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted md:hidden">
+                  <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted phone-lg:text-[12px] md:hidden">
                     For All Levels
                   </p>
                 </div>
 
                 <div className="flex items-end justify-between">
-                  <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 md:text-[16px]">
+                  <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 phone-lg:text-[14px] md:text-[16px]">
                     4x 5min @treshold
                   </p>
                 </div>
@@ -342,7 +328,7 @@ export default function Home() {
           </Reveal>
         </Container>
 
-        <Container className="relative flex flex-1 items-stretch pb-4 pt-9 text-center md:items-center md:pb-0 md:pt-0 md:text-left">
+        <Container className="relative flex flex-1 items-stretch pb-8 pt-9 text-center phone-lg:pb-14 md:items-center md:pb-0 md:pt-0 md:text-left">
           <div className="flex w-full flex-col justify-between md:grid md:grid-cols-2 md:items-center md:gap-16">
             <Reveal
               from="left"
@@ -469,7 +455,7 @@ export default function Home() {
           }}
         />
 
-        <Container className="relative flex flex-1 flex-col pb-6 pt-7 md:justify-between md:pb-16 md:pt-14">
+        <Container className="relative flex flex-1 flex-col pt-7 md:justify-between md:pb-16 md:pt-14">
           <Reveal from="left">
             <div className="flex items-center gap-2.5 md:gap-3.5">
               <span className="h-px w-6 bg-accent md:w-8" />
@@ -482,7 +468,7 @@ export default function Home() {
             </h2>
 
             {/* Sous-titre, version mobile : centré, retours à la ligne calés */}
-            <p className="mt-4 text-center text-[14px] leading-[1.3] text-ink/75 md:hidden">
+            <p className="mt-4 text-center text-[14px] leading-[1.3] text-ink/75 phone-lg:text-[15px] md:hidden">
               Two ways to run with us.
               <br />
               one to push your limits,
@@ -496,9 +482,9 @@ export default function Home() {
             </p>
           </Reveal>
 
-          <div className="mt-auto grid auto-rows-fr grid-cols-1 gap-6 pt-7 md:mt-0 md:auto-rows-auto md:grid-cols-2 md:gap-20 md:pt-0">
+          <div className="my-auto grid auto-rows-fr grid-cols-1 gap-6 md:my-0 md:auto-rows-auto md:grid-cols-2 md:gap-20">
             <ReplayOnView>
-              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-accent bg-black/25 p-5 backdrop-blur-md [animation:slide-in-right-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:p-12 md:[animation:slide-in-left-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both]">
+              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-accent bg-black/25 p-5 backdrop-blur-md phone-lg:px-8 phone-lg:py-[37px] [animation:slide-in-right-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:p-12 md:[animation:slide-in-left-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both]">
                 <div className="flex items-start justify-between">
                   <Badge variant="accent" size="xs" className="mb-2 md:mb-0">
                     1 Run / Week
@@ -511,7 +497,7 @@ export default function Home() {
                   Perform
                 </p>
                 {/* Version courte en mobile, texte complet en desktop */}
-                <p className="text-[12px] leading-[1.45] text-ink/80 md:hidden">
+                <p className="text-[13px] leading-[1.45] text-ink/80 phone-lg:text-[14px] md:hidden">
                   Threshold efforts, VO₂ max intervals, race-specific workouts.
                 </p>
                 <p className="hidden text-ink/80 md:block md:text-[16px] md:leading-[1.75]">
@@ -529,9 +515,9 @@ export default function Home() {
             </ReplayOnView>
 
             <ReplayOnView>
-              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-white/40 bg-black/25 p-5 backdrop-blur-md [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:border-white/25 md:p-12">
+              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-white/40 bg-black/25 p-5 backdrop-blur-md phone-lg:px-8 phone-lg:py-[37px] [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:border-white/25 md:p-12">
                 <div className="flex items-start justify-between">
-                  <Badge variant="outline" size="xs" className="mb-2 md:mb-0">
+                  <Badge variant="white" size="xs" className="mb-2 md:mb-0">
                     2 Runs / Month
                   </Badge>
                   <span className="font-display text-[22px] font-black leading-none text-white/20 md:text-[30px]">
@@ -541,7 +527,7 @@ export default function Home() {
                 <p className="mb-1.5 mt-2 font-display text-[21px] font-black uppercase leading-none md:mb-4 md:mt-7 md:text-[46px]">
                   Connect
                 </p>
-                <p className="text-[12px] leading-[1.45] text-ink/80 md:text-[16px] md:leading-[1.75]">
+                <p className="text-[13px] leading-[1.45] text-ink/80 phone-lg:text-[14px] md:text-[16px] md:leading-[1.75]">
                   The run that brings people together. Easy-paced group runs to
                   create meaningful connections.
                 </p>
@@ -573,90 +559,111 @@ export default function Home() {
 
       <div id="become-a-member" aria-hidden className="scroll-mt-20" />
 
-      <section className="relative py-14 md:flex md:h-[calc(100vh-5rem)] md:flex-col md:justify-center md:overflow-hidden md:py-0">
-        {/* Halos verts diffus (desktop) */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 hidden md:block"
-        >
-          <div className="absolute -right-24 -top-32 h-[620px] w-[620px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.14),transparent_68%)] blur-3xl" />
-          <div className="absolute -bottom-40 left-1/4 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.10),transparent_68%)] blur-3xl" />
+      <section className="relative flex min-h-[calc(100lvh-5rem)] flex-col overflow-x-clip md:h-[calc(100vh-5rem)] md:min-h-0 md:overflow-hidden">
+        {/* Halos verts diffus */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute -right-24 -top-24 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.14),transparent_68%)] blur-3xl md:-top-32 md:h-[620px] md:w-[620px]" />
+          <div className="absolute -bottom-24 left-1/4 h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.10),transparent_68%)] blur-3xl md:-bottom-40 md:h-[520px] md:w-[520px]" />
         </div>
 
-        <Container className="relative">
+        {/* Bloc de titre, ancré en haut comme dans les autres sections */}
+        <Container className="relative pt-7 md:pt-14">
           <Reveal from="left">
-            <div className="mb-4 hidden items-center gap-3.5 md:flex">
-              <span className="h-px w-8 bg-accent" />
+            <div className="flex items-center gap-2.5 md:mb-4 md:gap-3.5">
+              <span className="h-px w-6 bg-accent md:w-8" />
               <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-accent">
                 Join The Club
               </span>
             </div>
 
-            <h2 className="font-display text-h2 font-black uppercase tracking-[-0.02em] md:text-[70px] md:leading-[0.9]">
-              <span className="md:hidden">How To Become A Member</span>
-              <span className="hidden md:inline">Become A Member</span>
+            <h2 className="mt-6 text-center font-display text-[42px] font-black uppercase leading-[0.92] tracking-[-0.02em] md:mt-0 md:text-left md:text-[70px] md:leading-[0.9]">
+              Become A <br className="md:hidden" />
+              Member
             </h2>
 
-            <p className="mb-7 font-display text-body-sm font-bold uppercase text-faint md:mb-0 md:mt-4 md:text-label md:tracking-[2.5px]">
-              <span className="hidden md:inline">In Four Steps · </span>And What
-              Do I Get?
+            <p className="mt-3 text-center font-display text-label font-bold uppercase tracking-[2.5px] text-faint md:mt-4 md:text-left">
+              In Four Steps · And What Do I Get?
             </p>
           </Reveal>
+        </Container>
 
-          {/* Les quatre étapes, en rangée avec des flèches en desktop */}
-          <Reveal from="left" delay={150}>
-            <div className="mb-8 grid grid-cols-2 gap-5 md:mb-0 md:mt-20 md:flex md:items-start md:gap-6">
-              {MEMBER_STEPS.map((step, index) => (
-                <Fragment key={step.number}>
-                  <div className="md:flex-1">
-                    <p className="mb-2 font-display text-body-sm font-extrabold text-accent md:mb-2 md:text-[30px] md:leading-none">
-                      {step.number}
-                    </p>
-                    <p className="mb-1 font-display text-body font-bold uppercase md:mb-2 md:text-[18px] md:font-black md:leading-none">
-                      {step.title}
-                    </p>
-                    <p className="text-label leading-snug text-muted md:text-[12px]">
-                      {step.description}
-                    </p>
-                  </div>
-                  {index < MEMBER_STEPS.length - 1 && (
-                    <ArrowRight
-                      aria-hidden
-                      className="hidden h-5 w-5 shrink-0 text-accent md:mt-[46px] md:block"
-                    />
-                  )}
-                </Fragment>
-              ))}
+        {/* Étapes et avantages */}
+        <Container className="relative flex flex-1 flex-col pb-8 pt-8 phone-lg:pb-12 md:pb-0 md:pt-0">
+          <div className="flex flex-1 flex-col justify-between md:grid md:w-full md:grid-cols-[1fr_1.2fr] md:items-stretch md:gap-16">
+            <div className="md:flex md:items-center">
+              {/* Fil vertical numéroté, révélé une étape après l'autre */}
+              <div className="relative w-full">
+                <span
+                  aria-hidden
+                  className="absolute bottom-3 left-[13px] top-3 w-px bg-accent/40 md:left-[17px]"
+                />
+                {MEMBER_STEPS.map((step, index) => {
+                  const isLast = index === MEMBER_STEPS.length - 1;
+                  return (
+                    <Reveal
+                      key={step.number}
+                      from="left"
+                      delay={150 + index * 220}
+                      className={`relative flex gap-3 md:gap-4 ${isLast ? '' : 'mb-6 md:mb-11'}`}
+                    >
+                      <span
+                        className={`relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent font-display text-[12px] font-black text-bg md:h-9 md:w-9 md:text-[15px] ${
+                          isLast
+                            ? 'shadow-[0_0_26px_rgba(201,241,51,0.55)]'
+                            : ''
+                        }`}
+                      >
+                        {index + 1}
+                      </span>
+                      <div className="md:pt-1">
+                        <p
+                          className={`font-display text-[17px] font-black uppercase leading-none md:text-[24px] ${
+                            isLast ? 'text-accent' : 'text-ink'
+                          }`}
+                        >
+                          {step.title}
+                        </p>
+                        <p className="mt-1.5 text-[12px] leading-snug text-muted md:mt-2 md:text-[15px]">
+                          {step.description}
+                        </p>
+                      </div>
+                    </Reveal>
+                  );
+                })}
+              </div>
             </div>
-          </Reveal>
 
-          {/* Panneau des avantages, avec sa pastille à cheval sur la bordure */}
-          <Reveal from="right" duration={4000} className="md:mt-24">
-            <TiltCard className="relative flex flex-col gap-4.5 rounded-xl border border-line p-6 md:mx-auto md:grid md:max-w-[900px] md:grid-cols-3 md:grid-rows-2 md:gap-x-10 md:gap-y-8 md:rounded-3xl md:bg-bg-alt md:p-12">
-              <span className="absolute -top-3.5 left-1/2 hidden -translate-x-1/2 md:block">
-                <Badge variant="accent" uppercase className="tracking-[2px]">
-                  What You Get
-                </Badge>
-              </span>
-
-              {MEMBER_BENEFITS.map((benefit) => (
-                <div
-                  key={benefit.label}
-                  className="tilt-layer flex items-center gap-3"
-                >
-                  <span className="md:hidden">
-                    <CheckMark icon={benefit.icon} />
-                  </span>
-                  <span className="hidden md:block">
-                    <BenefitMark icon={benefit.icon} />
-                  </span>
-                  <span className="text-body-sm text-ink md:font-bold">
-                    {benefit.label}
+            {/* Panneau des avantages */}
+            <Reveal
+              from="right"
+              duration={4000}
+              className="mt-7 md:mt-0 md:h-full"
+            >
+              <TiltCard className="relative rounded-2xl border border-line bg-bg-alt p-5 phone-lg:p-6 md:flex md:h-full md:flex-col md:rounded-3xl md:px-9 md:py-10">
+                {/* En-tête de carte, même motif que les en-têtes de section */}
+                <div className="tilt-layer mb-3.5 flex items-center gap-2.5 md:mb-9 md:gap-3.5">
+                  <span className="h-px w-5 bg-accent md:w-8" />
+                  <span className="font-display text-[9px] font-bold uppercase tracking-[2px] text-accent md:text-label md:tracking-[2.5px]">
+                    What You Get As A Member
                   </span>
                 </div>
-              ))}
-            </TiltCard>
-          </Reveal>
+
+                <div className="grid grid-cols-2 gap-x-3 gap-y-3.5 md:flex-1 md:auto-rows-fr md:items-center md:gap-x-8 md:gap-y-0">
+                  {MEMBER_BENEFITS.map((benefit) => (
+                    <div
+                      key={benefit.label}
+                      className="tilt-layer flex items-center gap-2 md:gap-4"
+                    >
+                      <BenefitMark icon={benefit.icon} />
+                      <span className="text-[8px] font-bold leading-tight text-ink phone-lg:text-[11px] md:text-[14px]">
+                        {benefit.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </TiltCard>
+            </Reveal>
+          </div>
         </Container>
 
         {/* Indicateur de défilement (desktop) */}
