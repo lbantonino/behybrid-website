@@ -180,11 +180,13 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-17**
+**Dernière mise à jour : 2026-08-18**
 
 ### Où on en est
 
 Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec un build de production qui passe. Grosse passe de direction artistique : toute la typographie du site est passée à **Archivo** (9 poids) avec **Montserrat Black** en accent, en remplacement d'Akzidenz Grotesk Pro. Le hero de l'accueil a été entièrement repensé (bandeau défilant, titre "PERFORM & CONNECT", carte "NEXT RUN", hauteur plein écran) et enrichi d'animations : écran de chargement "running" (coureur + barre de progression), entrées décalées des blocs, indicateur de scroll, et léger zoom du logo au survol. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile.
+
+La section **"Become A Member"** est refondue en desktop : en-tête de section, titre à 70px, sous-titre en une ligne, les quatre étapes sur une rangée séparées par des flèches vertes, et un panneau "What You Get" centré, en 3D, avec sa pastille à cheval sur la bordure et les six avantages en trois colonnes. Son mobile reste à faire.
 
 La section **"How We Move"** est terminée en desktop et en mobile : photo plein cadre assombrie et trame technique, titre à 70px, sous-titre, deux cartes floutées avec badge, numéro d'index et pastilles, et un bandeau défilant collé au bord bas. Les trois titres de l'accueil partagent désormais la même taille (70px en desktop). Les révélations au scroll se rejouent à chaque retour à l'écran, sur toutes les sections, hero compris.
 
@@ -194,7 +196,7 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 
 ### Prochaine étape
 
-**Section "How To Become A Member"** (la suivante sur l'accueil), à reprendre desktop puis mobile. Ensuite : mettre à jour la page `/style-guide` avec la nouvelle typo Archivo, avant d'attaquer la page `/join-us`.
+**Version mobile de la section "Become A Member"** (son desktop est fait). Ensuite, la galerie photos et le bas de l'accueil. Ensuite : mettre à jour la page `/style-guide` avec la nouvelle typo Archivo, avant d'attaquer la page `/join-us`.
 
 ### Reste à faire (vue d'ensemble)
 
@@ -209,6 +211,15 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-18**
+
+- **Section "Become A Member" refondue en desktop** : section pleine hauteur sur fond noir avec deux halos verts, en-tête "Join The Club", titre raccourci en "Become A Member" (70px), sous-titre "In Four Steps · And What Do I Get?" en une ligne. Les quatre étapes passent d'une grille 2x2 à une rangée, séparées par des flèches vertes alignées sur les titres, titres d'étapes en Archivo Black.
+- **Panneau "What You Get"** : cadre centré de 900px, coins à 24px, fond `bg-alt`, avec la pastille verte posée à cheval sur la bordure haute et les six avantages en trois colonnes sur deux rangées, icônes en carrés verts teintés (nouveau `BenefitMark`). Le panneau est en 3D complète, avec relief du contenu, puisqu'il n'a pas de `backdrop-filter` à préserver. Largeur calée pour que "Priority Access To Events" tienne sur une ligne.
+- Révélations habituelles (titre et étapes par la gauche, panneau par la droite) et flèche de défilement vers la galerie.
+- **Cohérence des entrées du hero** : le délai de 2 et 2,5 secondes ne servait qu'à laisser passer l'écran de chargement, mais s'appliquait aussi aux navigations internes, d'où une attente perçue en revenant du calendrier. Nouveau module `preloader-state.ts` : l'écran de chargement signale sa fin, et les entrées choisissent entre le délai long (premier chargement) et aucun délai (navigation interne). Une variable de module suffit, elle survit aux navigations et repart à zéro au rafraîchissement, comme l'écran de chargement lui-même.
+- **L'ordre des avantages membres est volontairement conservé**, il diffère de la maquette.
+- Le mobile de cette section est inchangé pour l'instant (ancien titre, grille 2x2, liste verticale).
 
 **2026-08-17**
 

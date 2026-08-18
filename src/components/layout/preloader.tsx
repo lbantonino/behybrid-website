@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { markPreloaderPlayed } from "@/lib/preloader-state";
 
 const TRACK_WIDTH = 260; // px
 const RUNNER_WIDTH = 30; // px
@@ -52,7 +53,10 @@ export function Preloader() {
       });
     }, dur + 120);
 
-    const doneTimer = setTimeout(() => setHidden(true), dur + 680);
+    const doneTimer = setTimeout(() => {
+      markPreloaderPlayed(); // les entrées du hero n'ont plus à l'attendre
+      setHidden(true);
+    }, dur + 680);
 
     return () => {
       clearTimeout(fadeTimer);

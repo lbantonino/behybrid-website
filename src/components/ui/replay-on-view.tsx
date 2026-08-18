@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { hasPreloaderPlayed } from '@/lib/preloader-state';
 
 /**
  * Rejoue l'animation CSS de son contenu à chaque fois qu'il revient à l'écran,
@@ -53,6 +54,11 @@ export function ReplayOnView({
     return () => observer.disconnect();
   }, []);
 
+  // Le délai long ne sert qu'à laisser passer l'écran de chargement. Dès qu'il
+  // a été joué, ou lors d'un retour depuis une autre page, on démarre tout de
+  // suite : la durée ressentie est ainsi la même dans les deux cas.
+  const isFirstEntrance = plays <= 1 && !hasPreloaderPlayed();
+
   return (
     <div ref={ref} className={className}>
       <div
@@ -60,7 +66,7 @@ export function ReplayOnView({
         className="h-full"
         style={
           {
-            '--enter-delay': `${plays <= 1 ? initialDelay : delay}ms`,
+            '--enter-delay': `${isFirstEntrance ? initialDelay : delay}ms`,
           } as CSSProperties
         }
       >

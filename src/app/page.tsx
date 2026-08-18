@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,7 @@ import {
   Shirt,
   CalendarCheck,
   Percent,
+  ArrowRight,
 } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { ScrollCue } from '@/components/layout/scroll-cue';
@@ -104,6 +106,19 @@ function CardMark({
     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/12 md:h-12 md:w-12 md:rounded-xl">
       <Icon className="h-[17px] w-[17px] text-accent md:h-[22px] md:w-[22px]" />
     </div>
+  );
+}
+
+/** Icône des avantages membres (desktop) : carré plein teinté accent. */
+function BenefitMark({
+  icon: Icon,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/12">
+      <Icon className="h-4 w-4 text-accent" />
+    </span>
   );
 }
 
@@ -558,43 +573,99 @@ export default function Home() {
 
       <div id="become-a-member" aria-hidden className="scroll-mt-20" />
 
-      <Container className="py-14 md:py-18">
-        <h2 className="font-display text-h2 font-black uppercase md:text-h1">
-          How To Become A Member
-        </h2>
-        <p className="mb-7 font-display text-body-sm font-bold uppercase text-faint md:mb-9 md:-mt-2 md:text-[18px] md:leading-none">
-          And What Do I Get?
-        </p>
-
-        <div className="md:grid md:grid-cols-2 md:gap-16">
-          <div className="mb-8 grid grid-cols-2 gap-5 md:mb-0 md:gap-x-10 md:gap-y-9">
-            {MEMBER_STEPS.map((step) => (
-              <div key={step.number}>
-                <p className="mb-2 font-display text-body-sm font-extrabold text-accent md:mb-1 md:text-h3 md:leading-none">
-                  {step.number}
-                </p>
-                <p className="mb-1 font-display text-body font-bold uppercase md:mb-1 md:text-h3 md:leading-none">
-                  {step.title}
-                </p>
-                <p className="text-label leading-snug text-muted md:text-body-sm">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-4.5 rounded-xl border border-line p-6 md:grid md:grid-flow-col md:grid-rows-3 md:gap-x-8 md:gap-y-5 md:rounded-xl md:p-8">
-            {MEMBER_BENEFITS.map((benefit) => (
-              <div key={benefit.label} className="flex items-center gap-3">
-                <CheckMark icon={benefit.icon} />
-                <span className="text-body-sm text-ink md:text-body-sm">
-                  {benefit.label}
-                </span>
-              </div>
-            ))}
-          </div>
+      <section className="relative py-14 md:flex md:h-[calc(100vh-5rem)] md:flex-col md:justify-center md:overflow-hidden md:py-0">
+        {/* Halos verts diffus (desktop) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 hidden md:block"
+        >
+          <div className="absolute -right-24 -top-32 h-[620px] w-[620px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.14),transparent_68%)] blur-3xl" />
+          <div className="absolute -bottom-40 left-1/4 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.10),transparent_68%)] blur-3xl" />
         </div>
-      </Container>
+
+        <Container className="relative">
+          <Reveal from="left">
+            <div className="mb-4 hidden items-center gap-3.5 md:flex">
+              <span className="h-px w-8 bg-accent" />
+              <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-accent">
+                Join The Club
+              </span>
+            </div>
+
+            <h2 className="font-display text-h2 font-black uppercase tracking-[-0.02em] md:text-[70px] md:leading-[0.9]">
+              <span className="md:hidden">How To Become A Member</span>
+              <span className="hidden md:inline">Become A Member</span>
+            </h2>
+
+            <p className="mb-7 font-display text-body-sm font-bold uppercase text-faint md:mb-0 md:mt-4 md:text-label md:tracking-[2.5px]">
+              <span className="hidden md:inline">In Four Steps · </span>And What
+              Do I Get?
+            </p>
+          </Reveal>
+
+          {/* Les quatre étapes, en rangée avec des flèches en desktop */}
+          <Reveal from="left" delay={150}>
+            <div className="mb-8 grid grid-cols-2 gap-5 md:mb-0 md:mt-20 md:flex md:items-start md:gap-6">
+              {MEMBER_STEPS.map((step, index) => (
+                <Fragment key={step.number}>
+                  <div className="md:flex-1">
+                    <p className="mb-2 font-display text-body-sm font-extrabold text-accent md:mb-2 md:text-[30px] md:leading-none">
+                      {step.number}
+                    </p>
+                    <p className="mb-1 font-display text-body font-bold uppercase md:mb-2 md:text-[18px] md:font-black md:leading-none">
+                      {step.title}
+                    </p>
+                    <p className="text-label leading-snug text-muted md:text-[12px]">
+                      {step.description}
+                    </p>
+                  </div>
+                  {index < MEMBER_STEPS.length - 1 && (
+                    <ArrowRight
+                      aria-hidden
+                      className="hidden h-5 w-5 shrink-0 text-accent md:mt-[46px] md:block"
+                    />
+                  )}
+                </Fragment>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Panneau des avantages, avec sa pastille à cheval sur la bordure */}
+          <Reveal from="right" duration={4000} className="md:mt-24">
+            <TiltCard className="relative flex flex-col gap-4.5 rounded-xl border border-line p-6 md:mx-auto md:grid md:max-w-[900px] md:grid-cols-3 md:grid-rows-2 md:gap-x-10 md:gap-y-8 md:rounded-3xl md:bg-bg-alt md:p-12">
+              <span className="absolute -top-3.5 left-1/2 hidden -translate-x-1/2 md:block">
+                <Badge variant="accent" uppercase className="tracking-[2px]">
+                  What You Get
+                </Badge>
+              </span>
+
+              {MEMBER_BENEFITS.map((benefit) => (
+                <div
+                  key={benefit.label}
+                  className="tilt-layer flex items-center gap-3"
+                >
+                  <span className="md:hidden">
+                    <CheckMark icon={benefit.icon} />
+                  </span>
+                  <span className="hidden md:block">
+                    <BenefitMark icon={benefit.icon} />
+                  </span>
+                  <span className="text-body-sm text-ink md:font-bold">
+                    {benefit.label}
+                  </span>
+                </div>
+              ))}
+            </TiltCard>
+          </Reveal>
+        </Container>
+
+        {/* Indicateur de défilement (desktop) */}
+        <div className="absolute bottom-8 right-8 z-20 hidden md:block">
+          <ScrollCue targetId="gallery" />
+        </div>
+      </section>
+
+      <div id="gallery" aria-hidden className="scroll-mt-20" />
 
       <section className="grid grid-cols-1 gap-0.5 md:grid-cols-3 md:gap-0">
         {['gallery-1.png', 'gallery-2.png', 'gallery-3.png'].map((file) => (
