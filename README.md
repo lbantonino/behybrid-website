@@ -196,7 +196,9 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 
 ### Prochaine étape
 
-**Finir la version mobile de "Become A Member"** : la structure est en place, mais les libellés de la carte des avantages sont descendus à 8px sur iPhone standard pour tenir sur une ligne, ce qui est trop petit. Deux pistes notées : passer la carte sur une seule colonne en mobile, ou réduire l'icône et resserrer la gouttière. Ensuite, la galerie photos et le bas de l'accueil. Ensuite : mettre à jour la page `/style-guide` avec la nouvelle typo Archivo, avant d'attaquer la page `/join-us`.
+**Réajuster les quatre blocs de "What's BEHYBRID" en mobile** (point d'arrêt du 18/08) : ils viennent de passer d'une grille 2x2 à un empilement de rectangles horizontaux (icône à gauche, texte à droite), avec hauteurs égales et textes remontés à 17 / 15px. Le rythme reste à affiner.
+
+Puis **revoir la version mobile de "Become A Member"** : la structure est en place et les libellés de la carte des avantages sont désormais empilés en une colonne, lisibles. Restent le rythme vertical et les derniers ajustements. Ensuite, la galerie photos et le bas de l'accueil, puis la page `/style-guide` à mettre à jour avec la typo Archivo, avant d'attaquer `/join-us`.
 
 ### Reste à faire (vue d'ensemble)
 
@@ -211,6 +213,14 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-18 (suite)**
+
+- **Doctrine mobile arrêtée** : la lisibilité prime sur le "tout doit tenir dans un écran". Plancher à 13px, 15 à 16px pour un texte qu'on veut vraiment lire, et le scroll sur mobile n'est pas considéré comme un défaut. Plusieurs textes descendus trop bas pour tenir dans l'écran ont été remontés en conséquence.
+- **Carte des avantages de "Become A Member" en une colonne sur mobile** : les six libellés étaient tombés à 8px pour tenir sur une ligne en deux colonnes. Empilés, ils disposent de 270px au lieu de 110 et remontent à 13px (14 sur Pro Max). Descriptions des quatre étapes portées à 16px.
+- **Les quatre blocs de "What's BEHYBRID" repensés en mobile** : passage d'une grille 2x2 à un empilement de rectangles horizontaux (icône à gauche, texte à droite), hauteurs égales via `auto-rows-fr`, titres à 17px et descriptions à 15px. Motif : une colonne de 165px imposait des lignes de trois mots et un texte à 11px. Le numéro d'index est masqué en mobile, faute de place dans la rangée.
+- **Écarts garantis entre les blocs** de la section (32px, 40px sur Pro Max) : ils étaient répartis par l'espace disponible, donc collés les uns aux autres dès que le contenu dépassait la hauteur d'écran.
+- **Ajustements par taille d'iPhone** via `phone-lg` : carte "Next Run" du hero recentrée et redimensionnée, cartes de "How We Move" agrandies, bloc étapes + avantages centré verticalement sur Pro Max.
 
 **2026-08-18**
 

@@ -329,7 +329,7 @@ export default function Home() {
         </Container>
 
         <Container className="relative flex flex-1 items-stretch pb-8 pt-9 text-center phone-lg:pb-14 md:items-center md:pb-0 md:pt-0 md:text-left">
-          <div className="flex w-full flex-col justify-between md:grid md:grid-cols-2 md:items-center md:gap-16">
+          <div className="flex w-full flex-col justify-between gap-8 phone-lg:gap-10 md:grid md:grid-cols-2 md:items-center md:gap-16">
             <Reveal
               from="left"
               className="mx-auto max-w-[900px] md:mx-0 md:max-w-none"
@@ -395,7 +395,7 @@ export default function Home() {
             </Reveal>
 
             {/* Features : cartes numérotées */}
-            <div className="grid grid-cols-2 gap-3 md:gap-6">
+            <div className="grid auto-rows-fr grid-cols-1 gap-4 phone-lg:gap-5 md:auto-rows-auto md:grid-cols-2 md:gap-6">
               {FEATURES.map((feature, index) => (
                 <Reveal
                   key={feature.title}
@@ -403,18 +403,18 @@ export default function Home() {
                   duration={4000}
                   delay={index * 120}
                 >
-                  <TiltCard className="relative flex h-[21svh] max-h-[220px] min-h-[120px] flex-col rounded-2xl border border-line bg-bg-alt p-4 text-left md:h-[31vh] md:max-h-[330px] md:min-h-[200px] md:p-7">
+                  <TiltCard className="relative flex flex-row items-center gap-4 rounded-2xl border border-line bg-bg-alt p-5 text-left md:h-[31vh] md:max-h-[330px] md:min-h-[200px] md:flex-col md:items-stretch md:gap-0 md:p-7">
                     <div className="tilt-layer-deep flex items-start justify-between">
                       <CardMark icon={feature.icon} />
-                      <span className="font-display text-[22px] font-black leading-none text-white/10 md:text-[30px]">
+                      <span className="hidden font-display text-[22px] font-black leading-none text-white/10 md:block md:text-[30px]">
                         {String(index + 1).padStart(2, '0')}
                       </span>
                     </div>
-                    <div className="tilt-layer mt-auto">
-                      <p className="font-display text-[15px] font-black uppercase leading-[1.1] md:text-h3">
+                    <div className="tilt-layer flex-1 md:mt-auto md:flex-none">
+                      <p className="font-display text-[17px] font-black uppercase leading-[1.1] md:text-h3">
                         {feature.title}
                       </p>
-                      <p className="mt-1.5 text-[11px] leading-[1.45] text-muted md:mt-2.5 md:text-body-sm md:leading-[1.6]">
+                      <p className="mt-1.5 text-[15px] leading-[1.45] text-muted md:mt-2.5 md:text-body-sm md:leading-[1.6]">
                         {feature.description[0]} {feature.description[1]}
                       </p>
                     </div>
@@ -588,8 +588,8 @@ export default function Home() {
         </Container>
 
         {/* Étapes et avantages */}
-        <Container className="relative flex flex-1 flex-col pb-8 pt-8 phone-lg:pb-12 md:justify-center md:pb-0 md:pt-0">
-          <div className="flex flex-1 flex-col justify-between md:grid md:w-full md:flex-none md:grid-cols-2 md:items-stretch md:gap-16">
+        <Container className="relative flex flex-1 flex-col pb-8 pt-8 phone-lg:justify-center phone-lg:pb-12 md:justify-center md:pb-0 md:pt-0">
+          <div className="flex flex-1 flex-col justify-between phone-lg:flex-none md:grid md:w-full md:flex-none md:grid-cols-2 md:items-stretch md:gap-16">
             <div className="md:flex md:items-center">
               {/* Fil vertical numéroté, révélé une étape après l'autre */}
               <div className="relative w-full">
@@ -604,7 +604,7 @@ export default function Home() {
                       key={step.number}
                       from="left"
                       delay={150 + index * 220}
-                      className={`relative flex gap-3 md:gap-4 ${isLast ? '' : 'mb-6 md:mb-11'}`}
+                      className={`relative flex gap-3 md:gap-4 ${isLast ? '' : 'mb-5 phone-lg:mb-6 md:mb-11'}`}
                     >
                       <span
                         className={`relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent font-display text-[12px] font-black text-bg md:h-9 md:w-9 md:text-[15px] ${
@@ -623,7 +623,7 @@ export default function Home() {
                         >
                           {step.title}
                         </p>
-                        <p className="mt-1.5 text-[12px] leading-snug text-muted md:mt-2 md:text-[15px]">
+                        <p className="mt-1.5 text-[16px] leading-snug text-muted md:mt-2 md:text-[15px]">
                           {step.description}
                         </p>
                       </div>
@@ -639,7 +639,7 @@ export default function Home() {
               duration={4000}
               className="mt-7 md:mt-0 md:h-full"
             >
-              <TiltCard className="relative rounded-2xl border border-line bg-bg-alt p-5 phone-lg:p-6 md:flex md:h-full md:flex-col md:rounded-3xl md:px-9 md:py-10">
+              <TiltCard className="relative rounded-2xl border border-line bg-bg-alt px-5 py-[25px] phone-lg:px-6 phone-lg:py-[34px] md:flex md:h-full md:flex-col md:rounded-3xl md:px-9 md:py-10">
                 {/* En-tête de carte, même motif que les en-têtes de section */}
                 <div className="tilt-layer mb-3.5 flex items-center gap-2.5 md:mb-9 md:gap-3.5">
                   <span className="h-px w-5 bg-accent md:w-8" />
@@ -648,14 +648,14 @@ export default function Home() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-x-3 gap-y-3.5 md:flex-1 md:auto-rows-fr md:items-center md:gap-x-8 md:gap-y-0">
+                <div className="grid grid-cols-1 gap-y-4 md:flex-1 md:auto-rows-fr md:grid-cols-2 md:items-center md:gap-x-8 md:gap-y-0">
                   {MEMBER_BENEFITS.map((benefit) => (
                     <div
                       key={benefit.label}
                       className="tilt-layer flex items-center gap-2 md:gap-4"
                     >
                       <BenefitMark icon={benefit.icon} />
-                      <span className="text-[8px] font-bold leading-tight text-ink phone-lg:text-[11px] md:text-[12px]">
+                      <span className="text-[13px] font-bold leading-tight text-ink phone-lg:text-[14px] md:text-[12px]">
                         {benefit.label}
                       </span>
                     </div>
