@@ -45,6 +45,7 @@ Légende : ✅ en place · 🚧 en cours · ⬜ à venir
 - ✅ **Calendrier** des entraînements et sorties
 - ✅ **Header, footer et navigation** partagés sur tout le site
 - ✅ **Identité visuelle** intégrée (logos, photos, polices Archivo + Montserrat)
+- ✅ **Design system documenté** sur la page interne `/style-guide`
 - ✅ **Formulaire newsletter** (interface prête)
 - ⬜ **Page "Rejoindre"** (`/join-us`), parcours d'entrée dans la communauté
 
@@ -180,7 +181,7 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-18**
+**Dernière mise à jour : 2026-08-20**
 
 ### Où on en est
 
@@ -196,9 +197,9 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 
 ### Prochaine étape
 
-**Réajuster les quatre blocs de "What's BEHYBRID" en mobile** (point d'arrêt du 18/08) : ils viennent de passer d'une grille 2x2 à un empilement de rectangles horizontaux (icône à gauche, texte à droite), avec hauteurs égales et textes remontés à 17 / 15px. Le rythme reste à affiner.
+**La galerie photos et le bas de l'accueil**, jamais retravaillés depuis la refonte : ce sont les derniers blocs de la page d'accueil. Ensuite, la page `/join-us`, puis le back (authentification Supabase, boutique Stripe, espace admin).
 
-Puis **revoir la version mobile de "Become A Member"** : la structure est en place et les libellés de la carte des avantages sont désormais empilés en une colonne, lisibles. Restent le rythme vertical et les derniers ajustements. Ensuite, la galerie photos et le bas de l'accueil, puis la page `/style-guide` à mettre à jour avec la typo Archivo, avant d'attaquer `/join-us`.
+Restent aussi quelques finitions mobiles sur les sections déjà faites, à traiter au fil de l'eau.
 
 ### Reste à faire (vue d'ensemble)
 
@@ -213,6 +214,13 @@ Puis **revoir la version mobile de "Become A Member"** : la structure est en pla
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-20**
+
+- **Page `/style-guide` remise à jour.** Elle était non seulement obsolète mais cassée : la section spécimen chargeait des fichiers `AkzidenzGroteskPro-*.woff2` supprimés lors du passage à Archivo, et affichait donc quinze échantillons dans une police de repli. Remplacée par les neuf graisses d'Archivo et l'accent Montserrat Black.
+- Le texte sur la typographie annonçait deux familles distinctes, alors que `font-display` et `font-sans` pointent aujourd'hui vers la même police : la distinction n'est plus qu'une convention d'usage, c'est désormais écrit.
+- **Ajouts au style guide** : tailles d'affichage hors échelle (titres à 70px en desktop, 40 à 42px en mobile), échelle des rayons portée de deux à cinq entrées, points de rupture (`base`, `phone-lg`, `md`) avec leurs plages, les trois variantes de `Badge` sur trois tailles, les pastilles, et une section Mouvement documentant `Reveal`, `ReplayOnView`, `TiltCard` et le bandeau défilant, avec une carte de démonstration survolable.
+- **Finitions mobiles** : descriptions des quatre blocs de "What's BEHYBRID" à 17px sur Pro Max, pastilles des cartes de "How We Move" alignées bord à bord dans la carte, et dans "Become A Member" les étapes et la carte des avantages centrées horizontalement tout en gardant leurs textes alignés à gauche.
 
 **2026-08-18 (suite)**
 

@@ -134,7 +134,7 @@ function Tag({
   };
   return (
     <span
-      className={`rounded-full border px-2.5 py-1 font-display text-[8px] font-extrabold uppercase tracking-[1px] md:px-4 md:py-2 md:text-[11px] md:tracking-[1.5px] ${tones[tone]}`}
+      className={`rounded-full border px-2.5 py-1 font-display text-[9px] font-extrabold uppercase tracking-[1px] phone-lg:text-[10px] md:px-4 md:py-2 md:text-[11px] md:tracking-[1.5px] ${tones[tone]}`}
     >
       {children}
     </span>
@@ -414,7 +414,7 @@ export default function Home() {
                       <p className="font-display text-[17px] font-black uppercase leading-[1.1] md:text-h3">
                         {feature.title}
                       </p>
-                      <p className="mt-1.5 text-[15px] leading-[1.45] text-muted md:mt-2.5 md:text-body-sm md:leading-[1.6]">
+                      <p className="mt-1.5 text-[15px] leading-[1.45] text-muted phone-lg:text-[17px] md:mt-2.5 md:text-body-sm md:leading-[1.6]">
                         {feature.description[0]} {feature.description[1]}
                       </p>
                     </div>
@@ -504,7 +504,7 @@ export default function Home() {
                   Threshold efforts, VO₂ max intervals, race-specific workouts.
                   Coach-led track sessions designed to push your limits.
                 </p>
-                <div className="mt-auto flex flex-wrap gap-2 pt-3.5 md:mt-8 md:pt-0 md:gap-3">
+                <div className="mt-auto flex flex-wrap justify-between gap-2 pt-3.5 md:mt-8 md:justify-start md:pt-0 md:gap-3">
                   {PERFORM_TAGS.map((tag) => (
                     <Tag key={tag} tone="accent">
                       {tag}
@@ -531,7 +531,7 @@ export default function Home() {
                   The run that brings people together. Easy-paced group runs to
                   create meaningful connections.
                 </p>
-                <div className="mt-auto flex flex-wrap gap-2 pt-3.5 md:mt-8 md:pt-0 md:gap-3">
+                <div className="mt-auto flex flex-wrap justify-between gap-2 pt-3.5 md:mt-8 md:justify-start md:pt-0 md:gap-3">
                   {CONNECT_TAGS.map((tag) => (
                     <Tag key={tag} tone="neutral">
                       {tag}
@@ -592,7 +592,7 @@ export default function Home() {
           <div className="flex flex-1 flex-col justify-between phone-lg:flex-none md:grid md:w-full md:flex-none md:grid-cols-2 md:items-stretch md:gap-16">
             <div className="md:flex md:items-center">
               {/* Fil vertical numéroté, révélé une étape après l'autre */}
-              <div className="relative w-full">
+              <div className="relative mx-auto w-fit max-w-full md:w-full">
                 <span
                   aria-hidden
                   className="absolute bottom-3 left-[13px] top-3 w-px bg-accent/40 md:left-[17px]"
@@ -641,14 +641,14 @@ export default function Home() {
             >
               <TiltCard className="relative rounded-2xl border border-line bg-bg-alt px-5 py-[25px] phone-lg:px-6 phone-lg:py-[34px] md:flex md:h-full md:flex-col md:rounded-3xl md:px-9 md:py-10">
                 {/* En-tête de carte, même motif que les en-têtes de section */}
-                <div className="tilt-layer mb-3.5 flex items-center gap-2.5 md:mb-9 md:gap-3.5">
+                <div className="tilt-layer mb-3.5 flex items-center justify-center gap-2.5 md:mb-9 md:justify-start md:gap-3.5">
                   <span className="h-px w-5 bg-accent md:w-8" />
                   <span className="font-display text-[9px] font-bold uppercase tracking-[2px] text-accent md:text-label md:tracking-[2.5px]">
                     What You Get As A Member
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-y-4 md:flex-1 md:auto-rows-fr md:grid-cols-2 md:items-center md:gap-x-8 md:gap-y-0">
+                <div className="mx-auto grid w-fit max-w-full grid-cols-1 gap-y-4 md:mx-0 md:w-auto md:flex-1 md:auto-rows-fr md:grid-cols-2 md:items-center md:gap-x-8 md:gap-y-0">
                   {MEMBER_BENEFITS.map((benefit) => (
                     <div
                       key={benefit.label}
