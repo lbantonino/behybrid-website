@@ -2,12 +2,14 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
-type Direction = 'left' | 'right' | 'up';
+type Direction = 'left' | 'right' | 'up' | 'right-phone';
 
 const FROM_CLASS: Record<Direction, string> = {
   left: 'reveal-from-left',
   right: 'reveal-from-right',
   up: 'reveal-from-up',
+  // Arrive de la droite sur téléphone, de la gauche en desktop
+  'right-phone': 'reveal-from-right-phone',
 };
 
 /**
@@ -25,7 +27,7 @@ export function Reveal({
   children,
   className = '',
   from = 'up',
-  delay = 0,
+  delay,
   duration = 3000,
 }: {
   children: ReactNode;
@@ -58,7 +60,7 @@ export function Reveal({
       ref={ref}
       className={`reveal ${FROM_CLASS[from]} ${shown ? 'reveal-shown' : ''} ${className}`}
       style={{
-        transitionDelay: `${delay}ms`,
+        ...(delay === undefined ? {} : { transitionDelay: `${delay}ms` }),
         transitionDuration: `${duration}ms`,
       }}
     >

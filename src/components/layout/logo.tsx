@@ -1,9 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function Logo({ className = "" }: { className?: string }) {
+export function Logo({
+  className = "",
+  onClick,
+}: {
+  className?: string;
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+}) {
   return (
-    <Link href="/" aria-label="BEHYBRID — retour à l'accueil" className={className}>
+    <Link
+      href="/"
+      aria-label="BEHYBRID — retour à l'accueil"
+      className={className}
+      onClick={onClick}
+    >
       <Image
         src="/logo/behybrid-logo-header-menu.png"
         alt="BEHYBRID"

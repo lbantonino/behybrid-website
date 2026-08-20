@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { ScrollButton } from '@/components/ui/scroll-button';
 import { Badge } from '@/components/ui/badge';
 import {
   Users,
@@ -62,6 +63,30 @@ const MOVE_MARQUEE_ITEMS = [
   'Free To Test',
 ];
 
+/**
+ * Galerie de bas de page. En desktop les photos arrivent toutes par la gauche,
+ * en commençant par celle de droite ; en mobile elles sont empilées et
+ * alternent gauche, droite, gauche. D'où les délais inversés entre les deux
+ * formats, posés en classes pour pouvoir varier au point de rupture.
+ */
+const GALLERY = [
+  {
+    file: 'gallery-1.png',
+    from: 'left' as const,
+    delay: 'delay-[0ms] md:delay-[600ms]',
+  },
+  {
+    file: 'gallery-2.png',
+    from: 'right-phone' as const,
+    delay: 'delay-[300ms]',
+  },
+  {
+    file: 'gallery-3.png',
+    from: 'left' as const,
+    delay: 'delay-[600ms] md:delay-[0ms]',
+  },
+];
+
 const MEMBER_STEPS = [
   {
     number: '01',
@@ -81,7 +106,7 @@ const MEMBER_STEPS = [
   {
     number: '04',
     title: 'Become A Member',
-    description: 'Sign up and forge your legend.',
+    description: 'Tell the coach and you are in.',
   },
 ];
 
@@ -230,14 +255,14 @@ export default function Home() {
               </p>
 
               <div className="mt-1 flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center md:gap-3.5">
-                <Button
-                  href="/join-us"
+                <ScrollButton
+                  targetId="become-a-member"
                   variant="primary"
                   size="lg"
                   className="w-full text-[16px] font-extrabold md:w-auto"
                 >
                   Join The Club →
-                </Button>
+                </ScrollButton>
                 <Button
                   href="/calendar"
                   variant="ghost"
@@ -257,44 +282,50 @@ export default function Home() {
             initialDelay={2500}
             className="w-full flex-1 max-h-[430px] phone-lg:flex-none md:max-h-none md:w-[400px] md:flex-none md:shrink-0"
           >
-            <TiltCard className="tilt-card--flat relative flex h-full w-full flex-col rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md phone-lg:p-8 [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:p-7">
-              <div className="flex h-full flex-col justify-between md:block">
-                <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent phone-lg:text-[14px]">
-                  → Next Run
-                </p>
-                <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink phone-lg:text-[18px] md:mt-4 md:text-[28px]">
-                  Wednesday <span className="md:hidden">-</span>{' '}
-                  <br className="hidden md:block" /> 12/08 - 19:00
-                </p>
-                <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80 phone-lg:text-[15px]">
-                  Parc du Cinquantenaire
-                </p>
-
-                <div className="my-2 h-px w-full bg-white/15 phone-lg:my-5 md:my-6" />
-
-                <div className="flex items-end justify-between">
-                  <p className="font-display text-[15px] font-extrabold uppercase text-ink phone-lg:text-[17px] md:text-[21px]">
-                    Workout :
+            <Link
+              href="/calendar#event-28-oct"
+              aria-label="Voir le run du 28 octobre dans le calendrier"
+              className="block h-full"
+            >
+              <TiltCard className="tilt-card--flat relative flex h-full w-full flex-col rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md phone-lg:p-8 [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:p-7">
+                <div className="flex h-full flex-col justify-between md:block">
+                  <p className="font-display text-[12px] font-extrabold uppercase tracking-[2px] text-accent phone-lg:text-[14px]">
+                    → Next Run
+                  </p>
+                  <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink phone-lg:text-[18px] md:mt-4 md:text-[28px]">
+                    Wednesday <span className="md:hidden">-</span>{' '}
+                    <br className="hidden md:block" /> 28/10 - 19:00
+                  </p>
+                  <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80 phone-lg:text-[15px]">
+                    Parc du Cinquantenaire
                   </p>
 
-                  {/* Visible uniquement sur mobile */}
-                  <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted phone-lg:text-[12px] md:hidden">
+                  <div className="my-2 h-px w-full bg-white/15 phone-lg:my-5 md:my-6" />
+
+                  <div className="flex items-end justify-between">
+                    <p className="font-display text-[15px] font-extrabold uppercase text-ink phone-lg:text-[17px] md:text-[21px]">
+                      Workout :
+                    </p>
+
+                    {/* Visible uniquement sur mobile */}
+                    <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted phone-lg:text-[12px] md:hidden">
+                      For All Levels
+                    </p>
+                  </div>
+
+                  <div className="flex items-end justify-between">
+                    <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 phone-lg:text-[14px] md:text-[16px]">
+                      4x 5min @treshold
+                    </p>
+                  </div>
+
+                  {/* Visible uniquement sur desktop */}
+                  <p className="mt-6 hidden font-display text-[11px] font-normal uppercase tracking-[1.5px] text-muted md:block">
                     For All Levels
                   </p>
                 </div>
-
-                <div className="flex items-end justify-between">
-                  <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 phone-lg:text-[14px] md:text-[16px]">
-                    4x 5min @treshold
-                  </p>
-                </div>
-
-                {/* Visible uniquement sur desktop */}
-                <p className="mt-6 hidden font-display text-[11px] font-normal uppercase tracking-[1.5px] text-muted md:block">
-                  For All Levels
-                </p>
-              </div>
-            </TiltCard>
+              </TiltCard>
+            </Link>
           </ReplayOnView>
         </Container>
 
@@ -675,16 +706,20 @@ export default function Home() {
       <div id="gallery" aria-hidden className="scroll-mt-20" />
 
       <section className="grid grid-cols-1 gap-0.5 md:grid-cols-3 md:gap-0">
-        {['gallery-1.png', 'gallery-2.png', 'gallery-3.png'].map((file) => (
-          <div key={file} className="relative h-[160px] w-full md:h-[340px]">
+        {GALLERY.map((photo) => (
+          <Reveal
+            key={photo.file}
+            from={photo.from}
+            className={`relative h-[160px] w-full md:h-[340px] ${photo.delay}`}
+          >
             <Image
-              src={`/photos/${file}`}
+              src={`/photos/${photo.file}`}
               alt="Photo du club BEHYBRID"
               fill
               sizes="(min-width: 860px) 33vw, 100vw"
               className="object-cover"
             />
-          </div>
+          </Reveal>
         ))}
       </section>
     </>

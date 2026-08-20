@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Logo } from './logo';
+import { smoothScrollToTop } from '@/lib/smooth-scroll';
 import { NAV_LINKS } from '@/lib/nav-links';
 import { NavMenuLink, LogInLink, SignUpButton, AccountLink } from './nav-items';
 
@@ -32,18 +33,13 @@ export function SiteHeader() {
   const handleNavClick = (href: string) => (event: React.MouseEvent) => {
     if (pathname !== href) return;
     event.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        ? 'auto'
-        : 'smooth',
-    });
+    smoothScrollToTop();
   };
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg">
       <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
-        <Logo />
+        <Logo onClick={handleNavClick('/')} />
 
         <nav className="hidden items-center gap-8 md:absolute md:left-1/2 md:top-1/2 md:flex md:-translate-x-1/2 md:-translate-y-1/2 md:gap-[60px]">
           {NAV_LINKS.map((link) => (

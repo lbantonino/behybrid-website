@@ -241,6 +241,15 @@ body {
 .reveal-from-up {
   translate: 0 24px;
 }
+/* Arrive de la droite sur téléphone, de la gauche en desktop */
+.reveal-from-right-phone {
+  translate: 48px 0;
+}
+@media (min-width: 860px) {
+  .reveal-from-right-phone {
+    translate: -48px 0;
+  }
+}
 .reveal-shown {
   opacity: 1;
   translate: none;
@@ -252,6 +261,15 @@ body {
     translate: none;
     transition: none;
   }
+}
+
+/*
+  Événement du calendrier visé par une ancre (ex. /calendar#event-28-oct) :
+  il reste souligné tant qu'il est la cible, sans une ligne de JavaScript.
+*/
+.event-row:target {
+  background: rgba(201, 241, 51, 0.07);
+  box-shadow: inset 3px 0 0 var(--color-accent);
 }
 
 /*

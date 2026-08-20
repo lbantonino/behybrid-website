@@ -1,18 +1,10 @@
 "use client";
 
 import { ArrowDown } from "lucide-react";
+import { smoothScrollTo } from "@/lib/smooth-scroll";
 
-/**
- * Indicateur de défilement en bas de section (desktop) : un rond avec une
- * flèche vers le bas qui scrolle en douceur vers la section suivante au clic.
- * `targetId` est l'ancre visée, par défaut celle qui suit le hero.
- */
 export function ScrollCue({ targetId = "after-hero" }: { targetId?: string }) {
-  const handleClick = () => {
-    document
-      .getElementById(targetId)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const handleClick = () => smoothScrollTo(targetId);
 
   return (
     <button

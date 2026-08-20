@@ -14,25 +14,24 @@ type CalendarEvent = {
 };
 
 const EVENTS: CalendarEvent[] = [
-  { date: "1 JUL", day: "WED", title: "Hard Run 1-1", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
-  { date: "8 JUL", day: "WED", title: "Threshold Intervals", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
-  { date: "12 JUL", day: "SUN", title: "Long Run", time: "10:00 · Bois de la Cambre", tag: "CONNECT" },
-  { date: "15 JUL", day: "WED", title: "Hard Run 1-1", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
-  { date: "22 JUL", day: "WED", title: "Threshold Intervals", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
-  { date: "26 JUL", day: "SUN", title: "Long Run", time: "10:00 · Parc Royal", tag: "CONNECT" },
-  { date: "29 JUL", day: "WED", title: "Threshold Intervals", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
+  { date: "7 OCT", day: "WED", title: "Hard Run 1-1", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
+  { date: "11 OCT", day: "SUN", title: "Long Run", time: "10:00 · Bois de la Cambre", tag: "CONNECT" },
+  { date: "14 OCT", day: "WED", title: "Threshold Intervals", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
+  { date: "21 OCT", day: "WED", title: "Hard Run 1-1", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
+  { date: "25 OCT", day: "SUN", title: "Long Run", time: "10:00 · Parc Royal", tag: "CONNECT" },
+  { date: "28 OCT", day: "WED", title: "Threshold Intervals", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
 ];
 
 const EVENT_DAYS = new Set(EVENTS.map((event) => Number(event.date.split(" ")[0])));
-const TODAY = 12;
+const TODAY = 26;
 const WEEKDAY_LABELS = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
-// Juillet 2026 commence un mercredi (2 cases vides avant le 1er).
+// Octobre 2026 commence un jeudi (3 cases vides avant le 1er).
 const CALENDAR_CELLS: (number | null)[] = [
-  null, null, 1, 2, 3, 4, 5,
-  6, 7, 8, 9, 10, 11, 12,
-  13, 14, 15, 16, 17, 18, 19,
-  20, 21, 22, 23, 24, 25, 26,
-  27, 28, 29, 30, 31, null, null,
+  null, null, null, 1, 2, 3, 4,
+  5, 6, 7, 8, 9, 10, 11,
+  12, 13, 14, 15, 16, 17, 18,
+  19, 20, 21, 22, 23, 24, 25,
+  26, 27, 28, 29, 30, 31, null,
 ];
 
 function TagPill({ tag }: { tag: EventTag }) {
@@ -50,9 +49,17 @@ function TagPill({ tag }: { tag: EventTag }) {
   );
 }
 
+/** "28 OCT" devient "event-28-oct", l'ancre visée depuis la carte du hero. */
+export function eventAnchor(date: string) {
+  return `event-${date.toLowerCase().replace(" ", "-")}`;
+}
+
 function EventRow({ event }: { event: CalendarEvent }) {
   return (
-    <div className="border-b border-line py-4.5 md:flex md:items-center md:gap-7 md:py-5.5">
+    <div
+      id={eventAnchor(event.date)}
+      className="event-row scroll-mt-24 border-b border-line py-4.5 md:flex md:items-center md:gap-7 md:py-5.5"
+    >
       {/* Mobile */}
       <div className="md:hidden">
         <div className="mb-1 flex items-center gap-2.5">
@@ -115,7 +122,7 @@ export default function CalendarPage() {
           <div className="rounded-xl border border-line p-5 md:p-7">
             <div className="mb-4 flex items-center justify-between md:mb-4.5">
               <p className="font-display text-h3 font-extrabold uppercase md:text-h3">
-                July 2026
+                October 2026
               </p>
               <div className="flex gap-2">
                 <button

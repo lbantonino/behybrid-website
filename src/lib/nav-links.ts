@@ -18,7 +18,7 @@ export const FOOTER_CLUB_LINKS = [
 ];
 
 export const FOOTER_SOCIAL_LINKS = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "TikTok", href: "https://tiktok.com" },
-  { label: "Strava", href: "https://strava.com" },
+  { label: "Instagram", href: "https://www.instagram.com/behybrid.run/" },
+  { label: "TikTok", href: "https://www.tiktok.com/@behybrid.run.club" },
+  { label: "Strava", href: "https://www.strava.com/clubs/1425856" },
 ];
