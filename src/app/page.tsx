@@ -16,6 +16,10 @@ import {
 } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { ScrollCue } from '@/components/layout/scroll-cue';
+import {
+  TeamSlider,
+  type TeamMember,
+} from '@/components/layout/team-slider';
 import { TiltCard } from '@/components/ui/tilt-card';
 import { Reveal } from '@/components/ui/reveal';
 import { ReplayOnView } from '@/components/ui/replay-on-view';
@@ -85,6 +89,39 @@ const GALLERY = [
     from: 'left' as const,
     delay: 'delay-[600ms] md:delay-[0ms]',
   },
+];
+
+/**
+ * Figures du club, affichées une à une. Les photos manquent encore : déposer
+ * les fichiers dans public/photos/ puis renseigner `photo` ci-dessous.
+ */
+const TEAM: TeamMember[] = [
+  {
+    name: 'Gianluca',
+    role: 'Running Coach',
+    tagline: 'Beyond the limits. Go further. Together.',
+  },
+  {
+    name: 'Antonino',
+    role: 'Runner & Digital Producer',
+    // TODO: phrase à écrire par Antonino, celle-ci est un simple repère.
+    tagline: 'The club runs on the road, and online.',
+  },
+  {
+    name: 'Emie',
+    role: 'Team Lead · Pacer',
+    tagline: 'The Mastermind.',
+  },
+  {
+    name: 'Clara',
+    role: 'Manager',
+    tagline: 'Decision-maker.',
+  },
+  // TODO: rôles et phrases à préciser pour les quatre suivants.
+  { name: 'Adrien', role: 'Runner' },
+  { name: 'Olivia', role: 'Runner' },
+  { name: 'Gaëtan', role: 'Runner' },
+  { name: 'André', role: 'Runner' },
 ];
 
 const MEMBER_STEPS = [
@@ -584,6 +621,39 @@ export default function Home() {
 
         {/* Indicateur de défilement, au-dessus du bandeau (desktop) */}
         <div className="absolute bottom-14 right-8 z-20 hidden md:block">
+          <ScrollCue targetId="the-crew" />
+        </div>
+      </section>
+
+      <div id="the-crew" aria-hidden className="scroll-mt-20" />
+
+      <section className="relative flex min-h-[calc(100lvh-5rem)] flex-col overflow-x-clip md:h-[calc(100vh-5rem)] md:min-h-0 md:overflow-hidden">
+        {/* Halos verts diffus */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          <div className="absolute -left-24 -top-24 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.14),transparent_68%)] blur-3xl md:-top-32 md:h-[620px] md:w-[620px]" />
+          <div className="absolute -bottom-24 right-1/4 h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.10),transparent_68%)] blur-3xl md:-bottom-40 md:h-[520px] md:w-[520px]" />
+        </div>
+
+        <Container className="relative pt-7 md:pt-14">
+          <Reveal from="left">
+            <div className="flex items-center gap-2.5 md:gap-3.5">
+              <span className="h-px w-6 bg-accent md:w-8" />
+              <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-accent">
+                Behind The Club
+              </span>
+            </div>
+            <h2 className="mt-9 text-center font-display text-[42px] font-black uppercase leading-[0.92] tracking-[-0.02em] md:mt-4 md:text-left md:text-[70px] md:leading-[0.9]">
+              The Crew
+            </h2>
+          </Reveal>
+        </Container>
+
+        <Container className="relative flex flex-1 items-center pb-10 pt-10 md:pb-0 md:pt-0">
+          <TeamSlider members={TEAM} />
+        </Container>
+
+        {/* Indicateur de défilement (desktop) */}
+        <div className="absolute bottom-8 right-8 z-20 hidden md:block">
           <ScrollCue targetId="become-a-member" />
         </div>
       </section>

@@ -187,7 +187,7 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec un build de production qui passe. Grosse passe de direction artistique : toute la typographie du site est passée à **Archivo** (9 poids) avec **Montserrat Black** en accent, en remplacement d'Akzidenz Grotesk Pro. Le hero de l'accueil a été entièrement repensé (bandeau défilant, titre "PERFORM & CONNECT", carte "NEXT RUN", hauteur plein écran) et enrichi d'animations : écran de chargement "running" (coureur + barre de progression), entrées décalées des blocs, indicateur de scroll, et léger zoom du logo au survol. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile.
 
-**La page d'accueil est terminée, en desktop comme en mobile.** Les quatre sections plein écran (hero, What's BEHYBRID, How We Move, Become A Member), la galerie et le pied de page sont finalisés et ne bougeront plus. Le parcours interne est cohérent : le bouton "Join The Club" ancre vers la section d'inscription, la carte "Next Run" mène au run correspondant dans le calendrier, le logo et les liens du menu ramènent en haut, et tous les déplacements verticaux partagent le même défilement doux de 1,6 seconde.
+**La page d'accueil est terminée, en desktop comme en mobile**, à l'exception de la nouvelle section "The Crew" (voir Prochaine étape). Les quatre sections plein écran (hero, What's BEHYBRID, How We Move, Become A Member), la galerie et le pied de page sont finalisés et ne bougeront plus. Le parcours interne est cohérent : le bouton "Join The Club" ancre vers la section d'inscription, la carte "Next Run" mène au run correspondant dans le calendrier, le logo et les liens du menu ramènent en haut, et tous les déplacements verticaux partagent le même défilement doux de 1,6 seconde.
 
 La section **"Become A Member"** est refondue en desktop : en-tête de section, titre à 70px, sous-titre en une ligne, les quatre étapes sur une rangée séparées par des flèches vertes, et un panneau "What You Get" centré, en 3D, avec sa pastille à cheval sur la bordure et les six avantages en trois colonnes. Son mobile reste à faire.
 
@@ -199,7 +199,13 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 
 ### Prochaine étape
 
-**La page `/calendar`**, jamais retravaillée depuis la refonte de l'accueil. Ensuite, les pages manquantes (`/join-us`, `/shop`, `/login`, `/sign-up` et les trois pages légales), puis le back (authentification Supabase, boutique Stripe, espace admin).
+**Finir la section "The Crew"**, ajoutée le 20/08 et encore incomplète :
+
+- **Les huit photos manquent.** Chaque bulle affiche un emplacement réservé portant le prénom. Déposer les fichiers dans `public/photos/` (carrés, ~600x600px, cadrés sur le visage) puis renseigner le champ `photo` de la fiche correspondante dans la liste `TEAM` de `src/app/page.tsx`.
+- **Rôles et phrases à compléter** pour Adrien, Olivia, Gaëtan et André, provisoirement "Runner" sans accroche. La phrase d'Antonino est un repère à réécrire (marquée `TODO` dans le code).
+- **Le mobile de la section est provisoire**, il n'a pas été travaillé.
+
+Ensuite, **la page `/calendar`**, jamais retravaillée depuis la refonte de l'accueil. Puis les pages manquantes (`/join-us`, `/shop`, `/login`, `/sign-up` et les trois pages légales), et le back (authentification Supabase, boutique Stripe, espace admin).
 
 **À régler avant toute mise en ligne** : six routes du menu et du pied de page renvoient encore une erreur 404, faute de pages existantes.
 
@@ -228,6 +234,8 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 - **Défilement doux réécrit** : `behavior: "smooth"` ne permet pas de régler sa durée et va trop vite pour un site où chaque section fait un écran. Remplacé par une animation manuelle de 1,6 seconde avec courbe d'accélération, interrompue au moindre geste de l'utilisateur. Extraite dans `lib/smooth-scroll.ts` et partagée par les flèches, le bouton du hero, le logo et les liens du menu.
 - **Parcours interne** : "Join The Club" ancre désormais vers la section "Become A Member" via le nouveau composant `ScrollButton` (l'ancre reste dans le `href`, donc le bouton fonctionne sans JavaScript). La carte "Next Run" mène à `/calendar#event-28-oct` : chaque événement du calendrier a son ancre, et celui qui est ciblé se met en évidence en CSS seul, via `:target`.
 - **Contenu** : calendrier basculé de juillet à octobre 2026 (les quatre mercredis Perform, deux dimanches Connect), date du hero alignée sur le run du 28 octobre, et la dernière étape reformulée en "Tell the coach and you are in", plus fidèle au fonctionnement réel du club qu'une inscription en ligne qui n'existe pas.
+- **Nouvelle section "The Crew"**, née de la revue : la page ne montrait aucun visage alors qu'un run club se vend par ses gens. Section plein écran placée entre "How We Move" et "Become A Member", c'est-à-dire là où naît l'objection ("qui mène ces séances, est-ce pour moi ?"), juste avant qu'on demande au visiteur de s'engager. Huit profils défilent un par un toutes les 3 secondes : bulle photo ronde à contour vert, rôle, nom et phrase d'accroche. Flèche droite permanente, flèche gauche à partir du deuxième profil, points de position. Pause au survol, minuteur remis à zéro au clic, et défilement automatique désactivé si le visiteur a demandé de réduire les animations.
+- **Carrousel puis grille puis carrousel** : d'abord une bande courte à quatre profils, remplacée par une grille plein écran (un carrousel cache trois profils sur quatre), puis retour au défilement une fois passé à huit personnes, où tout afficher devenait trop dense.
 - **Revue de design menée sur l'ensemble de la page.** Points traités : parcours de conversion, carte "Next Run" inerte, formulation de la dernière étape. Points écartés en connaissance de cause : pastilles sous 13px (indications secondaires), galerie sans lien (intention assumée), date en dur (provisoire). Points restants, non bloquants : la double numérotation (01-04 décoratifs sur "What's BEHYBRID" contre 1-4 séquentiels sur les étapes) et la hiérarchie titre/description à deux points d'écart.
 
 **2026-08-18 (suite)**
