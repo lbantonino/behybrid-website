@@ -16,10 +16,7 @@ import {
 } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { ScrollCue } from '@/components/layout/scroll-cue';
-import {
-  TeamSlider,
-  type TeamMember,
-} from '@/components/layout/team-slider';
+import { TeamSlider, type TeamMember } from '@/components/layout/team-slider';
 import { TiltCard } from '@/components/ui/tilt-card';
 import { Reveal } from '@/components/ui/reveal';
 import { ReplayOnView } from '@/components/ui/replay-on-view';
@@ -98,30 +95,58 @@ const GALLERY = [
 const TEAM: TeamMember[] = [
   {
     name: 'Gianluca',
-    role: 'Running Coach',
+    role: 'Running Coach & Founder',
     tagline: 'Beyond the limits. Go further. Together.',
+    photo: '/photos/team-gianluca.jpeg',
   },
   {
-    name: 'Antonino',
-    role: 'Runner & Digital Producer',
-    // TODO: phrase à écrire par Antonino, celle-ci est un simple repère.
-    tagline: 'The club runs on the road, and online.',
-  },
-  {
-    name: 'Emie',
-    role: 'Team Lead · Pacer',
-    tagline: 'The Mastermind.',
+    name: 'André',
+    role: 'Merch Master',
+    tagline: 'Older than most, faster than many. And he prints the kit.',
+    photo: '/photos/team-andre.png',
   },
   {
     name: 'Clara',
     role: 'Manager',
-    tagline: 'Decision-maker.',
+    tagline: 'If it happens at BEHYBRID, she said yes first.',
+    photo: '/photos/team-clara.png',
   },
-  // TODO: rôles et phrases à préciser pour les quatre suivants.
-  { name: 'Adrien', role: 'Runner' },
-  { name: 'Olivia', role: 'Runner' },
-  { name: 'Gaëtan', role: 'Runner' },
-  { name: 'André', role: 'Runner' },
+  {
+    name: 'Emie',
+    role: 'Mastermind',
+    tagline: 'Plans every session to the second, and still makes it fun.',
+    photo: '/photos/team-emie.png',
+  },
+  {
+    name: 'Antonino',
+    role: 'Digital Producer',
+    tagline: 'Builds the club online, then chases it down on the road.',
+    photo: '/photos/team-antonino.png',
+  },
+  {
+    name: 'Adrien',
+    role: 'The Treasurer',
+    tagline: 'Counts the money and the kilometres. Both add up.',
+    photo: '/photos/team-adrien.png',
+  },
+  {
+    name: 'Gaëtan',
+    role: 'Digital Producer',
+    tagline: 'Behind the lens, ahead of the pack.',
+    photo: '/photos/team-gaetan.png',
+  },
+  {
+    name: 'Olivia',
+    role: 'The Stylist',
+    tagline: 'Makes sure we look as good as we run.',
+    photo: '/photos/team-olivia.png',
+  },
+  {
+    name: 'Anaïs',
+    role: 'Pacer',
+    tagline: 'Sets the rhythm, keeps the mood. Nobody gets dropped.',
+    photo: '/photos/team-anais.png',
+  },
 ];
 
 const MEMBER_STEPS = [
@@ -628,10 +653,17 @@ export default function Home() {
       <div id="the-crew" aria-hidden className="scroll-mt-20" />
 
       <section className="relative flex min-h-[calc(100lvh-5rem)] flex-col overflow-x-clip md:h-[calc(100vh-5rem)] md:min-h-0 md:overflow-hidden">
-        {/* Halos verts diffus */}
+        {/* Fond propre à cette section : couloirs de piste en diagonale et un
+            seul halo, pour ne pas ressembler aux deux sections voisines. */}
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute -left-24 -top-24 h-[380px] w-[380px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.14),transparent_68%)] blur-3xl md:-top-32 md:h-[620px] md:w-[620px]" />
-          <div className="absolute -bottom-24 right-1/4 h-[320px] w-[320px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.10),transparent_68%)] blur-3xl md:-bottom-40 md:h-[520px] md:w-[520px]" />
+          <div
+            className="absolute inset-0 opacity-60"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(115deg, rgba(255,255,255,0.045) 0px, rgba(255,255,255,0.045) 1px, transparent 1px, transparent 84px)',
+            }}
+          />
+          <div className="absolute -left-24 top-1/4 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(201,241,51,0.13),transparent_66%)] blur-3xl md:h-[680px] md:w-[680px]" />
         </div>
 
         <Container className="relative pt-7 md:pt-14">

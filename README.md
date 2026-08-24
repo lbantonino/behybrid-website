@@ -181,13 +181,13 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-20**
+**Dernière mise à jour : 2026-08-24**
 
 ### Où on en est
 
 Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec un build de production qui passe. Grosse passe de direction artistique : toute la typographie du site est passée à **Archivo** (9 poids) avec **Montserrat Black** en accent, en remplacement d'Akzidenz Grotesk Pro. Le hero de l'accueil a été entièrement repensé (bandeau défilant, titre "PERFORM & CONNECT", carte "NEXT RUN", hauteur plein écran) et enrichi d'animations : écran de chargement "running" (coureur + barre de progression), entrées décalées des blocs, indicateur de scroll, et léger zoom du logo au survol. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile.
 
-**La page d'accueil est terminée, en desktop comme en mobile**, à l'exception de la nouvelle section "The Crew" (voir Prochaine étape). Les quatre sections plein écran (hero, What's BEHYBRID, How We Move, Become A Member), la galerie et le pied de page sont finalisés et ne bougeront plus. Le parcours interne est cohérent : le bouton "Join The Club" ancre vers la section d'inscription, la carte "Next Run" mène au run correspondant dans le calendrier, le logo et les liens du menu ramènent en haut, et tous les déplacements verticaux partagent le même défilement doux de 1,6 seconde.
+**La page d'accueil est terminée, en desktop comme en mobile**, section "The Crew" comprise. Les quatre sections plein écran (hero, What's BEHYBRID, How We Move, Become A Member), la galerie et le pied de page sont finalisés et ne bougeront plus. Le parcours interne est cohérent : le bouton "Join The Club" ancre vers la section d'inscription, la carte "Next Run" mène au run correspondant dans le calendrier, le logo et les liens du menu ramènent en haut, et tous les déplacements verticaux partagent le même défilement doux de 1,6 seconde.
 
 La section **"Become A Member"** est refondue en desktop : en-tête de section, titre à 70px, sous-titre en une ligne, les quatre étapes sur une rangée séparées par des flèches vertes, et un panneau "What You Get" centré, en 3D, avec sa pastille à cheval sur la bordure et les six avantages en trois colonnes. Son mobile reste à faire.
 
@@ -199,15 +199,15 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 
 ### Prochaine étape
 
-**Finir la section "The Crew"**, ajoutée le 20/08 et encore incomplète :
+**La page `/calendar`**, jamais retravaillée depuis la refonte de l'accueil. Puis les pages manquantes (`/join-us`, `/shop`, `/login`, `/sign-up` et les trois pages légales), et le back (authentification Supabase, boutique Stripe, espace admin).
 
-- **Les huit photos manquent.** Chaque bulle affiche un emplacement réservé portant le prénom. Déposer les fichiers dans `public/photos/` (carrés, ~600x600px, cadrés sur le visage) puis renseigner le champ `photo` de la fiche correspondante dans la liste `TEAM` de `src/app/page.tsx`.
-- **Rôles et phrases à compléter** pour Adrien, Olivia, Gaëtan et André, provisoirement "Runner" sans accroche. La phrase d'Antonino est un repère à réécrire (marquée `TODO` dans le code).
-- **Le mobile de la section est provisoire**, il n'a pas été travaillé.
+**À voir avec Gianluca**, points de contenu laissés ouverts sur l'accueil :
 
-Ensuite, **la page `/calendar`**, jamais retravaillée depuis la refonte de l'accueil. Puis les pages manquantes (`/join-us`, `/shop`, `/login`, `/sign-up` et les trois pages légales), et le back (authentification Supabase, boutique Stripe, espace admin).
+- Antonino et Gaëtan partagent le rôle "Digital Producer", il faut en changer un.
+- Quatre photos du crew sont sous-définies pour leur taille d'affichage (Olivia 192px, Gaëtan 278px, André 312px, Clara 320px), elles apparaîtront floues.
+- Les numéros 01 à 04 des blocs de "What's BEHYBRID" suggèrent une séquence qui n'existe pas (même raison qui a fait retirer les dossards du crew).
 
-**À régler avant toute mise en ligne** : six routes du menu et du pied de page renvoient encore une erreur 404, faute de pages existantes.
+**À régler avant toute mise en ligne** : cinq routes du menu et du pied de page renvoient une erreur 404, le formulaire newsletter n'enregistre rien, et la date du prochain run est écrite en dur à deux endroits (hero et calendrier) qu'il faut synchroniser à la main.
 
 ### Reste à faire (vue d'ensemble)
 
@@ -222,6 +222,15 @@ Ensuite, **la page `/calendar`**, jamais retravaillée depuis la refonte de l'ac
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-24**
+
+- **Section "The Crew" terminée**, desktop et mobile. Neuf profils défilent toutes les 3 secondes : bulle photo ronde à contour vert, rôle, nom et accroche. Les neuf photos sont branchées, les rôles et accroches écrits (Gianluca est "Running Coach & Founder").
+- **Trois formes essayées avant de trancher** : pellicule des neuf visages en bas de section, jugée kitsch parce que la section ne parlait plus qu'en cercles (une grande bulle, trois anneaux, neuf vignettes) ; puis la ligne des prénoms séparés par des points verts, retenue, qui oppose une matière typographique à la forme ronde et fait écho aux bandeaux du site.
+- **Fond propre à la section**, pour ne pas ressembler aux deux sections voisines : couloirs de piste en diagonale à 115°, anneaux concentriques autour de la bulle, et un seul halo au lieu de deux.
+- **Dossards retirés** en fin de parcours : un numéro de course suggère un classement, or personne ne précède personne dans l'équipe.
+- **Animations** : bulle par la gauche, texte et navigation par la droite, barre des prénoms par le bas. Elles cohabitent avec le fondu de bascule entre profils, posé sur des éléments distincts.
+- **Mobile** : anneaux à l'échelle réduite, prénoms en grille de trois pour garantir trois lignes quelle que soit la largeur, accroches à 13px sur iPhone standard.
 
 **2026-08-20**
 
