@@ -100,12 +100,6 @@ const TEAM: TeamMember[] = [
     photo: '/photos/team-gianluca.jpeg',
   },
   {
-    name: 'André',
-    role: 'Merch Master',
-    tagline: 'Older than most, faster than many. And he prints the kit.',
-    photo: '/photos/team-andre.png',
-  },
-  {
     name: 'Clara',
     role: 'Manager',
     tagline: 'If it happens at BEHYBRID, she said yes first.',
@@ -116,6 +110,12 @@ const TEAM: TeamMember[] = [
     role: 'Mastermind',
     tagline: 'Plans every session to the second, and still makes it fun.',
     photo: '/photos/team-emie.png',
+  },
+  {
+    name: 'André',
+    role: 'Merch Master',
+    tagline: 'Older than most, faster than many. And he prints the kit.',
+    photo: '/photos/team-andre.png',
   },
   {
     name: 'Antonino',
@@ -377,7 +377,7 @@ export default function Home() {
 
                   <div className="flex items-end justify-between">
                     <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 phone-lg:text-[14px] md:text-[16px]">
-                      4x 5min @treshold
+                      Threshold Intervals
                     </p>
                   </div>
 
@@ -611,7 +611,7 @@ export default function Home() {
               <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-white/40 bg-black/25 p-5 backdrop-blur-md phone-lg:px-8 phone-lg:py-[37px] [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:border-white/25 md:p-12">
                 <div className="flex items-start justify-between">
                   <Badge variant="white" size="xs" className="mb-2 md:mb-0">
-                    2 Runs / Month
+                    1 Run / Month
                   </Badge>
                   <span className="font-display text-[22px] font-black leading-none text-white/20 md:text-[30px]">
                     02
@@ -807,7 +807,7 @@ export default function Home() {
 
       <div id="gallery" aria-hidden className="scroll-mt-20" />
 
-      <section className="grid grid-cols-1 gap-0.5 md:grid-cols-3 md:gap-0">
+      <section className="grid grid-cols-1 gap-0.5 overflow-x-clip md:grid-cols-3 md:gap-0">
         {GALLERY.map((photo) => (
           <Reveal
             key={photo.file}

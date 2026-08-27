@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Logo } from './logo';
 import { smoothScrollToTop } from '@/lib/smooth-scroll';
-import { NAV_LINKS } from '@/lib/nav-links';
+import { NAV_LINKS, SHOW_ACCOUNT_LINKS, activeLinks } from '@/lib/nav-links';
 import { NavMenuLink, LogInLink, SignUpButton, AccountLink } from './nav-items';
 
 // TODO: brancher sur la session Supabase une fois l'auth en place.
@@ -42,7 +42,7 @@ export function SiteHeader() {
         <Logo onClick={handleNavClick('/')} />
 
         <nav className="hidden items-center gap-8 md:absolute md:left-1/2 md:top-1/2 md:flex md:-translate-x-1/2 md:-translate-y-1/2 md:gap-[60px]">
-          {NAV_LINKS.map((link) => (
+          {activeLinks(NAV_LINKS).map((link) => (
             <NavMenuLink
               key={link.href}
               href={link.href}
@@ -53,16 +53,18 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-6 md:flex">
-          {isAuthenticated ? (
-            <AccountLink />
-          ) : (
-            <>
-              <LogInLink />
-              <SignUpButton />
-            </>
-          )}
-        </div>
+        {SHOW_ACCOUNT_LINKS ? (
+          <div className="hidden items-center gap-6 md:flex">
+            {isAuthenticated ? (
+              <AccountLink />
+            ) : (
+              <>
+                <LogInLink />
+                <SignUpButton />
+              </>
+            )}
+          </div>
+        ) : null}
 
         <button
           type="button"
@@ -87,9 +89,16 @@ export function SiteHeader() {
       </div>
 
       {isMenuOpen && (
-        <div className="fixed inset-x-0 top-20 bottom-0 z-40 flex flex-col items-center justify-between gap-16 bg-bg px-6 pt-25 pb-40 md:hidden">
+        <div
+          className={`fixed inset-x-0 top-20 bottom-0 z-40 flex flex-col items-center gap-16 bg-bg px-6 md:hidden ${
+            // Sans les liens de compte, la navigation est seule : on la centre.
+            SHOW_ACCOUNT_LINKS
+              ? 'justify-between pb-40 pt-25'
+              : 'justify-center pb-20'
+          }`}
+        >
           <nav className="flex flex-col items-center gap-8">
-            {NAV_LINKS.map((link) => (
+            {activeLinks(NAV_LINKS).map((link) => (
               <NavMenuLink
                 key={link.href}
                 href={link.href}
@@ -103,16 +112,21 @@ export function SiteHeader() {
               />
             ))}
           </nav>
-          <div className="flex flex-col items-center gap-8">
-            {isAuthenticated ? (
-              <AccountLink size="lg" onClick={() => setIsMenuOpen(false)} />
-            ) : (
-              <>
-                <LogInLink size="lg" onClick={() => setIsMenuOpen(false)} />
-                <SignUpButton size="lg" onClick={() => setIsMenuOpen(false)} />
-              </>
-            )}
-          </div>
+          {SHOW_ACCOUNT_LINKS ? (
+            <div className="flex flex-col items-center gap-8">
+              {isAuthenticated ? (
+                <AccountLink size="lg" onClick={() => setIsMenuOpen(false)} />
+              ) : (
+                <>
+                  <LogInLink size="lg" onClick={() => setIsMenuOpen(false)} />
+                  <SignUpButton
+                    size="lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  />
+                </>
+              )}
+            </div>
+          ) : null}
         </div>
       )}
     </header>

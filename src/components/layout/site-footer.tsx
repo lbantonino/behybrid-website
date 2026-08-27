@@ -6,14 +6,19 @@ import { Reveal } from "@/components/ui/reveal";
 import {
   FOOTER_CLUB_LINKS,
   FOOTER_EXPLORE_LINKS,
+  FOOTER_LEGAL_LINKS,
   FOOTER_SOCIAL_LINKS,
+  activeLinks,
 } from "@/lib/nav-links";
 
-const LEGAL_LINKS = [
-  { label: "Legal Notice", href: "/legal-notice" },
-  { label: "Terms of Use", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy" },
-];
+/** Colonnes de liens : celles qui n'ont plus aucun lien actif disparaissent. */
+const FOOTER_COLUMNS = [
+  { title: "Explore", links: activeLinks(FOOTER_EXPLORE_LINKS) },
+  { title: "Club", links: activeLinks(FOOTER_CLUB_LINKS) },
+  { title: "Follow", links: activeLinks(FOOTER_SOCIAL_LINKS) },
+].filter((column) => column.links.length > 0);
+
+const LEGAL_LINKS = activeLinks(FOOTER_LEGAL_LINKS);
 
 function FooterColumn({
   title,
@@ -51,9 +56,9 @@ function FooterColumn({
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-bg">
+    <footer className="overflow-x-clip border-t border-line bg-bg">
       <div className="bg-bg-alt">
-        <Container className="flex flex-col gap-4 py-12 md:flex-row md:items-center md:justify-between md:gap-10">
+        <Container className="flex flex-col gap-4 py-12 md:flex-row md:items-start md:justify-between md:gap-10">
           <Reveal from="left">
             <p className="font-display text-h3 font-extrabold uppercase md:text-h3">
               <span className="text-accent">Stay</span> In The Loop
@@ -68,7 +73,7 @@ export function SiteFooter() {
         </Container>
       </div>
 
-      <Container className="grid grid-cols-[80px_80px_92px] justify-between gap-y-9 pb-10 pt-12 md:grid-cols-[repeat(4,max-content)] md:gap-10 md:pb-10 md:pt-16">
+      <Container className="grid grid-cols-3 gap-x-8 gap-y-9 pb-10 pt-12 md:grid-cols-[repeat(4,max-content)] md:justify-between md:gap-10 md:pb-10 md:pt-16">
         <Reveal from="left" className="col-span-3 md:col-span-1 md:self-center">
           <Image
             src="/logo/logo-site.png"
@@ -78,26 +83,29 @@ export function SiteFooter() {
             className="h-auto w-[150px] md:w-[180px]"
           />
         </Reveal>
-        <Reveal from="right" duration={4000} delay={150}>
-          <FooterColumn title="Explore" links={FOOTER_EXPLORE_LINKS} />
-        </Reveal>
-        <Reveal from="right" duration={4000} delay={300}>
-          <FooterColumn title="Club" links={FOOTER_CLUB_LINKS} />
-        </Reveal>
-        <Reveal from="right" duration={4000} delay={450}>
-          <FooterColumn title="Follow" links={FOOTER_SOCIAL_LINKS} />
-        </Reveal>
+        {FOOTER_COLUMNS.map((column, index) => (
+          <Reveal
+            key={column.title}
+            from="right"
+            duration={4000}
+            delay={150 + index * 150}
+          >
+            <FooterColumn title={column.title} links={column.links} />
+          </Reveal>
+        ))}
       </Container>
 
       <Container className="flex flex-col items-start gap-4 border-t border-line py-7 text-left text-[12px] text-faint md:flex-row md:items-center md:justify-between md:gap-2 md:py-6 md:text-body-sm">
         <span>© 2026 BEHYBRID — Brussels</span>
-        <div className="grid w-full grid-cols-[80px_80px_92px] justify-between md:flex md:w-auto md:gap-8">
-          {LEGAL_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-ink">
-              {link.label}
-            </Link>
-          ))}
-        </div>
+        {LEGAL_LINKS.length > 0 ? (
+          <div className="grid w-full grid-cols-3 justify-between md:flex md:w-auto md:gap-8">
+            {LEGAL_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:text-ink">
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        ) : null}
       </Container>
     </footer>
   );

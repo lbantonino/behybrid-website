@@ -46,7 +46,9 @@ Légende : ✅ en place · 🚧 en cours · ⬜ à venir
 - ✅ **Header, footer et navigation** partagés sur tout le site
 - ✅ **Identité visuelle** intégrée (logos, photos, polices Archivo + Montserrat)
 - ✅ **Design system documenté** sur la page interne `/style-guide`
-- ✅ **Formulaire newsletter** (interface prête)
+- ✅ **Formulaire newsletter** (interface prête, mais n'enregistre encore rien)
+- 🚧 **Page contact** (`/contact`), squelette en place, formulaire à écrire
+- 🚧 **Pages légales** (`/legal-notice`, `/privacy`, `/cookie-policy`), créées, contenu à écrire
 - ⬜ **Page "Rejoindre"** (`/join-us`), parcours d'entrée dans la communauté
 
 ### Espace membre
@@ -181,7 +183,7 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-24**
+**Dernière mise à jour : 2026-08-27**
 
 ### Où on en est
 
@@ -199,15 +201,14 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 
 ### Prochaine étape
 
-**La page `/calendar`**, jamais retravaillée depuis la refonte de l'accueil. Puis les pages manquantes (`/join-us`, `/shop`, `/login`, `/sign-up` et les trois pages légales), et le back (authentification Supabase, boutique Stripe, espace admin).
+Dans cet ordre, décidé le 27/08 :
 
-**À voir avec Gianluca**, points de contenu laissés ouverts sur l'accueil :
+1. **Retravailler le graphisme de la page `/calendar`**, la seule page publique qui n'a rien reçu de la refonte : pas de section plein écran, pas d'en-tête à trait vert, pas de révélations au scroll. Deux décisions à prendre avant de dessiner : la grille du mois est aujourd'hui écrite en dur (tableau de cases tapé à la main, repère "aujourd'hui" en dur), il faut la calculer ; et choisir entre un mois à la fois avec navigation, ou une liste des prochains runs.
+2. **Écrire la page `/contact`.** Le squelette existe (en-tête, titre, les trois liens sociaux), il manque le formulaire et son traitement.
+3. **Écrire les trois pages légales** : `/legal-notice`, `/privacy`, `/cookie-policy`. Les pages existent et partagent le gabarit `LegalPage`, il n'y a que le contenu à insérer.
+4. **Basculer les entraînements sur Supabase.** Antonino a reçu les vrais entraînements de Gianluca. Structure attendue : date, jour, type (Perform / Connect), titre, heure, lieu. Aujourd'hui les événements sont écrits en dur dans `src/app/calendar/page.tsx`, et la date du prochain run est dupliquée dans le hero de l'accueil : les deux devront lire la même source.
 
-- Antonino et Gaëtan partagent le rôle "Digital Producer", il faut en changer un.
-- Quatre photos du crew sont sous-définies pour leur taille d'affichage (Olivia 192px, Gaëtan 278px, André 312px, Clara 320px), elles apparaîtront floues.
-- Les numéros 01 à 04 des blocs de "What's BEHYBRID" suggèrent une séquence qui n'existe pas (même raison qui a fait retirer les dossards du crew).
-
-**À régler avant toute mise en ligne** : cinq routes du menu et du pied de page renvoient une erreur 404, le formulaire newsletter n'enregistre rien, et la date du prochain run est écrite en dur à deux endroits (hero et calendrier) qu'il faut synchroniser à la main.
+**Puis** : la page `/join-us`, la boutique, l'espace membre. Leurs liens sont déjà en place dans `src/lib/nav-links.ts`, désactivés par `enabled: false`.
 
 ### Reste à faire (vue d'ensemble)
 
@@ -222,6 +223,17 @@ Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bl
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-27**
+
+- **Stratégie de publication arrêtée** : on sort une v1 avec accueil, calendrier, contact et pages légales, sans attendre la boutique, qui demande des décisions produit côté club (quels articles, quels visuels, quels formats). Un site en ligne avec trois pages utiles vaut mieux qu'un site complet qui ne sort jamais.
+- **Mécanisme d'activation des liens** : chaque lien porte un indicateur `enabled` dans `src/lib/nav-links.ts`. Rien n'est supprimé, les pages non prêtes sont simplement masquées, et les remettre se fera en une valeur. Le menu affiche donc Home, Calendar, Contact ; les boutons de compte sont derrière un interrupteur unique `SHOW_ACCOUNT_LINKS`.
+- **Pied de page adaptatif** : les colonnes sont générées à partir des données et celles sans lien actif disparaissent. La colonne "Club" s'efface, la grille garde ses quatre emplacements en desktop pour que "Follow" occupe la deuxième colonne et laisse la troisième vide, prête à la reprendre.
+- **Nouvelles pages** : `/contact` (en-tête, titre, liens sociaux, formulaire à venir) et les trois pages légales, qui partagent le gabarit `LegalPage`.
+- **Menu mobile** : les trois liens sont centrés verticalement tant que les liens de compte sont masqués, la disposition d'origine revenant automatiquement ensuite.
+- **Mention de consentement** ajoutée sous le formulaire newsletter, avec une césure adaptée à chaque largeur pour tenir sur deux lignes partout.
+- **Défilement horizontal corrigé sur iPhone** : le pied de page et la galerie n'étaient pas découpés alors qu'ils contiennent des révélations qui glissent de 48px. La règle globale s'applique désormais à `html` et `body`, iOS Safari ne propageant pas toujours la découpe déclarée sur `html` seul.
+- **Contenu** : la carte "Next Run" affiche le titre de l'entraînement (Threshold Intervals) au lieu du détail de séance, la pastille Connect passe à "1 Run / Month", et l'ordre du crew est revu (Gianluca, Clara, Emie, André, Antonino, Adrien, Gaëtan, Olivia, Anaïs).
 
 **2026-08-24**
 

@@ -23,18 +23,34 @@ export function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 md:flex-row md:gap-3">
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        placeholder="you@example.com"
-        className="w-full rounded-full border border-white/15 bg-bg px-4.5 py-3.5 text-body-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none md:w-[280px] md:bg-bg md:px-5.5 md:py-3.5 md:text-body-sm"
-      />
-      <Button type="submit" variant="primary" size="md" className="whitespace-nowrap">
-        Subscribe
-      </Button>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2.5 md:flex-row md:gap-3">
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="you@example.com"
+          className="w-full rounded-full border border-white/15 bg-bg px-4.5 py-3.5 text-body-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none md:w-[280px] md:bg-bg md:px-5.5 md:py-3.5 md:text-body-sm"
+        />
+        <Button
+          type="submit"
+          variant="primary"
+          size="md"
+          className="whitespace-nowrap"
+        >
+          Subscribe
+        </Button>
+      </div>
+
+      {/* Deux lignes partout, mais la coupure change selon la largeur : sur un
+          iPhone standard, la première phrase ne tient pas seule sur une ligne. */}
+      <p className="max-w-[460px] text-[11px] leading-[1.5] text-faint">
+        By subscribing, you agree to receive news and updates from
+        <br className="phone-lg:hidden md:hidden" /> BEHYBRID.
+        <br className="hidden phone-lg:inline md:inline" /> You can unsubscribe
+        at any time.
+      </p>
     </form>
   );
 }

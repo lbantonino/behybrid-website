@@ -125,7 +125,8 @@
   `clip` plutôt que `hidden` : `hidden` créerait un conteneur de défilement et
   casserait le `position: sticky` du header.
 */
-html {
+html,
+body {
   overflow-x: clip;
 }
 
