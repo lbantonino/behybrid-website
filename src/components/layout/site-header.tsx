@@ -14,12 +14,32 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Bloque le scroll de la page tant que le menu mobile est ouvert.
+  /**
+   * Bloque le défilement tant que le menu mobile est ouvert.
+   *
+   * `overflow: hidden` sur le body ne suffit pas : iOS Safari continue de
+   * faire défiler la page. On fige donc le body en `position: fixed` à la
+   * position courante, puis on la restaure à la fermeture. C'est la seule
+   * méthode fiable sur iOS.
+   */
   useEffect(() => {
     if (!isMenuOpen) return;
-    document.body.style.overflow = 'hidden';
+
+    const scrollY = window.scrollY;
+    const { body } = document;
+
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.left = '0';
+    body.style.right = '0';
+
     return () => {
-      document.body.style.overflow = '';
+      body.style.position = '';
+      body.style.top = '';
+      body.style.left = '';
+      body.style.right = '';
+      // Le body figé a fait remonter la page en haut : on rend sa place.
+      window.scrollTo(0, scrollY);
     };
   }, [isMenuOpen]);
 
@@ -37,7 +57,13 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-bg">
+    <header
+      className={`top-0 z-50 border-b border-line bg-bg ${
+        // Le body figé casse `sticky` : on passe en `fixed` pendant l'ouverture
+        // pour que le logo et la croix restent visibles, où qu'on ait scrollé.
+        isMenuOpen ? 'fixed inset-x-0' : 'sticky'
+      }`}
+    >
       <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
         <Logo onClick={handleNavClick('/')} />
 
@@ -106,8 +132,19 @@ export function SiteHeader() {
                 isActive={isLinkActive(link.href)}
                 size="lg"
                 onClick={(event) => {
-                  handleNavClick(link.href)(event);
+                  const isSamePage = pathname === link.href;
+                  if (isSamePage) event.preventDefault();
                   setIsMenuOpen(false);
+
+                  // Le body est encore figé, donc window.scrollY vaut 0 : on
+                  // attend que la fermeture ait restauré la position réelle
+                  // avant de lancer la remontée, sinon elle n'aurait rien à
+                  // parcourir.
+                  if (isSamePage) {
+                    requestAnimationFrame(() =>
+                      requestAnimationFrame(smoothScrollToTop),
+                    );
+                  }
                 }}
               />
             ))}

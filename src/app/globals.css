@@ -269,26 +269,31 @@ body {
   il passe en vert tant qu'il est la cible, sans une ligne de JavaScript.
 */
 .event-row {
-  transition:
-    border-color 300ms ease-out,
-    color 300ms ease-out;
+  transition: color 300ms ease-out;
 }
 
-.event-row:target {
-  background: transparent !important;
-  box-shadow: none !important;
-  color: var(--color-accent) !important;
-  outline: none !important;
-}
-
+/*
+  Événement désigné par l'ancre de l'URL (ex. /calendar#event-30-aug).
+  Aucun fond, aucun surlignement : seules les couleurs de texte passent au vert.
+  `is-target` double `:target`, qui n'est pas réévalué lors d'une navigation
+  Next.js entre deux pages (voir le composant EventHighlight).
+*/
+.event-row:target,
+.event-row.is-target,
 .event-row:target *,
-.event-row:target svg {
-  background: transparent !important;
-  box-shadow: none !important;
+.event-row.is-target * {
   color: var(--color-accent) !important;
   border-color: var(--color-accent) !important;
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+  Seule exception : le bouton Strava garde sa couleur de marque, ciblé ou non.
+  Un logo de marque ne se recolore pas au gré de l'état d'une page.
+*/
+.event-row .strava-action,
+.event-row:target .strava-action,
+.event-row.is-target .strava-action {
+  border-color: #fc4c02 !important;
 }
 
 /* Bascule d'une personne à l'autre dans la galerie de l'équipe */

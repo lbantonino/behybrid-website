@@ -42,7 +42,7 @@ Légende : ✅ en place · 🚧 en cours · ⬜ à venir
 ### Site public
 
 - ✅ **Landing page** présentant le club, sa philosophie et ses valeurs
-- ✅ **Calendrier** des entraînements et sorties
+- ✅ **Calendrier** des entraînements et sorties (données réelles, lecture Supabase, liens Strava)
 - ✅ **Header, footer et navigation** partagés sur tout le site
 - ✅ **Identité visuelle** intégrée (logos, photos, polices Archivo + Montserrat)
 - ✅ **Design system documenté** sur la page interne `/style-guide`
@@ -203,13 +203,11 @@ La page **`/calendar`** a commencé sa refonte visuelle : en-tête animé, calen
 
 ### Prochaine étape
 
-Dans cet ordre, décidé le 27/08 :
+Dans cet ordre, décidé le 28/08 :
 
-1. **Finaliser la page `/calendar`** : la refonte visuelle est lancée, le calendrier mensuel est navigable et les événements peuvent maintenant être reliés aux events Strava. Il reste à décider si la liste doit rester "Next Events" globale ou se filtrer selon le mois affiché.
+1. **Brancher le formulaire newsletter sur Brevo.** Aujourd'hui il affiche une confirmation sans rien enregistrer, ce qui revient à mentir au visiteur. Créer ou utiliser la liste Brevo, appeler son API (clé en variable d'environnement, jamais en dur), et gérer les cas d'erreur : email déjà inscrit, échec réseau.
 2. **Écrire la page `/contact`.** Le squelette existe (en-tête, titre, les trois liens sociaux), il manque le formulaire et son traitement.
 3. **Écrire les trois pages légales** : `/legal-notice`, `/privacy`, `/cookie-policy`. Les pages existent et partagent le gabarit `LegalPage`, il n'y a que le contenu à insérer.
-4. **Basculer les entraînements sur Supabase.** Le fichier Excel a été analysé et transformé en `data/import/behybrid-events.csv`. Le schéma de table est prêt dans `supabase/events.sql`, avec un guide dans `docs/SUPABASE_EVENTS.md`. Le code de lecture Supabase est branché avec fallback local. Prochaine étape : renseigner `.env.local`, redémarrer Next.js et vérifier que `/calendar` affiche les données Supabase.
-5. **Brancher le formulaire newsletter sur Brevo.** Aujourd'hui il affiche une confirmation sans rien enregistrer. Créer/utiliser la liste Brevo, appeler son API (clé en variable d'environnement, jamais en dur), gérer les cas d'erreur (email déjà inscrit, échec réseau).
 
 **Puis** : la page `/join-us`, la boutique, l'espace membre. Leurs liens sont déjà en place dans `src/lib/nav-links.ts`, désactivés par `enabled: false`.
 
@@ -250,6 +248,13 @@ Cette décision doit rester dans le README jusqu'au branchement réel de Supabas
 ### Journal des sessions
 
 **2026-08-28**
+
+- **La page `/calendar` est considérée comme faite.** Entraînements réels de Gianluca (septembre-octobre 2026) en place, calendrier mensuel navigable, lecture Supabase active, liens Strava fonctionnels, révélations au scroll. On y reviendra plus tard si besoin : reste ouverte la question de filtrer la liste "Next Events" selon le mois affiché.
+- **Menu mobile corrigé** : `overflow: hidden` sur le body est ignoré par iOS Safari, et cassait au passage l'ancrage `sticky` du header, ce qui envoyait le logo et la croix hors écran dès qu'on avait scrollé. Le body est désormais figé en `position: fixed` à la position courante, restaurée à la fermeture, et le header passe en `fixed` pendant l'ouverture.
+- **Mise en évidence d'un événement revue** : plus aucun fond ni surlignement, seules les couleurs de texte passent au vert. Le bouton Strava garde sa couleur de marque en permanence.
+- **Deux bugs de fond identifiés en inspectant le CSS réellement compilé**, après deux hypothèses erronées de ma part :
+  - `border-[#FC4C02]` n'était jamais générée par Tailwind v4 : cette écriture est ambiguë entre largeur et couleur de bordure, donc rien n'était émis et la bordure retombait sur `currentColor`, c'est-à-dire blanc. La forme correcte est `border-[color:#FC4C02]`.
+  - Le sélecteur CSS `:target` n'est pas réévalué lors d'une navigation Next.js entre deux pages, qui passe par l'API History. Arriver depuis la carte "Next Run" de l'accueil ne déclenchait donc jamais la mise en évidence. Nouveau composant `EventHighlight` qui pose la classe lui-même.
 
 - **Page Calendar animée** : ajout des révélations au scroll sur l'en-tête, la grille du mois, la galerie et la liste "Next Events". Les événements apparaissent désormais un par un avec un léger décalage, date après date.
 - **Calendrier mensuel interactif** : la grille écrite en dur a été remplacée par un composant client `MonthCalendar`. Il démarre sur le vrai mois actuel, surligne le jour d'aujourd'hui, les flèches précédent/suivant naviguent entre les mois et les années, les points verts se recalculent à partir des dates des événements, et les jours avec event sont cliquables pour descendre vers la séance correspondante.

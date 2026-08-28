@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { MonthCalendar } from '@/components/calendar/month-calendar';
+import { EventHighlight } from '@/components/calendar/event-highlight';
 import { Container } from '@/components/ui/container';
 import { Reveal } from '@/components/ui/reveal';
 import {
@@ -40,7 +41,7 @@ function EventRow({ event }: { event: CalendarEvent }) {
       target="_blank"
       rel="noreferrer"
       aria-label={`Join ${event.title} on Strava`}
-      className="inline-flex h-8 w-[92px] shrink-0 items-center justify-center rounded-full border border-[#fc4c02]/70 px-4 transition-opacity hover:opacity-80 md:h-9 md:w-[104px] md:px-5"
+      className="strava-action inline-flex h-8 w-[92px] shrink-0 items-center justify-center rounded-full border border-[color:#FC4C02] px-4 transition-opacity hover:opacity-80 md:h-9 md:w-[104px] md:px-5"
     >
       <Image
         src="/icons/strava.png"
@@ -103,6 +104,7 @@ export default async function CalendarPage() {
 
   return (
     <>
+      <EventHighlight />
       <Container className="pt-8 md:pt-14">
         <Reveal from="left">
           <div className="flex items-center gap-2.5 md:gap-3.5">
