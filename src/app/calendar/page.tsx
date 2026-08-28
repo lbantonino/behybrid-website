@@ -1,60 +1,61 @@
-import Image from "next/image";
-import { Container } from "@/components/ui/container";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import Image from 'next/image';
+import { MonthCalendar } from '@/components/calendar/month-calendar';
+import { Container } from '@/components/ui/container';
+import { Reveal } from '@/components/ui/reveal';
+import {
+  eventAnchor,
+  getCalendarEvents,
+  type CalendarEvent,
+} from '@/lib/calendar-events';
+import { connection } from 'next/server';
 
-type EventTag = "PERFORM" | "CONNECT";
-
-type CalendarEvent = {
-  date: string;
-  day: string;
-  title: string;
-  time: string;
-  tag: EventTag;
-};
-
-const EVENTS: CalendarEvent[] = [
-  { date: "7 OCT", day: "WED", title: "Hard Run 1-1", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
-  { date: "11 OCT", day: "SUN", title: "Long Run", time: "10:00 · Bois de la Cambre", tag: "CONNECT" },
-  { date: "14 OCT", day: "WED", title: "Threshold Intervals", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
-  { date: "21 OCT", day: "WED", title: "Hard Run 1-1", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
-  { date: "25 OCT", day: "SUN", title: "Long Run", time: "10:00 · Parc Royal", tag: "CONNECT" },
-  { date: "28 OCT", day: "WED", title: "Threshold Intervals", time: "19:00 · Parc du Cinquantenaire", tag: "PERFORM" },
+/**
+ * Galerie de bas de page. Même motif que celle de l'accueil : en desktop les
+ * photos arrivent toutes par la gauche, en commençant par celle de droite ;
+ * en mobile elles alternent gauche, droite, gauche.
+ */
+const CALENDAR_GALLERY = [
+  {
+    file: 'gallery-calendar-1.png',
+    from: 'left' as const,
+    delay: 'delay-[0ms] md:delay-[600ms]',
+  },
+  {
+    file: 'gallery-calendar-2.png',
+    from: 'right-phone' as const,
+    delay: 'delay-[300ms]',
+  },
+  {
+    file: 'gallery-calendar-3.png',
+    from: 'left' as const,
+    delay: 'delay-[600ms] md:delay-[0ms]',
+  },
 ];
-
-const EVENT_DAYS = new Set(EVENTS.map((event) => Number(event.date.split(" ")[0])));
-const TODAY = 26;
-const WEEKDAY_LABELS = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
-// Octobre 2026 commence un jeudi (3 cases vides avant le 1er).
-const CALENDAR_CELLS: (number | null)[] = [
-  null, null, null, 1, 2, 3, 4,
-  5, 6, 7, 8, 9, 10, 11,
-  12, 13, 14, 15, 16, 17, 18,
-  19, 20, 21, 22, 23, 24, 25,
-  26, 27, 28, 29, 30, 31, null,
-];
-
-function TagPill({ tag }: { tag: EventTag }) {
-  if (tag === "PERFORM") {
-    return (
-      <Badge variant="accent" size="sm" uppercase>
-        Perform
-      </Badge>
-    );
-  }
-  return (
-    <Badge variant="outline" size="sm" uppercase>
-      Connect
-    </Badge>
-  );
-}
-
-/** "28 OCT" devient "event-28-oct", l'ancre visée depuis la carte du hero. */
-export function eventAnchor(date: string) {
-  return `event-${date.toLowerCase().replace(" ", "-")}`;
-}
 
 function EventRow({ event }: { event: CalendarEvent }) {
+  const [dateDay, dateMonth] = event.date.split(' ');
+  const action = event.stravaUrl ? (
+    <a
+      href={event.stravaUrl}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Join ${event.title} on Strava`}
+      className="inline-flex h-8 w-[92px] shrink-0 items-center justify-center rounded-full border border-[#fc4c02]/70 px-4 transition-opacity hover:opacity-80 md:h-9 md:w-[104px] md:px-5"
+    >
+      <Image
+        src="/icons/strava.png"
+        alt=""
+        width={9819}
+        height={2048}
+        className="h-3.5 w-auto md:h-4"
+      />
+    </a>
+  ) : (
+    <span className="shrink-0 font-display text-label font-bold uppercase tracking-wide text-faint">
+      Strava soon
+    </span>
+  );
+
   return (
     <div
       id={eventAnchor(event.date)}
@@ -62,138 +63,115 @@ function EventRow({ event }: { event: CalendarEvent }) {
     >
       {/* Mobile */}
       <div className="md:hidden">
-        <div className="mb-1 flex items-center gap-2.5">
-          <span className="font-display text-h3 font-extrabold">{event.date}</span>
-          <span className="text-label tracking-wide text-faint">{event.day}</span>
-          <span className="ml-auto">
-            <TagPill tag={event.tag} />
+        <div className="mb-1 flex items-center gap-3 md:gap-2.5">
+          <span className="font-display text-h3 font-extrabold">
+            {event.date}
           </span>
-          <button
-            type="button"
-            className="rounded-full border border-white/30 px-3 py-1 font-display text-label font-bold uppercase"
-          >
-            Add +
-          </button>
+          <span className="text-label tracking-wide text-faint">
+            {event.day}
+          </span>
+          <span className="ml-auto">{action}</span>
         </div>
-        <p className="font-display text-body font-bold uppercase">{event.title}</p>
+        <p className="font-display text-body font-bold uppercase">
+          {event.title}
+        </p>
         <p className="mt-0.5 text-label text-muted">{event.time}</p>
       </div>
 
       {/* Desktop */}
       <div className="hidden w-[70px] shrink-0 md:block">
-        <p className="font-display text-h3 font-extrabold">{event.date}</p>
+        <p className="font-display text-h3 font-extrabold leading-none">
+          <span className="block">{dateDay}</span>
+          <span className="block">{dateMonth}</span>
+        </p>
         <p className="text-label tracking-wide text-faint">{event.day}</p>
       </div>
       <div className="hidden md:block md:flex-1">
-        <p className="font-display text-h3 font-extrabold uppercase">{event.title}</p>
+        <p className="font-display text-h3 font-extrabold uppercase">
+          {event.title}
+        </p>
         <p className="mt-0.5 text-body-sm text-muted">{event.time}</p>
       </div>
-      <span className="hidden md:inline-flex md:shrink-0">
-        <TagPill tag={event.tag} />
-      </span>
-      <Button
-        type="button"
-        variant="ghost"
-        size="sm"
-        className="hidden shrink-0 md:inline-block"
-      >
-        Add +
-      </Button>
+      <div className="hidden md:flex md:shrink-0">{action}</div>
     </div>
   );
 }
 
-export default function CalendarPage() {
+export default async function CalendarPage() {
+  await connection();
+  const events = await getCalendarEvents();
+
   return (
     <>
       <Container className="pt-8 md:pt-14">
-        <p className="font-display text-body-sm font-bold uppercase tracking-[2px] text-accent">
-          Calendar
-        </p>
-        <h1 className="mt-1 font-display text-h2 font-black uppercase md:text-h1">
-          Never Miss A Run
-        </h1>
-        <p className="mt-2.5 max-w-[440px] text-body-sm text-muted md:mt-3 md:text-body">
-          Every Perform and Connect session, scheduled weeks ahead. Reserve
-          your spot and show up.
-        </p>
+        <Reveal from="left">
+          <div className="flex items-center gap-2.5 md:gap-3.5">
+            <span className="h-px w-6 bg-accent md:w-8" />
+            <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-accent">
+              Calendar
+            </span>
+          </div>
+          <h1 className="mt-1 font-display text-h2 font-black uppercase md:text-h1">
+            Never Miss A Run
+          </h1>
+          <p className="mt-2.5 max-w-[440px] text-body-sm text-muted md:mt-3 md:text-body">
+            Every Perform and Connect session, scheduled weeks ahead. Reserve
+            your spot and show up.
+          </p>
+        </Reveal>
 
         <div className="mt-7 flex flex-col gap-8 md:mt-10 md:grid md:grid-cols-[400px_1fr] md:items-start md:gap-14">
-          <div className="rounded-xl border border-line p-5 md:p-7">
-            <div className="mb-4 flex items-center justify-between md:mb-4.5">
-              <p className="font-display text-h3 font-extrabold uppercase md:text-h3">
-                October 2026
-              </p>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 text-label text-muted md:h-7 md:w-7"
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 text-label text-muted md:h-7 md:w-7"
-                >
-                  ›
-                </button>
-              </div>
-            </div>
-
-            <div className="mb-1.5 grid grid-cols-7 gap-1">
-              {WEEKDAY_LABELS.map((label) => (
-                <span key={label} className="text-center text-label text-faint md:text-label">
-                  {label}
-                </span>
-              ))}
-            </div>
-            <div className="grid grid-cols-7 gap-1">
-              {CALENDAR_CELLS.map((day, index) => (
-                <div
-                  key={index}
-                  className={`relative flex aspect-square items-center justify-center rounded-xl text-label text-ink md:text-body-sm ${
-                    day === TODAY ? "bg-white/12" : ""
-                  }`}
-                >
-                  {day}
-                  {day !== null && EVENT_DAYS.has(day) && (
-                    <span className="absolute bottom-1 h-1 w-1 rounded-full bg-accent" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+          <Reveal
+            from="left"
+            delay={150}
+            className="rounded-xl border border-line p-5 md:p-7"
+          >
+            <MonthCalendar events={events} />
+          </Reveal>
 
           <div>
-            <p className="mb-1 inline-block font-display text-h3 font-black uppercase text-accent md:border-b md:border-accent md:pb-3 md:text-body md:font-bold md:tracking-[1.5px] md:text-muted">
-              Next Events
-            </p>
+            <Reveal from="right" duration={2200} delay={150}>
+              <p className="mb-1 inline-block font-display text-h3 font-black uppercase text-accent md:border-b md:border-accent md:pb-3 md:text-body md:font-bold md:tracking-[1.5px] md:text-muted">
+                Next Events
+              </p>
+            </Reveal>
             <div>
-              {EVENTS.map((event) => (
-                <EventRow key={event.date + event.title} event={event} />
+              {events.map((event, index) => (
+                <Reveal
+                  key={event.date + event.title}
+                  from="right"
+                  duration={2200}
+                  delay={300 + index * 140}
+                >
+                  <EventRow event={event} />
+                </Reveal>
               ))}
             </div>
-            <p className="py-6 text-center text-label uppercase tracking-wide text-faint md:py-8 md:text-label">
-              Session dates of August coming soon
-            </p>
+            <Reveal from="up" duration={1800} delay={300 + events.length * 140}>
+              <p className="py-6 text-center text-label uppercase tracking-wide text-faint md:py-8 md:text-label">
+                Next month&apos;s session dates coming soon
+              </p>
+            </Reveal>
           </div>
         </div>
       </Container>
 
-      <section className="mt-9 grid grid-cols-1 gap-0.5 md:mt-14 md:grid-cols-3 md:gap-0">
-        {["gallery-calendar-1.png", "gallery-calendar-2.png", "gallery-calendar-3.png"].map(
-          (file) => (
-            <div key={file} className="relative h-[160px] w-full md:h-[340px]">
-              <Image
-                src={`/photos/${file}`}
-                alt="Photo du club BEHYBRID"
-                fill
-                sizes="(min-width: 860px) 33vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-          )
-        )}
+      <section className="mt-9 grid grid-cols-1 gap-0.5 overflow-x-clip md:mt-14 md:grid-cols-3 md:gap-0">
+        {CALENDAR_GALLERY.map((photo) => (
+          <Reveal
+            key={photo.file}
+            from={photo.from}
+            className={`relative h-[160px] w-full md:h-[340px] ${photo.delay}`}
+          >
+            <Image
+              src={`/photos/${photo.file}`}
+              alt="Photo du club BEHYBRID"
+              fill
+              sizes="(min-width: 860px) 33vw, 100vw"
+              className="object-cover"
+            />
+          </Reveal>
+        ))}
       </section>
     </>
   );

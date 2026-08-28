@@ -266,11 +266,29 @@ body {
 
 /*
   Événement du calendrier visé par une ancre (ex. /calendar#event-28-oct) :
-  il reste souligné tant qu'il est la cible, sans une ligne de JavaScript.
+  il passe en vert tant qu'il est la cible, sans une ligne de JavaScript.
 */
+.event-row {
+  transition:
+    border-color 300ms ease-out,
+    color 300ms ease-out;
+}
+
 .event-row:target {
-  background: rgba(201, 241, 51, 0.07);
-  box-shadow: inset 3px 0 0 var(--color-accent);
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--color-accent) !important;
+  outline: none !important;
+}
+
+.event-row:target *,
+.event-row:target svg {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Bascule d'une personne à l'autre dans la galerie de l'équipe */

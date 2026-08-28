@@ -20,6 +20,13 @@ import { TeamSlider, type TeamMember } from '@/components/layout/team-slider';
 import { TiltCard } from '@/components/ui/tilt-card';
 import { Reveal } from '@/components/ui/reveal';
 import { ReplayOnView } from '@/components/ui/replay-on-view';
+import {
+  eventAnchor,
+  FALLBACK_EVENTS,
+  getCalendarEvents,
+  type CalendarEvent,
+} from '@/lib/calendar-events';
+import { connection } from 'next/server';
 
 const FEATURES = [
   {
@@ -46,7 +53,7 @@ const FEATURES = [
 
 /** Chiffres clés de la section "What's BEHYBRID" (desktop uniquement). */
 const CLUB_STATS = [
-  { value: '100+', label: 'Runners' },
+  { value: '300+', label: 'Runners' },
   { value: 'Every', label: 'Week' },
   { value: '2024', label: 'Since' },
 ];
@@ -263,7 +270,30 @@ function MarqueeRow() {
   );
 }
 
-export default function Home() {
+function getNextRun(events: CalendarEvent[]) {
+  const now = new Date();
+  const futureEvents = events.filter((event) => new Date(event.startsAt) >= now);
+
+  return futureEvents[0] ?? events[0] ?? FALLBACK_EVENTS[0];
+}
+
+function formatNextRunDate(event: CalendarEvent) {
+  const date = new Date(event.startsAt);
+  const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(
+    date,
+  );
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const time = event.time.split(' · ')[0];
+
+  return `${weekday} ${day}/${month} - ${time}`;
+}
+
+export default async function Home() {
+  await connection();
+  const events = await getCalendarEvents();
+  const nextRun = getNextRun(events);
+
   return (
     <>
       <section className="relative overflow-hidden">
@@ -345,8 +375,8 @@ export default function Home() {
             className="w-full flex-1 max-h-[430px] phone-lg:flex-none md:max-h-none md:w-[400px] md:flex-none md:shrink-0"
           >
             <Link
-              href="/calendar#event-28-oct"
-              aria-label="Voir le run du 28 octobre dans le calendrier"
+              href={`/calendar#${eventAnchor(nextRun.date)}`}
+              aria-label={`See ${nextRun.title} in the calendar`}
               className="block h-full"
             >
               <TiltCard className="tilt-card--flat relative flex h-full w-full flex-col rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md phone-lg:p-8 [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:p-7">
@@ -355,11 +385,10 @@ export default function Home() {
                     → Next Run
                   </p>
                   <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink phone-lg:text-[18px] md:mt-4 md:text-[28px]">
-                    Wednesday <span className="md:hidden">-</span>{' '}
-                    <br className="hidden md:block" /> 28/10 - 19:00
+                    {formatNextRunDate(nextRun)}
                   </p>
                   <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80 phone-lg:text-[15px]">
-                    Parc du Cinquantenaire
+                    {nextRun.location}
                   </p>
 
                   <div className="my-2 h-px w-full bg-white/15 phone-lg:my-5 md:my-6" />
@@ -377,7 +406,7 @@ export default function Home() {
 
                   <div className="flex items-end justify-between">
                     <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 phone-lg:text-[14px] md:text-[16px]">
-                      Threshold Intervals
+                      {nextRun.title}
                     </p>
                   </div>
 

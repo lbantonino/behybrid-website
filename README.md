@@ -183,32 +183,57 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-27**
+**Dernière mise à jour : 2026-08-28**
 
 ### Où on en est
 
 Le socle public est en place : page d'accueil, calendrier et style guide fonctionnels, avec un build de production qui passe. Grosse passe de direction artistique : toute la typographie du site est passée à **Archivo** (9 poids) avec **Montserrat Black** en accent, en remplacement d'Akzidenz Grotesk Pro. Le hero de l'accueil a été entièrement repensé (bandeau défilant, titre "PERFORM & CONNECT", carte "NEXT RUN", hauteur plein écran) et enrichi d'animations : écran de chargement "running" (coureur + barre de progression), entrées décalées des blocs, indicateur de scroll, et léger zoom du logo au survol. Les maquettes Figma des écrans clés (accueil, boutique, calendrier) sont finalisées en desktop et mobile.
 
-**La page d'accueil est terminée, en desktop comme en mobile**, section "The Crew" comprise. Les quatre sections plein écran (hero, What's BEHYBRID, How We Move, Become A Member), la galerie et le pied de page sont finalisés et ne bougeront plus. Le parcours interne est cohérent : le bouton "Join The Club" ancre vers la section d'inscription, la carte "Next Run" mène au run correspondant dans le calendrier, le logo et les liens du menu ramènent en haut, et tous les déplacements verticaux partagent le même défilement doux de 1,6 seconde.
+**La page d'accueil est terminée, en desktop comme en mobile**, section "The Crew" comprise. Les quatre sections plein écran (hero, What's BEHYBRID, How We Move, Become A Member), la galerie et le pied de page sont finalisés et ne bougeront plus. Le parcours interne est cohérent : le bouton "Join The Club" ancre vers la section d'inscription, la carte "Next Run" lit le premier entraînement à venir depuis la même source que `/calendar` et mène au run correspondant, le logo et les liens du menu ramènent en haut, et tous les déplacements verticaux partagent le même défilement doux de 1,6 seconde.
 
 La section **"Become A Member"** est refondue en desktop : en-tête de section, titre à 70px, sous-titre en une ligne, les quatre étapes sur une rangée séparées par des flèches vertes, et un panneau "What You Get" centré, en 3D, avec sa pastille à cheval sur la bordure et les six avantages en trois colonnes. Son mobile reste à faire.
 
 La section **"How We Move"** est terminée en desktop et en mobile : photo plein cadre assombrie et trame technique, titre à 70px, sous-titre, deux cartes floutées avec badge, numéro d'index et pastilles, et un bandeau défilant collé au bord bas. Les trois titres de l'accueil partagent désormais la même taille (70px en desktop). Les révélations au scroll se rejouent à chaque retour à l'écran, sur toutes les sections, hero compris.
 
-La section **"What's BEHYBRID"** est désormais terminée en desktop et en mobile. Refondue d'après les maquettes Figma, elle occupe toute la hauteur de l'écran : barre d'en-tête de section ("About The Club" / "Est. 2024"), grand titre, paragraphe, trois chiffres clés (100+ runners, Every week, Since 2024) et quatre cartes numérotées remplaçant l'ancien bloc d'icônes. Deux halos verts diffus animent le fond. Les cartes, ainsi que la carte "Next Run" du hero, s'inclinent en 3D vers le curseur avec un reflet vert qui le suit. Toutes les colonnes se révèlent au scroll, la gauche par la gauche et les cartes par la droite en cascade.
+La section **"What's BEHYBRID"** est désormais terminée en desktop et en mobile. Refondue d'après les maquettes Figma, elle occupe toute la hauteur de l'écran : barre d'en-tête de section ("About The Club" / "Est. 2024"), grand titre, paragraphe, trois chiffres clés (300+ runners, Every week, Since 2024) et quatre cartes numérotées remplaçant l'ancien bloc d'icônes. Deux halos verts diffus animent le fond. Les cartes, ainsi que la carte "Next Run" du hero, s'inclinent en 3D vers le curseur avec un reflet vert qui le suit. Toutes les colonnes se révèlent au scroll, la gauche par la gauche et les cartes par la droite en cascade.
 
 Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bloc (jusqu'à la carte "Next Run" condensée) tient dans un seul écran sans scroll (`svh` pour éviter le zoom au scroll). Le **menu hamburger mobile** est retravaillé : deux zones distinctes (navigation publique en haut, compte en bas), tailles harmonisées, fond noir plein, et blocage du scroll de la page quand il est ouvert. Corrections mobile : accès au serveur de dev depuis un vrai iPhone (`allowedDevOrigins`) et désactivation de la détection auto iOS des dates/heures (`formatDetection`) qui cassait l'hydratation.
+
+La page **`/calendar`** a commencé sa refonte visuelle : en-tête animé, calendrier interactif, galerie finale animée et apparition progressive des événements un par un. La liste prépare maintenant le lien avec les événements Strava : chaque event peut recevoir un `stravaUrl`, afficher **Join** quand le lien existe, ou **Strava soon** tant que l'event officiel n'a pas encore été créé. Le premier import Supabase est préparé à partir du fichier Excel d'Antonino : schéma SQL, CSV propre et guide dans `docs/SUPABASE_EVENTS.md`. La page `/calendar` sait maintenant lire Supabase côté serveur quand `SUPABASE_URL` et `SUPABASE_ANON_KEY` sont configurés.
 
 ### Prochaine étape
 
 Dans cet ordre, décidé le 27/08 :
 
-1. **Retravailler le graphisme de la page `/calendar`**, la seule page publique qui n'a rien reçu de la refonte : pas de section plein écran, pas d'en-tête à trait vert, pas de révélations au scroll. Deux décisions à prendre avant de dessiner : la grille du mois est aujourd'hui écrite en dur (tableau de cases tapé à la main, repère "aujourd'hui" en dur), il faut la calculer ; et choisir entre un mois à la fois avec navigation, ou une liste des prochains runs.
+1. **Finaliser la page `/calendar`** : la refonte visuelle est lancée, le calendrier mensuel est navigable et les événements peuvent maintenant être reliés aux events Strava. Il reste à décider si la liste doit rester "Next Events" globale ou se filtrer selon le mois affiché.
 2. **Écrire la page `/contact`.** Le squelette existe (en-tête, titre, les trois liens sociaux), il manque le formulaire et son traitement.
 3. **Écrire les trois pages légales** : `/legal-notice`, `/privacy`, `/cookie-policy`. Les pages existent et partagent le gabarit `LegalPage`, il n'y a que le contenu à insérer.
-4. **Basculer les entraînements sur Supabase.** Antonino a reçu les vrais entraînements de Gianluca. Structure attendue : date, jour, type (Perform / Connect), titre, heure, lieu. Aujourd'hui les événements sont écrits en dur dans `src/app/calendar/page.tsx`, et la date du prochain run est dupliquée dans le hero de l'accueil : les deux devront lire la même source.
+4. **Basculer les entraînements sur Supabase.** Le fichier Excel a été analysé et transformé en `data/import/behybrid-events.csv`. Le schéma de table est prêt dans `supabase/events.sql`, avec un guide dans `docs/SUPABASE_EVENTS.md`. Le code de lecture Supabase est branché avec fallback local. Prochaine étape : renseigner `.env.local`, redémarrer Next.js et vérifier que `/calendar` affiche les données Supabase.
+5. **Brancher le formulaire newsletter sur Brevo.** Aujourd'hui il affiche une confirmation sans rien enregistrer. Créer/utiliser la liste Brevo, appeler son API (clé en variable d'environnement, jamais en dur), gérer les cas d'erreur (email déjà inscrit, échec réseau).
 
 **Puis** : la page `/join-us`, la boutique, l'espace membre. Leurs liens sont déjà en place dans `src/lib/nav-links.ts`, désactivés par `enabled: false`.
+
+### Décision durable : inscriptions Strava
+
+Ne pas remettre un bouton d'ajout calendrier `.ics` comme action principale des événements. Le frère d'Antonino crée déjà les events Strava 1 à 2 jours avant chaque séance pour compter les inscriptions et centraliser les participants.
+
+La bonne stratégie est donc :
+
+- garder les entraînements visibles à l'avance sur le site ;
+- ajouter un champ `stravaUrl` aux événements ;
+- afficher **Strava soon** tant que l'event Strava officiel n'existe pas ;
+- afficher **Join** dès que `stravaUrl` est renseigné ;
+- plus tard, avec Supabase, ajouter une colonne `strava_url` pour activer le bouton sans modifier le code ni redéployer.
+
+Workflow mensuel recommandé avec Gianluca :
+
+1. Créer les 4 events Strava du mois à l'avance, idéalement en une seule session.
+2. Récupérer les 4 URLs Strava officielles.
+3. Les associer aux 4 entraînements correspondants du site.
+4. Vérifier que les 4 boutons **Join** sont visibles sur `/calendar`.
+5. Laisser Strava gérer les inscriptions, le nombre de participants et les notifications.
+
+Cette décision doit rester dans le README jusqu'au branchement réel de Supabase/Strava.
 
 ### Reste à faire (vue d'ensemble)
 
@@ -223,6 +248,18 @@ Dans cet ordre, décidé le 27/08 :
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-28**
+
+- **Page Calendar animée** : ajout des révélations au scroll sur l'en-tête, la grille du mois, la galerie et la liste "Next Events". Les événements apparaissent désormais un par un avec un léger décalage, date après date.
+- **Calendrier mensuel interactif** : la grille écrite en dur a été remplacée par un composant client `MonthCalendar`. Il démarre sur le vrai mois actuel, surligne le jour d'aujourd'hui, les flèches précédent/suivant naviguent entre les mois et les années, les points verts se recalculent à partir des dates des événements, et les jours avec event sont cliquables pour descendre vers la séance correspondante.
+- **Dates desktop harmonisées** : les dates de la liste "Next Events" se lisent maintenant sur deux lignes en desktop (`7` puis `OCT`, comme `11` puis `OCT`) pour garder une colonne régulière.
+- **Lien Strava pour les inscriptions** : abandon de l'ajout calendrier direct du site. La liste Calendar affiche désormais une action **Join** quand un `stravaUrl` est renseigné, et **Strava soon** quand le frère d'Antonino n'a pas encore créé l'event Strava.
+- **Données d'événements isolées** : les événements ont été déplacés dans `src/lib/calendar-events.ts` pour préparer plus proprement le futur branchement Supabase et recevoir les URLs Strava au fil de l'eau.
+- **Ajustement contenu et UI** : la statistique "What's BEHYBRID" passe à `300+ Runners` après confirmation des 321 membres Strava, et les logos Strava sont retirés de la liste Calendar.
+- **Préparation Supabase Events** : analyse de `data/import/behybrid-events.xlsx`, conversion en `data/import/behybrid-events.csv`, création du schéma `supabase/events.sql` et d'un guide d'import manuel dans `docs/SUPABASE_EVENTS.md`.
+- **Lecture Supabase branchée** : `/calendar` appelle maintenant `getCalendarEvents()` côté serveur. Si `SUPABASE_URL` et `SUPABASE_ANON_KEY` sont présents, les événements viennent de Supabase via l'API REST ; sinon le site garde les données locales de secours.
+- **Carte Next Run synchronisée** : la landing page appelle aussi `getCalendarEvents()` côté serveur. La carte du hero affiche automatiquement le premier événement à venir et pointe vers son ancre dans `/calendar`.
 
 **2026-08-27**
 
