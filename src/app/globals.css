@@ -286,16 +286,6 @@ body {
   border-color: var(--color-accent) !important;
 }
 
-/*
-  Seule exception : le bouton Strava garde sa couleur de marque, ciblé ou non.
-  Un logo de marque ne se recolore pas au gré de l'état d'une page.
-*/
-.event-row .strava-action,
-.event-row:target .strava-action,
-.event-row.is-target .strava-action {
-  border-color: #fc4c02 !important;
-}
-
 /* Bascule d'une personne à l'autre dans la galerie de l'équipe */
 @keyframes team-fade {
   from {

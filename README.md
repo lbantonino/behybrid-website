@@ -183,7 +183,7 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-28**
+**Dernière mise à jour : 2026-08-29**
 
 ### Où on en est
 
@@ -199,7 +199,11 @@ La section **"What's BEHYBRID"** est désormais terminée en desktop et en mobil
 
 Le **hero mobile** est finalisé : contenu centré, titre agrandi, et tout le bloc (jusqu'à la carte "Next Run" condensée) tient dans un seul écran sans scroll (`svh` pour éviter le zoom au scroll). Le **menu hamburger mobile** est retravaillé : deux zones distinctes (navigation publique en haut, compte en bas), tailles harmonisées, fond noir plein, et blocage du scroll de la page quand il est ouvert. Corrections mobile : accès au serveur de dev depuis un vrai iPhone (`allowedDevOrigins`) et désactivation de la détection auto iOS des dates/heures (`formatDetection`) qui cassait l'hydratation.
 
-La page **`/calendar`** a commencé sa refonte visuelle : en-tête animé, calendrier interactif, galerie finale animée et apparition progressive des événements un par un. La liste prépare maintenant le lien avec les événements Strava : chaque event peut recevoir un `stravaUrl`, afficher **Join** quand le lien existe, ou **Strava soon** tant que l'event officiel n'a pas encore été créé. Le premier import Supabase est préparé à partir du fichier Excel d'Antonino : schéma SQL, CSV propre et guide dans `docs/SUPABASE_EVENTS.md`. La page `/calendar` sait maintenant lire Supabase côté serveur quand `SUPABASE_URL` et `SUPABASE_ANON_KEY` sont configurés.
+**La page `/calendar` est terminée**, desktop et mobile, et a passé une revue complète le 29/08. Elle lit Supabase côté serveur quand `SUPABASE_URL` et `SUPABASE_ANON_KEY` sont configurés, avec repli sur un jeu local. Le premier import a été préparé à partir du fichier Excel d'Antonino : schéma SQL, CSV propre et guide dans `docs/SUPABASE_EVENTS.md`.
+
+Elle est **autonome dans le temps** : la liste ne montre que les entraînements à venir, la carte "Next Run" de l'accueil lit la même source, et le calendrier mensuel reste navigable sur les mois passés sans que leurs journées soient cliquables. Remplir la base suffit, le site suit. Chaque séance affiche son type (Perform en vert, Connect en gris) et le logo Strava quand `stravaUrl` est renseigné, ou **Strava soon** tant que l'event officiel n'existe pas.
+
+La revue du 29/08 a produit cinq correctifs, dont trois bugs réels : le décalage en cascade des révélations n'est plus proportionnel au nombre d'événements (une saison complète aurait laissé le dernier run invisible sept secondes), les ancres sont construites sur le `slug` et non sur la date affichée (`28 OCT` ne distingue ni deux années ni deux séances d'un même jour), et la date du jour est calculée dans le fuseau de Bruxelles des deux côtés, ce qui supprime un écart d'hydratation mensuel et un run qui disparaissait de la liste à 2h du matin. S'y ajoutent une hiérarchie de titres correcte (`h1` / `h2` / `h3`, la page n'avait qu'un `h1`) et des données structurées `SportsEvent` pour Google.
 
 ### Prochaine étape
 
@@ -233,19 +237,66 @@ Workflow mensuel recommandé avec Gianluca :
 
 Cette décision doit rester dans le README jusqu'au branchement réel de Supabase/Strava.
 
+### Checklist de déploiement
+
+> À relire intégralement lors de la revue qui précède la mise en ligne. Chaque
+> ligne est une chose qui **ne peut pas** être faite avant de connaître le
+> domaine de production, et qui casse silencieusement si on l'oublie : rien
+> n'échouera au build, le site aura juste l'air de fonctionner.
+
+**1. Définir `NEXT_PUBLIC_SITE_URL` sur l'hébergeur.**
+Le vrai domaine, sans barre oblique finale, par exemple `https://www.behybrid.run`.
+Tant qu'elle est absente, le code retombe sur `http://localhost:3000`. Conséquence :
+les données structurées de `/calendar` (les `SportsEvent` lus par Google) pointent
+vers une machine locale et **Google les ignore purement et simplement**. La variable
+sert aussi de `metadataBase`, donc les futures images de partage seraient également
+cassées. Voir `src/lib/site.ts`.
+
+**2. Vérifier les données structurées une fois en ligne.**
+Coller l'URL de `/calendar` dans le test des résultats enrichis de Google
+(`search.google.com/test/rich-results`). On doit y voir un événement par
+entraînement à venir, avec date, lieu et prix à 0 €. Ce test est impossible en
+local, la page devant être publiquement accessible.
+
+**3. Reporter les variables Supabase.**
+`SUPABASE_URL` et `SUPABASE_ANON_KEY` ne sont que dans `.env.local`, qui n'est pas
+versionné. Sans elles en production, le site sert le jeu d'événements de secours
+codé en dur dans `src/lib/calendar-events.ts`, donc un calendrier figé et faux.
+
+**4. Ce qui n'est pas encore écrit et qui devra l'être.**
+Image de partage (`openGraph`), `sitemap.xml` et `robots.txt`. `metadataBase` étant
+en place, les trois sont rapides, mais aucun n'existe aujourd'hui : un lien du site
+partagé sur WhatsApp ou Instagram n'affiche aucune vignette.
+
+**5. Vérifier que les liens désactivés le sont toujours.**
+`src/lib/nav-links.ts` masque boutique, espace membre et `/join-us` via `enabled:
+false`. Confirmer qu'aucun n'a été réactivé par inadvertance.
+
 ### Reste à faire (vue d'ensemble)
 
-- Finitions UI de l'accueil, sections suivantes (desktop puis mobile)
-- Mettre à jour la page `/style-guide` avec la nouvelle typo Archivo (l'ancien specimen Akzidenz est obsolète)
+- Contenu des trois pages légales et formulaire de `/contact`
+- Référencement : image de partage `openGraph`, `sitemap.xml`, `robots.txt`
 - Page `/join-us`
 - Authentification et espace membre (Supabase)
 - Boutique et paiement (Stripe)
 - Espace administrateur (gestion membres, événements, produits)
-- Pages légales (`/privacy`, `/legal-notice`, `/terms`)
 - Déploiement (Vercel)
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-29**
+
+- **Revue complète de la page `/calendar`**, menée avant d'attaquer la newsletter. Cinq points relevés, tous corrigés le jour même.
+- **Cascade des révélations plafonnée** : chaque ligne d'événement déclenche sa propre animation en entrant dans l'écran, et son délai était proportionnel à son rang (`300 + index * 140`). Avec onze runs le dernier attendait 1,7 seconde, mais avec une saison complète en base il serait resté invisible sept secondes après être apparu. Le délai s'arrête maintenant au cinquième événement, à 860 ms.
+- **Ancres construites sur le `slug`** et non sur la date affichée. `event-28-oct` ne distinguait ni deux années ni deux séances d'une même journée, ce qui aurait produit des `id` en double dans le DOM. L'hypothèse « un entraînement par jour » reste posée dans la grille du mois, mais elle est désormais écrite en commentaire et sa violation dégrade proprement au lieu de casser.
+- **Fuseau du club fixé à `Europe/Brussels`**, via `getClubToday()`. La date du jour était lue avec les méthodes de `Date`, qui répondent dans le fuseau de la machine : le serveur Vercel en temps universel et le navigateur bruxellois pouvaient donc afficher deux mois différents, une fois par mois entre minuit et 2h, provoquant un écart d'hydratation React. Le même bug faisait disparaître un run du matin dès 2h du matin la veille. La comparaison se fait maintenant entre dates ISO sous forme de texte, où aucun fuseau ne peut s'inviter.
+- **Hiérarchie de titres** : la page n'avait qu'un `h1` suivi de onze titres d'entraînement en `<p>`. Le mois et « Next Runs » passent en `h2`, les séances en `h3`, la flèche décorative en `aria-hidden`.
+- **Données structurées `SportsEvent`** ajoutées (`src/components/calendar/events-json-ld.tsx`) : nom, début et fin, lieu, organisateur, lien Strava en `offers` et prix à 0 € (sans prix déclaré, Google n'affiche pas de résultat enrichi). Le décalage horaire est calculé par `Intl` et bascule donc tout seul à l'heure d'hiver, vérifié sur le run du 28 octobre 2026.
+- **`metadataBase` et `NEXT_PUBLIC_SITE_URL`** introduits (`src/lib/site.ts`), avec repli local en développement. D'où la nouvelle **checklist de déploiement** plus haut dans ce README.
+- **Métadonnées de `/calendar`** ajoutées : la page héritait du titre de l'accueil et ressortait donc sous le même nom dans Google.
+- **Textes** : l'introduction promettait « Reserve your spot » alors qu'aucune réservation n'existe sur la page, remplacée par « The next Perform and Connect runs. Join the event on Strava. ». Sur l'accueil, « For All Levels » est retiré de la carte Next Run en mobile uniquement.
+- **Nettoyage** : suppression de l'export mort `EVENTS`.
 
 **2026-08-28**
 

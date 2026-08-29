@@ -22,8 +22,8 @@ import { Reveal } from '@/components/ui/reveal';
 import { ReplayOnView } from '@/components/ui/replay-on-view';
 import {
   eventAnchor,
-  FALLBACK_EVENTS,
   getCalendarEvents,
+  getUpcomingEvents,
   type CalendarEvent,
 } from '@/lib/calendar-events';
 import { connection } from 'next/server';
@@ -270,11 +270,16 @@ function MarqueeRow() {
   );
 }
 
+/**
+ * Le prochain entraînement, ou rien s'il n'y en a plus d'annoncé.
+ *
+ * On s'appuie sur la même fonction que la page calendrier, pour que les deux
+ * pages disent exactement la même chose. Et on ne retombe volontairement pas
+ * sur un entraînement passé : afficher un run périmé sous le titre "Next Run"
+ * tromperait le visiteur, mieux vaut annoncer que les dates arrivent.
+ */
 function getNextRun(events: CalendarEvent[]) {
-  const now = new Date();
-  const futureEvents = events.filter((event) => new Date(event.startsAt) >= now);
-
-  return futureEvents[0] ?? events[0] ?? FALLBACK_EVENTS[0];
+  return getUpcomingEvents(events)[0];
 }
 
 function formatNextRunDate(event: CalendarEvent) {
@@ -375,8 +380,14 @@ export default async function Home() {
             className="w-full flex-1 max-h-[430px] phone-lg:flex-none md:max-h-none md:w-[400px] md:flex-none md:shrink-0"
           >
             <Link
-              href={`/calendar#${eventAnchor(nextRun.date)}`}
-              aria-label={`See ${nextRun.title} in the calendar`}
+              href={
+                nextRun ? `/calendar#${eventAnchor(nextRun)}` : '/calendar'
+              }
+              aria-label={
+                nextRun
+                  ? `See ${nextRun.title} in the calendar`
+                  : 'See the calendar'
+              }
               className="block h-full"
             >
               <TiltCard className="tilt-card--flat relative flex h-full w-full flex-col rounded-2xl border border-white/15 bg-white/1 p-5 backdrop-blur-md phone-lg:p-8 [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:p-7">
@@ -385,10 +396,10 @@ export default async function Home() {
                     → Next Run
                   </p>
                   <p className="mt-3 font-display text-[16px] font-black uppercase leading-[1.05] text-ink phone-lg:text-[18px] md:mt-4 md:text-[28px]">
-                    {formatNextRunDate(nextRun)}
+                    {nextRun ? formatNextRunDate(nextRun) : 'New Dates'}
                   </p>
                   <p className="font-display text-[13px] font-semibold uppercase tracking-wide text-ink/80 phone-lg:text-[15px]">
-                    {nextRun.location}
+                    {nextRun ? nextRun.location : 'Coming Soon'}
                   </p>
 
                   <div className="my-2 h-px w-full bg-white/15 phone-lg:my-5 md:my-6" />
@@ -397,16 +408,11 @@ export default async function Home() {
                     <p className="font-display text-[15px] font-extrabold uppercase text-ink phone-lg:text-[17px] md:text-[21px]">
                       Workout :
                     </p>
-
-                    {/* Visible uniquement sur mobile */}
-                    <p className="font-display text-[10px] font-normal uppercase tracking-[1.5px] text-muted phone-lg:text-[12px] md:hidden">
-                      For All Levels
-                    </p>
                   </div>
 
                   <div className="flex items-end justify-between">
                     <p className="font-display text-[12px] font-light uppercase tracking-wide text-ink/80 phone-lg:text-[14px] md:text-[16px]">
-                      {nextRun.title}
+                      {nextRun ? nextRun.title : 'Check the calendar'}
                     </p>
                   </div>
 

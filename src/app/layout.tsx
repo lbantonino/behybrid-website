@@ -4,8 +4,12 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Preloader } from "@/components/layout/preloader";
 import { ScrollReset } from "@/components/layout/scroll-reset";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
+  // Sert de base à toutes les adresses relatives des métadonnées (images de
+  // partage notamment). Sans elle, Next.js ne peut pas les rendre absolues.
+  metadataBase: new URL(SITE_URL),
   title: "BEHYBRID — Run Club Brussels",
   description: "One club. One community. Rejoins le run club BEHYBRID à Bruxelles.",
   // iOS Safari transforme sinon dates/heures/adresses en liens (ex. "12/08",

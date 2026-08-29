@@ -153,11 +153,66 @@ export const FALLBACK_EVENTS: CalendarEvent[] = [
   },
 ];
 
-export const EVENTS = FALLBACK_EVENTS;
+/**
+ * Le club court à Bruxelles : c'est ce fuseau qui fait foi, pas celui du
+ * serveur (temps universel sur Vercel) ni celui du visiteur (qui peut être en
+ * voyage). Un membre à New York doit voir le calendrier bruxellois.
+ */
+export const CLUB_TIME_ZONE = 'Europe/Brussels';
 
-/** "28 OCT" devient "event-28-oct", l'ancre visée depuis la carte du hero. */
-export function eventAnchor(date: string) {
-  return `event-${date.toLowerCase().replace(' ', '-')}`;
+/**
+ * Date du jour à Bruxelles.
+ *
+ * Passe par `Intl` plutôt que par les méthodes de `Date`, qui répondent dans
+ * le fuseau de la machine. Le résultat est donc identique sur le serveur et
+ * dans le navigateur, ce qui compte : la grille du mois est rendue des deux
+ * côtés, et deux réponses différentes provoqueraient une erreur d'hydratation
+ * React avec un mois qui change sous les yeux du visiteur.
+ */
+export function getClubToday(): {
+  year: number;
+  month: number;
+  day: number;
+  iso: string;
+} {
+  const iso = new Intl.DateTimeFormat('en-CA', {
+    timeZone: CLUB_TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date());
+
+  const [year, month, day] = iso.split('-').map(Number);
+
+  // `month` est ramené sur 0-11, la convention de `Date` et de la grille.
+  return { year, month: month - 1, day, iso };
+}
+
+/**
+ * Ne garde que les entraînements à venir, jour d'aujourd'hui compris : un run
+ * du matin reste affiché toute la journée.
+ *
+ * La comparaison se fait entre deux dates ISO, sous forme de texte. Comme
+ * "2026-09-02" se compare correctement à "2026-08-30" dans l'ordre
+ * alphabétique, aucune conversion en `Date` n'est nécessaire, et donc aucun
+ * fuseau ne peut s'inviter dans le résultat.
+ */
+export function getUpcomingEvents(events: CalendarEvent[]): CalendarEvent[] {
+  const today = getClubToday().iso;
+
+  return events.filter((event) => event.startsAt.slice(0, 10) >= today);
+}
+
+/**
+ * Ancre d'un entraînement dans la page calendrier, visée depuis la carte
+ * "Next Run" de l'accueil et depuis la grille du mois.
+ *
+ * Construite sur le `slug` et non sur la date affichée : "28 OCT" ne distingue
+ * ni deux années ni deux séances d'une même journée, alors que le slug est
+ * unique en base. Donne par exemple "event-threshold-30-2026-10-28".
+ */
+export function eventAnchor(event: Pick<CalendarEvent, 'slug'>) {
+  return `event-${event.slug}`;
 }
 
 function formatDisplayTime(value: string) {

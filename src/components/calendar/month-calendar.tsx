@@ -2,7 +2,13 @@
 
 import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { eventAnchor, type CalendarEvent } from '@/lib/calendar-events';
+import {
+  eventAnchor,
+  getClubToday,
+  type CalendarEvent,
+} from '@/lib/calendar-events';
+
+type ClubToday = ReturnType<typeof getClubToday>;
 
 const WEEKDAY_LABELS = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
 const MONTH_LABELS = [
@@ -44,13 +50,37 @@ function getMonthCells(year: number, month: number) {
   return cells;
 }
 
-export function MonthCalendar({ events }: { events: CalendarEvent[] }) {
-  const [today] = useState(() => new Date());
+/**
+ * `events` alimente les points verts de la grille : tous les entraînements,
+ * pour qu'un mois passé reste consultable. `upcomingEvents` sert aux liens :
+ * seuls les événements réellement présents dans la liste sont cliquables,
+ * sinon le clic renverrait vers une ancre qui n'existe pas dans la page.
+ */
+export function MonthCalendar({
+  events,
+  upcomingEvents,
+}: {
+  events: CalendarEvent[];
+  upcomingEvents: CalendarEvent[];
+}) {
+  const listedSlugs = useMemo(
+    () => new Set(upcomingEvents.map((event) => event.slug)),
+    [upcomingEvents],
+  );
+  // Date de Bruxelles, et non celle de la machine : le serveur (en temps
+  // universel) et le navigateur doivent produire le même mois, sans quoi le
+  // rendu serveur et l'hydratation divergeraient une fois par mois, entre
+  // minuit et deux heures du matin.
+  const [today] = useState(getClubToday);
   const [visibleMonth, setVisibleMonth] = useState(() => ({
-    month: today.getMonth(),
-    year: today.getFullYear(),
+    month: today.month,
+    year: today.year,
   }));
 
+  // Un seul entraînement par jour : c'est le rythme du club, et la grille est
+  // construite dessus. Si deux séances tombaient un jour le même jour, la case
+  // n'en montrerait qu'une (un point vert, un lien) sans que rien ne casse ;
+  // la liste sous le calendrier, elle, les afficherait toutes les deux.
   const eventsByDay = useMemo(() => {
     const eventMap = new Map<number, CalendarEvent>();
 
@@ -96,9 +126,9 @@ export function MonthCalendar({ events }: { events: CalendarEvent[] }) {
   return (
     <>
       <div className="mb-4 flex items-center justify-between md:mb-4.5">
-        <p className="font-display text-h3 font-extrabold uppercase md:text-h3">
+        <h2 className="font-display text-h3 font-extrabold uppercase">
           {MONTH_LABELS[visibleMonth.month]} {visibleMonth.year}
-        </p>
+        </h2>
         <div className="flex gap-2">
           <button
             type="button"
@@ -135,6 +165,11 @@ export function MonthCalendar({ events }: { events: CalendarEvent[] }) {
             key={`${visibleMonth.year}-${visibleMonth.month}-${index}`}
             day={day}
             event={day === null ? undefined : eventsByDay.get(day)}
+            isListed={
+              day === null
+                ? false
+                : listedSlugs.has(eventsByDay.get(day)?.slug ?? '')
+            }
             today={today}
             visibleMonth={visibleMonth}
           />
@@ -147,32 +182,35 @@ export function MonthCalendar({ events }: { events: CalendarEvent[] }) {
 function CalendarDay({
   day,
   event,
+  isListed,
   today,
   visibleMonth,
 }: {
   day: number | null;
   event?: CalendarEvent;
-  today: Date;
+  /** L'événement figure-t-il dans la liste affichée sous le calendrier. */
+  isListed: boolean;
+  today: ClubToday;
   visibleMonth: { month: number; year: number };
 }) {
   const isToday =
     day !== null &&
-    day === today.getDate() &&
-    visibleMonth.month === today.getMonth() &&
-    visibleMonth.year === today.getFullYear();
+    day === today.day &&
+    visibleMonth.month === today.month &&
+    visibleMonth.year === today.year;
 
   const className = `relative flex aspect-square items-center justify-center rounded-xl text-label md:text-body-sm ${
     isToday ? 'bg-white/12 text-ink ring-1 ring-white/20' : 'text-ink'
   } ${
-    event
+    event && isListed
       ? 'cursor-pointer transition-colors hover:bg-accent hover:text-bg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
       : ''
   }`;
 
-  if (event) {
+  if (event && isListed) {
     return (
       <a
-        href={`#${eventAnchor(event.date)}`}
+        href={`#${eventAnchor(event)}`}
         aria-label={`Go to ${event.title} on ${event.date}`}
         className={className}
       >
@@ -182,9 +220,5 @@ function CalendarDay({
     );
   }
 
-  return (
-    <div className={className}>
-      {day}
-    </div>
-  );
+  return <div className={className}>{day}</div>;
 }
