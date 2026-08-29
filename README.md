@@ -183,7 +183,7 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-29**
+**Dernière mise à jour : 2026-08-30**
 
 ### Où on en est
 
@@ -268,7 +268,21 @@ Image de partage (`openGraph`), `sitemap.xml` et `robots.txt`. `metadataBase` é
 en place, les trois sont rapides, mais aucun n'existe aujourd'hui : un lien du site
 partagé sur WhatsApp ou Instagram n'affiche aucune vignette.
 
-**5. Vérifier que les liens désactivés le sont toujours.**
+**5. Changer l'adresse d'expéditeur Brevo.**
+La newsletter part aujourd'hui de `lb.antonino7@gmail.com`, une adresse Freemail.
+Brevo signale lui-même que le domaine n'est pas conforme aux exigences de Google,
+Yahoo et Microsoft : Gmail n'autorise pas Brevo à envoyer en son nom, donc une
+partie des emails de confirmation finira en spam ou sera rejetée. Créer une adresse
+sur le domaine du club, l'ajouter dans Expéditeurs, domaine, IP, et authentifier le
+domaine (DKIM et DMARC) depuis l'onglet Domaines.
+
+Le choix de l'adresse exacte (`hello@`, `newsletter@`, `run@`...) est à décider avec
+Gianluca, décision prise le 29/08. Aucune conséquence sur le code : l'expéditeur est
+un réglage Brevo, pas une valeur du dépôt. Tant que ce point n'est pas fait, ne pas
+ouvrir le formulaire au public : les inscrits ne recevraient jamais l'email de
+confirmation, et ne seraient donc jamais inscrits.
+
+**6. Vérifier que les liens désactivés le sont toujours.**
 `src/lib/nav-links.ts` masque boutique, espace membre et `/join-us` via `enabled:
 false`. Confirmer qu'aucun n'a été réactivé par inadvertance.
 
@@ -284,6 +298,18 @@ false`. Confirmer qu'aucun n'a été réactivé par inadvertance.
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-30**
+
+- **Newsletter branchée sur Brevo.** Le formulaire affichait jusqu'ici une confirmation sans rien enregistrer. Il appelle désormais une route serveur qui parle à Brevo, la clé d'API ne quittant jamais le serveur.
+- **Double opt-in**, choisi avec Antonino. Le RGPD n'impose pas la méthode mais impose de **prouver** le consentement : sans confirmation par email, n'importe qui pourrait inscrire l'adresse d'un tiers sans qu'on ait rien à montrer. C'est Brevo qui envoie l'email et n'inscrit qu'après le clic, donc la preuve horodatée reste chez lui, sans que le site ait à la stocker.
+- **Configuration Brevo** : liste `Newsletter site` (id 3), modèle `Double opt-in newsletter` (id 1) dont le bouton porte un lien de type « double opt-in », c'est ce type et rien d'autre qui fait qu'un modèle devient un modèle de confirmation. Les trois valeurs ont été vérifiées contre l'API réelle avant d'écrire la moindre ligne.
+- **« Déjà inscrit » dit franchement**, choix assumé d'Antonino. Le compromis est documenté dans le code : cela permet de tester si une adresse est dans la liste, information sans enjeu ici, alors qu'une réponse uniforme ferait attendre en vain un email à quelqu'un qui se réinscrit. Une personne désinscrite est traitée comme absente : elle a le droit de revenir.
+- **Garde-fou contre l'abus** : la route déclenche des envois d'email sans authentification, d'où une limite de cinq tentatives par minute et par IP. Sa faiblesse est écrite dans le code plutôt que tue : le compteur vit en mémoire, il gêne un script naïf et n'arrêterait pas une attaque distribuée.
+- **Page `/newsletter/confirmed`** pour l'arrivée après le clic, en `noindex` puisqu'on n'atteint cette page que par un lien privé.
+- **Testé** : validation des adresses (400), méthode GET (405), limite de débit par IP (5 passent, la 6e bloque, un autre visiteur n'est pas affecté), page de confirmation. **Non testé : l'envoi réel**, donc aussi le fait que Brevo accepte une redirection vers `localhost` en développement.
+- **Reste à faire** : nettoyer le modèle Brevo, où des blocs de la maquette boutique subsistent sous le contenu (cartes « Votre produit », coupon PROMO15), puis dérouler le test complet depuis le formulaire du site.
+- **`.env.example` était couvert par `.gitignore`** et n'avait donc jamais été versionné. Exception ajoutée : c'est le seul endroit qui documente les variables à configurer.
 
 **2026-08-29**
 

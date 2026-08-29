@@ -3,45 +3,110 @@
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 
+type Status = "idle" | "loading" | "pending" | "already" | "invalid" | "error";
+
+/**
+ * Messages de fin de parcours. Le vert est réservé à ce qui a marché : une
+ * adresse déjà inscrite n'est pas une erreur du visiteur, mais elle n'appelle
+ * aucune action de sa part, d'où le gris.
+ */
+const MESSAGES: Record<
+  Exclude<Status, "idle" | "loading">,
+  { text: string; tone: string }
+> = {
+  pending: {
+    text: "Almost there. Check your inbox and click the link to confirm.",
+    tone: "text-accent",
+  },
+  already: {
+    text: "You are already subscribed. Nothing else to do.",
+    tone: "text-muted",
+  },
+  invalid: {
+    text: "That address does not look right. Check it and try again.",
+    tone: "text-muted",
+  },
+  error: {
+    text: "Something went wrong on our side. Try again in a moment.",
+    tone: "text-muted",
+  },
+};
+
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitted">("idle");
+  const [status, setStatus] = useState<Status>("idle");
 
-  // TODO: brancher sur une table Supabase "newsletter_subscribers" une fois le backend en place.
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!email) return;
-    setStatus("submitted");
+    if (!email || status === "loading") return;
+
+    setStatus("loading");
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = (await response.json()) as { status?: Status };
+
+      setStatus(data.status ?? "error");
+    } catch {
+      // Le visiteur est hors ligne, ou la requête n'est jamais partie.
+      setStatus("error");
+    }
   }
 
-  if (status === "submitted") {
+  // Inscription confirmée : le formulaire n'a plus lieu d'être. Dans les
+  // autres cas on le laisse en place, puisqu'il y a quelque chose à corriger
+  // ou à retenter.
+  if (status === "pending") {
     return (
-      <p className="text-body-sm font-medium text-accent">
-        Merci, tu es inscrit à la newsletter BEHYBRID.
+      <p className={`text-body-sm font-medium ${MESSAGES.pending.tone}`}>
+        {MESSAGES.pending.text}
       </p>
     );
   }
 
+  const message =
+    status === "already" || status === "invalid" || status === "error"
+      ? MESSAGES[status]
+      : null;
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate>
       <div className="flex flex-col gap-2.5 md:flex-row md:gap-3">
         <input
           type="email"
           required
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            // Le message précédent ne parle plus de ce qui est saisi.
+            if (status !== "idle") setStatus("idle");
+          }}
+          disabled={status === "loading"}
+          aria-invalid={status === "invalid"}
           placeholder="you@example.com"
-          className="w-full rounded-full border border-white/15 bg-bg px-4.5 py-3.5 text-body-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none md:w-[280px] md:bg-bg md:px-5.5 md:py-3.5 md:text-body-sm"
+          className="w-full rounded-full border border-white/15 bg-bg px-4.5 py-3.5 text-body-sm text-ink placeholder:text-muted focus:border-accent focus:outline-none disabled:opacity-60 md:w-[280px] md:bg-bg md:px-5.5 md:py-3.5 md:text-body-sm"
         />
         <Button
           type="submit"
           variant="primary"
           size="md"
-          className="whitespace-nowrap"
+          disabled={status === "loading"}
+          className="whitespace-nowrap disabled:opacity-60"
         >
-          Subscribe
+          {status === "loading" ? "Sending…" : "Subscribe"}
         </Button>
       </div>
+
+      {message ? (
+        <p className={`text-body-sm ${message.tone}`} role="status">
+          {message.text}
+        </p>
+      ) : null}
 
       {/* Deux lignes partout, mais la coupure change selon la largeur : sur un
           iPhone standard, la première phrase ne tient pas seule sur une ligne. */}
