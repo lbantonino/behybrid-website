@@ -41,6 +41,7 @@ export function ContactForm() {
           email: data.get('email'),
           message: data.get('message'),
           topic,
+          company: data.get('company'),
         }),
       });
 
@@ -60,7 +61,30 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+    /*
+      Pas de `noValidate` : on laisse le navigateur signaler lui-même le champ
+      manquant ou l'adresse mal formée. Il pointe le champ fautif, ce qu'un
+      message générique sous le bouton ne fait pas. La validation du serveur
+      reste la seule qui fasse foi, celle-ci n'est qu'un confort.
+    */
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      {/*
+        Champ piège. Invisible et hors du parcours au clavier, donc un humain ne
+        le voit ni ne l'atteint jamais ; un robot qui remplit aveuglément tous
+        les champs le remplit. Cela n'arrête pas un robot écrit pour ce site
+        précis, mais élimine la grande majorité du spam automatisé, qui est
+        générique. `hidden` plutôt qu'une astuce CSS : c'est le seul moyen sûr
+        qu'aucun gestionnaire de mots de passe n'aille le remplir.
+      */}
+      <input
+        type="text"
+        name="company"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden
+        hidden
+      />
+
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className={LABEL} htmlFor="firstName">

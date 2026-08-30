@@ -25,6 +25,8 @@ export type ContactMessage = {
   email: string;
   topic: ContactTopic;
   message: string;
+  /** Champ piège : toujours vide chez un humain. Voir `sendContactMessage`. */
+  company?: string;
 };
 
 export type ContactResult = 'sent' | 'invalid' | 'error';
@@ -65,6 +67,19 @@ function parse(input: Partial<ContactMessage>): ContactMessage | null {
 export async function sendContactMessage(
   input: Partial<ContactMessage>,
 ): Promise<ContactResult> {
+  /*
+    Champ piège rempli : c'est un robot. On répond 'sent' et on n'envoie rien.
+
+    Mentir est ici le bon comportement : signaler le rejet apprendrait à
+    l'auteur du robot quel champ éviter, alors qu'un succès simulé le laisse
+    croire que le spam est passé. Un humain ne peut pas déclencher ce cas, le
+    champ étant masqué et hors du parcours au clavier.
+  */
+  if (input.company) {
+    console.warn('Contact : message ignoré, champ piège rempli.');
+    return 'sent';
+  }
+
   const data = parse(input);
 
   if (!data) return 'invalid';
