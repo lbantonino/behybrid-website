@@ -111,14 +111,22 @@ export async function subscribeToNewsletter(
 
     if (response.ok) return 'pending';
 
-    // Brevo refuse certaines adresses (jetables, syntaxe qu'il juge invalide).
-    // C'est la faute du visiteur, pas une panne : on le lui dit.
-    if (response.status === 400) {
-      console.error('Newsletter : Brevo a refusé l’adresse', await response.text());
+    const detail = await response.text();
+
+    /*
+      Brevo répond 400 aussi bien pour une adresse que le visiteur a mal
+      saisie que pour une configuration cassée de notre côté (modèle de
+      confirmation désactivé, liste supprimée). Les confondre revient à
+      accuser le visiteur d'une faute qu'il n'a pas commise, et à lui faire
+      retaper une adresse pourtant correcte. On ne parle donc d'adresse
+      invalide que si Brevo parle d'adresse.
+    */
+    if (response.status === 400 && /email/i.test(detail)) {
+      console.error('Newsletter : adresse refusée par Brevo', detail);
       return 'invalid';
     }
 
-    console.error('Newsletter : Brevo a répondu', response.status, await response.text());
+    console.error('Newsletter : Brevo a répondu', response.status, detail);
     return 'error';
   } catch (cause) {
     console.error('Newsletter : appel Brevo impossible', cause);

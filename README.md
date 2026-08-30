@@ -244,6 +244,36 @@ Cette décision doit rester dans le README jusqu'au branchement réel de Supabas
 > domaine de production, et qui casse silencieusement si on l'oublie : rien
 > n'échouera au build, le site aura juste l'air de fonctionner.
 
+**0. Trancher le nom de domaine avant tout le reste.**
+Antonino possède déjà **`behybridathlete.com`** (créé le 04/06/2024 chez Hostinger,
+payé jusqu'au 04/06/2028, DNS pointant vers Shopify, aucune boîte mail configurée).
+Il ne convient pas : **le club ne dit jamais « athlete »**, sa langue est *run*,
+*runner*, *Perform*, *Connect*. Un domaine employant un mot que personne ne prononce
+crée un décalage permanent avec la marque.
+
+Piste retenue par Antonino le 30/08 : **`behybridrunclub.com`**, le plus explicite et
+le plus proche du nom officiel « BEHYBRID Run Club Brussels ». Alternative courte :
+`behybridrun.com`. Les deux étaient libres au 30/08, comme `behybridbrussels.com`,
+`behybridclub.com`, `runbehybrid.com`, `wearebehybrid.com`, `behybridbxl.com`.
+
+Écartés : `behybrid.com` est parqué en vente chez Afternic/GoDaddy (donc le réflexe
+`.com` d'un visiteur mène à une page de vente, pire qu'une erreur) ; `behybrid.be` est
+réservé depuis le 12/12/2022 via Hostnet et jamais exploité ; `behybrid.run` est plus
+élégant mais ajoute trois frottements (réflexe `.com` non satisfait, extension refusée
+par les validateurs d'email anciens, réputation d'envoi moins établie).
+
+Le mot-clé dans le domaine ne pèse presque plus rien en référencement depuis 2012 :
+c'est le contenu, les titres et les données structurées qui positionnent le site.
+Choisir sur la sonorité et l'usage, pas sur Google.
+
+**Ce point est le premier de la liste parce que tous les suivants en dépendent**, et
+que changer de domaine après la mise en ligne coûte cher : emails à refaire, liens
+partagés morts, référencement à reconstruire, flocages et bios à corriger.
+
+**À demander à Gianluca** : `behybridathlete.com` pointe vers une adresse IP de
+Shopify. Une boutique a donc été commencée. Savoir ce qui existe (produits, visuels,
+paiement configuré) avant de reprendre le sujet boutique du site.
+
 **1. Définir `NEXT_PUBLIC_SITE_URL` sur l'hébergeur.**
 Le vrai domaine, sans barre oblique finale, par exemple `https://www.behybrid.run`.
 Tant qu'elle est absente, le code retombe sur `http://localhost:3000`. Conséquence :
@@ -301,6 +331,9 @@ false`. Confirmer qu'aucun n'a été réactivé par inadvertance.
 
 **2026-08-30**
 
+- **Newsletter en service, chaîne complète validée sur du réel.** Deux adresses personnelles inscrites, emails reçus, liens de confirmation cliqués, contacts effectivement présents dans la liste 3. Les quatre branches du code sont vérifiées : inscription complète, déjà inscrit (y compris avec majuscules et espaces, l'adresse étant normalisée), adresse invalide, panne serveur.
+- **Piège Brevo qui a coûté une heure** : `doubleOptinConfirmation` répondait `An active DOI template does not exist` alors que Brevo déclarait lui-même le modèle `isActive: true` **et** `doiTemplate: true`. Le modèle doit porter l'étiquette (champ *Tag*) **`optin`**, que ni le message d'erreur ni l'interface ne réclament. Un premier diagnostic était faux : le test d'isolation utilisait une adresse invalide, or Brevo valide l'adresse avant le modèle et s'arrêtait donc avant le vrai problème.
+- **Message d'erreur corrigé** : tout code 400 de Brevo était traduit en « adresse invalide », donc une panne de configuration accusait le visiteur d'une faute qu'il n'avait pas commise et le faisait retaper une adresse pourtant correcte. On ne parle plus d'adresse invalide que si Brevo parle d'adresse.
 - **Newsletter branchée sur Brevo.** Le formulaire affichait jusqu'ici une confirmation sans rien enregistrer. Il appelle désormais une route serveur qui parle à Brevo, la clé d'API ne quittant jamais le serveur.
 - **Double opt-in**, choisi avec Antonino. Le RGPD n'impose pas la méthode mais impose de **prouver** le consentement : sans confirmation par email, n'importe qui pourrait inscrire l'adresse d'un tiers sans qu'on ait rien à montrer. C'est Brevo qui envoie l'email et n'inscrit qu'après le clic, donc la preuve horodatée reste chez lui, sans que le site ait à la stocker.
 - **Configuration Brevo** : liste `Newsletter site` (id 3), modèle `Double opt-in newsletter` (id 1) dont le bouton porte un lien de type « double opt-in », c'est ce type et rien d'autre qui fait qu'un modèle devient un modèle de confirmation. Les trois valeurs ont été vérifiées contre l'API réelle avant d'écrire la moindre ligne.
@@ -309,6 +342,7 @@ false`. Confirmer qu'aucun n'a été réactivé par inadvertance.
 - **Page `/newsletter/confirmed`** pour l'arrivée après le clic, en `noindex` puisqu'on n'atteint cette page que par un lien privé.
 - **Testé** : validation des adresses (400), méthode GET (405), limite de débit par IP (5 passent, la 6e bloque, un autre visiteur n'est pas affecté), page de confirmation. **Non testé : l'envoi réel**, donc aussi le fait que Brevo accepte une redirection vers `localhost` en développement.
 - **Reste à faire** : nettoyer le modèle Brevo, où des blocs de la maquette boutique subsistent sous le contenu (cartes « Votre produit », coupon PROMO15), puis dérouler le test complet depuis le formulaire du site.
+- **Piège Brevo, à ne pas réapprendre** : l'API `doubleOptinConfirmation` répondait `An active DOI template does not exist` alors que Brevo déclarait lui-même le modèle `isActive: true` **et** `doiTemplate: true`. Cause réelle : le modèle doit porter l'étiquette (champ *Tag*) **`optin`**, sans quoi l'API ne le voit pas. Le message d'erreur ne mentionne jamais l'étiquette, et l'interface ne la réclame nulle part. Posée par API sur le modèle 1.
 - **`.env.example` était couvert par `.gitignore`** et n'avait donc jamais été versionné. Exception ajoutée : c'est le seul endroit qui documente les variables à configurer.
 
 **2026-08-29**
