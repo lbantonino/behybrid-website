@@ -146,19 +146,21 @@ export default async function CalendarPage() {
     <>
       <EventsJsonLd events={events} />
       <EventHighlight />
-      <Container className="pt-8 md:pt-14">
+      <Container className="pt-7 md:pt-14">
         <Reveal from="left">
           <div className="flex items-center gap-2.5 md:gap-3.5">
             <span className="h-px w-6 bg-accent md:w-8" />
             <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-accent">
-              Calendar
+              Never Miss A Run
             </span>
           </div>
-          <h1 className="mt-1 font-display text-h2 font-black uppercase md:text-h1">
-            Never Miss A Run
+          <h1 className="mt-9 text-center font-display text-[42px] font-black uppercase leading-[0.92] tracking-[-0.02em] md:mt-4 md:text-left md:text-[70px] md:leading-[0.9]">
+            Calendar
           </h1>
-          <p className="mt-2.5 max-w-[440px] text-body-sm text-muted md:mt-3 md:text-body">
-            The next Perform and Connect runs. Join the event on Strava.
+          <p className="mt-3 max-w-[440px] text-center text-body-sm text-muted md:mt-4 md:text-left md:text-body">
+            The next Perform and Connect runs.{' '}
+            <br className="md:hidden" />
+            Join the event on Strava.
           </p>
         </Reveal>
 

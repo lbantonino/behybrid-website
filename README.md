@@ -47,7 +47,7 @@ Légende : ✅ en place · 🚧 en cours · ⬜ à venir
 - ✅ **Identité visuelle** intégrée (logos, photos, polices Archivo + Montserrat)
 - ✅ **Design system documenté** sur la page interne `/style-guide`
 - ✅ **Formulaire newsletter** branché sur Brevo en double opt-in (inscription réelle, email de confirmation, cas « déjà inscrit » traité)
-- 🚧 **Page contact** (`/contact`), squelette en place, formulaire à écrire
+- ✅ **Page contact** (`/contact`) : coordonnées, formulaire branché sur Brevo (le message arrive par email chez le club), galerie animée
 - 🚧 **Pages légales** (`/legal-notice`, `/privacy`, `/cookie-policy`), créées, contenu à écrire
 - ⬜ **Page "Rejoindre"** (`/join-us`), parcours d'entrée dans la communauté
 
@@ -330,6 +330,16 @@ false`. Confirmer qu'aucun n'a été réactivé par inadvertance.
 ### Journal des sessions
 
 **2026-08-30**
+
+- **Page `/contact` terminée**, desktop et mobile, refondue d'après deux maquettes. Les trois gros liens sociaux ont disparu (ils faisaient doublon avec le pied de page, situé juste en dessous) au profit de trois cartes d'information : email, Instagram signalé comme la réponse la plus rapide, et lieu de rendez-vous. S'y ajoutent un formulaire complet, la pastille « Usually replies within 24 h » et une galerie de trois photos animée comme celles de l'accueil et du calendrier.
+- **Le message arrive par email, rien n'est stocké.** Choix assumé : mettre les messages en base obligerait à construire un endroit pour les consulter, que personne n'ouvrirait. La boîte mail de Gianluca est déjà cet endroit. L'adresse du visiteur est placée en `replyTo`, donc répondre depuis Gmail écrit directement à la personne sans recopier son adresse.
+- **Compteur anti-abus mutualisé** (`src/lib/rate-limit.ts`) entre la newsletter et le contact, au lieu d'être copié. Le contact est plus strict, trois envois par minute contre cinq : on ne rédige pas trois messages en une minute de bonne foi.
+- **Chaîne validée deux fois sur du réel**, en redirigeant temporairement le destinataire vers une adresse d'Antonino pour ne pas écrire à Gianluca pendant les tests. Validation vérifiée sur cinq cas de refus : champs vides, email mal formé, sujet inventé, message trop court, prénom fait d'espaces.
+- **Échelle de titres unifiée.** `Never Miss A Run` et `Contact` partagent désormais la chaîne de classes exacte des titres de l'accueil (42px centré en mobile, 70px aligné à gauche en desktop), et les deux pages ont le même retrait haut : passer de `/calendar` à `/contact` ne déplace plus rien. Antonino revient ainsi sur son refus du 28/08 d'agrandir le titre du calendrier.
+- **Titre et en-tête du calendrier inversés** : l'en-tête vert dit maintenant `Never Miss A Run` et le titre `Calendar`. Les deux pages ont donc un titre d'un seul mot, au même endroit et à la même taille.
+- **Mise en page desktop de `/contact`** : chaque colonne porte sa propre hauteur pleine. L'en-tête reste en haut, les cartes se centrent dans ce qui reste, le formulaire se centre sur la hauteur totale de l'écran.
+- **Faux positif à connaître** : React signale un écart d'hydratation sur `/calendar` à cause d'attributs `__gcruniqueid` et `__gcrremoteframetoken`. Ils n'existent pas dans le code, c'est une extension du navigateur qui les injecte. Vérifiable en navigation privée.
+- **Reste à faire sur ce formulaire** : aucune protection contre les robots (un champ piège suffirait), et la mention de consentement renvoie vers `/privacy`, qui est encore vide.
 
 - **Newsletter en service, chaîne complète validée sur du réel.** Deux adresses personnelles inscrites, emails reçus, liens de confirmation cliqués, contacts effectivement présents dans la liste 3. Les quatre branches du code sont vérifiées : inscription complète, déjà inscrit (y compris avec majuscules et espaces, l'adresse étant normalisée), adresse invalide, panne serveur.
 - **Piège Brevo qui a coûté une heure** : `doubleOptinConfirmation` répondait `An active DOI template does not exist` alors que Brevo déclarait lui-même le modèle `isActive: true` **et** `doiTemplate: true`. Le modèle doit porter l'étiquette (champ *Tag*) **`optin`**, que ni le message d'erreur ni l'interface ne réclament. Un premier diagnostic était faux : le test d'isolation utilisait une adresse invalide, or Brevo valide l'adresse avant le modèle et s'arrêtait donc avant le vrai problème.
