@@ -46,7 +46,7 @@ Légende : ✅ en place · 🚧 en cours · ⬜ à venir
 - ✅ **Header, footer et navigation** partagés sur tout le site
 - ✅ **Identité visuelle** intégrée (logos, photos, polices Archivo + Montserrat)
 - ✅ **Design system documenté** sur la page interne `/style-guide`
-- ✅ **Formulaire newsletter** (interface prête, mais n'enregistre encore rien)
+- ✅ **Formulaire newsletter** branché sur Brevo en double opt-in (inscription réelle, email de confirmation, cas « déjà inscrit » traité)
 - 🚧 **Page contact** (`/contact`), squelette en place, formulaire à écrire
 - 🚧 **Pages légales** (`/legal-notice`, `/privacy`, `/cookie-policy`), créées, contenu à écrire
 - ⬜ **Page "Rejoindre"** (`/join-us`), parcours d'entrée dans la communauté
