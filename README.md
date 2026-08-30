@@ -205,6 +205,25 @@ Elle est **autonome dans le temps** : la liste ne montre que les entraînements 
 
 La revue du 29/08 a produit cinq correctifs, dont trois bugs réels : le décalage en cascade des révélations n'est plus proportionnel au nombre d'événements (une saison complète aurait laissé le dernier run invisible sept secondes), les ancres sont construites sur le `slug` et non sur la date affichée (`28 OCT` ne distingue ni deux années ni deux séances d'un même jour), et la date du jour est calculée dans le fuseau de Bruxelles des deux côtés, ce qui supprime un écart d'hydratation mensuel et un run qui disparaissait de la liste à 2h du matin. S'y ajoutent une hiérarchie de titres correcte (`h1` / `h2` / `h3`, la page n'avait qu'un `h1`) et des données structurées `SportsEvent` pour Google.
 
+### Revue de code
+
+Une revue complète du site a été établie le **31/08/2026** sur le commit `91ba13c` :
+ce qui tient (mesuré, pas supposé), sept incohérences relevées, six risques
+techniques dont un bloquant, et les neuf points à traiter avant la mise en ligne.
+
+**Rapport consultable** : https://claude.ai/code/artifact/2efadb48-a5d2-444d-96c5-ae7a3da8e373
+
+> **À refaire une fois les trois pages légales écrites**, demandé par Antonino le
+> 31/08. Il faudra alors **mettre à jour ce rapport à la même adresse** plutôt
+> qu'en publier un second, pour que le lien ci-dessus reste valable, et le
+> relire juste avant le déploiement.
+
+Le point bloquant de cette première revue, à ne pas perdre de vue : **sans
+JavaScript, le site est un écran noir définitif**. L'écran de chargement est un
+calque opaque servi dans le HTML et retiré par JavaScript seul, et toutes les
+révélations au scroll partent d'une opacité nulle. Une erreur de paquet, un
+bloqueur agressif ou une connexion qui lâche suffisent.
+
 ### Prochaine étape
 
 Dans cet ordre, décidé le 28/08 :
