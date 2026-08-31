@@ -220,10 +220,10 @@ ligne. Le rapport a été **mis à jour le même jour** après les corrections.
 > relire juste avant le déploiement.
 
 **État au 31/08 après corrections.** Le point bloquant TEC-01 est réglé : sans
-JavaScript, le site n'est plus un écran noir. Cinq des sept incohérences sont
-traitées. Restent ouvertes **INC-03** (les portraits, devenus le point 7 de la
-checklist de déploiement) et **INC-04** (le rôle de Gaëtan, à trancher avec
-l'équipe), plus cinq risques techniques non bloquants : pas de page 404 ni
+JavaScript, le site n'est plus un écran noir. Six des sept incohérences sont
+traitées, la septième (**INC-04**) n'en était pas une, voir ci-dessous. Reste
+ouverte **INC-03**, les portraits, devenus le point 7 de la checklist de
+déploiement, plus quatre risques techniques non bloquants : pas de page 404 ni
 d'écran d'erreur aux couleurs du club (TEC-02), 20 Mo de photos sources dont un
 PNG de 2,35 Mo pour une photographie (TEC-03), aucun test sur les deux routes
 serveur qui envoient des emails (TEC-04), et un gris à 4,38 de contraste sous le
@@ -404,7 +404,7 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 - **INC-02, onze libellés d'accessibilité traduits.** Ce sont les seuls textes du site qu'on n'a jamais sous les yeux, donc les seuls qu'on ne relit jamais : c'est pour ça qu'ils avaient dérivé.
 - **INC-06, trois duplications supprimées.** URL Instagram dans `nav-links.ts`, copyright et email du club dans `site.ts`. Trois décisions vont plus loin qu'un simple déplacement : l'année du copyright est **calculée** dans le fuseau du club (rien à faire au 1er janvier, et même résultat côté serveur et côté navigateur), la poignée Instagram se **déduit** de l'URL, et l'adresse affichée est **la même constante** que celle qui reçoit les messages, qui pouvaient jusqu'ici diverger en silence.
 - **`src/lib/club-time.ts` extrait** pour partager le calcul de l'année entre un composant serveur et un composant client. Sans cette extraction, importer le copyright dans le menu mobile embarquait tout le jeu d'événements de secours du calendrier dans le paquet JavaScript envoyé au navigateur.
-- **INC-04** : Gaëtan passe de « Digital Producer » à « Pacer ». Le doublon subsiste (Anaïs est aussi Pacer) mais il a changé de nature : deux « Digital Producer » ressemblait à un oubli, deux pacers dans un run club se comprend. Antonino tranchera avec l'équipe.
+- **INC-04 annulé : ce n'était pas une incohérence.** Gaëtan passe de « Digital Producer » à « Pacer », et le fait qu'Anaïs porte le même rôle est **normal et voulu** : un run club a plusieurs pacers d'allures différentes, Anaïs pour les plus lents et Gaëtan pour les plus rapides. Ma lecture d'un « doublon » venait de ce que je jugeais des rôles sans connaître le fonctionnement du club. À ne plus signaler.
 - **INC-05, décision inverse de la revue.** Les numéros `01` à `04` des cartes « What's BEHYBRID » sont **conservés**, choix assumé d'Antonino après avoir essayé de les retirer et d'y mettre un monogramme. Un commentaire dans le code enregistre que la question a été posée et tranchée, pour que personne ne les retire plus tard en croyant corriger un oubli.
 - **INC-07 clos par Antonino.** Le cadrage mobile de `gallery-contact-1.jpg` est descendu pour faire entrer les visages (bande visible 437→1405 devenue 218→1186), desktop inchangé. Le format hors norme ne le dérange pas.
 - **Portraits de l'équipe reportés au déploiement**, à la demande d'Antonino : il demandera une photo à chaque membre et on validera taille et poids ensemble. Devenu le **point 7 de la checklist de déploiement**, avec le détail des 9 fichiers.
