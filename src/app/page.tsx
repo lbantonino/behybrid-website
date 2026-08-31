@@ -79,17 +79,17 @@ const MOVE_MARQUEE_ITEMS = [
  */
 const GALLERY = [
   {
-    file: 'gallery-1.png',
+    file: 'gallery-1.jpg',
     from: 'left' as const,
     delay: 'delay-[0ms] md:delay-[600ms]',
   },
   {
-    file: 'gallery-2.png',
+    file: 'gallery-2.jpg',
     from: 'right-phone' as const,
     delay: 'delay-[300ms]',
   },
   {
-    file: 'gallery-3.png',
+    file: 'gallery-3.jpg',
     from: 'left' as const,
     delay: 'delay-[600ms] md:delay-[0ms]',
   },
@@ -325,7 +325,7 @@ function heroSources() {
     props: { srcSet: desktop },
   } = getImageProps({
     ...common,
-    src: '/photos/hero-group-desktop.png',
+    src: '/photos/hero-group-desktop.jpg',
     width: 1440,
     height: 660,
   });

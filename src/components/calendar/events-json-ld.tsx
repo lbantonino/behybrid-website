@@ -52,7 +52,7 @@ function buildEvent(event: CalendarEvent) {
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     sport: 'Running',
     url: `${SITE_URL}/calendar#${eventAnchor(event)}`,
-    image: [absoluteUrl('/photos/gallery-calendar-1.png')],
+    image: [absoluteUrl('/photos/gallery-calendar-1.jpg')],
     isAccessibleForFree: true,
     // Google n'affiche de résultat enrichi que si le prix est déclaré. Les
     // séances du club sont gratuites, on le dit explicitement.

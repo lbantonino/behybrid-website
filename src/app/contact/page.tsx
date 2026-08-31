@@ -41,7 +41,7 @@ function InstagramIcon({ className }: { className?: string }) {
  */
 const CONTACT_GALLERY = [
   {
-    file: "gallery-1.png",
+    file: "gallery-1.jpg",
     from: "left" as const,
     delay: "delay-[0ms] md:delay-[600ms]",
   },
@@ -63,7 +63,7 @@ const CONTACT_GALLERY = [
     position: "object-[50%_25%] md:object-center",
   },
   {
-    file: "gallery-contact-3.png",
+    file: "gallery-contact-3.jpg",
     from: "left" as const,
     delay: "delay-[600ms] md:delay-[0ms]",
   },

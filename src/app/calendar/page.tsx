@@ -26,17 +26,17 @@ export const metadata: Metadata = {
  */
 const CALENDAR_GALLERY = [
   {
-    file: 'gallery-calendar-1.png',
+    file: 'gallery-calendar-1.jpg',
     from: 'left' as const,
     delay: 'delay-[0ms] md:delay-[600ms]',
   },
   {
-    file: 'gallery-calendar-2.png',
+    file: 'gallery-calendar-2.jpg',
     from: 'right-phone' as const,
     delay: 'delay-[300ms]',
   },
   {
-    file: 'gallery-calendar-3.png',
+    file: 'gallery-calendar-3.jpg',
     from: 'left' as const,
     delay: 'delay-[600ms] md:delay-[0ms]',
   },
