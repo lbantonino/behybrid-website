@@ -223,11 +223,12 @@ ligne. Le rapport a été **mis à jour le même jour** après les corrections.
 JavaScript, le site n'est plus un écran noir. Six des sept incohérences sont
 traitées, la septième (**INC-04**) n'en était pas une, voir ci-dessous. Reste
 ouverte **INC-03**, les portraits, devenus le point 7 de la checklist de
-déploiement, plus quatre risques techniques non bloquants : pas de page 404 ni
-d'écran d'erreur aux couleurs du club (TEC-02), 20 Mo de photos sources dont un
-PNG de 2,35 Mo pour une photographie (TEC-03), aucun test sur les deux routes
-serveur qui envoient des emails (TEC-04), et un gris à 4,38 de contraste sous le
-seuil AA de 4,5 sur le fond des panneaux (TEC-05).
+déploiement, plus trois risques techniques non bloquants : 20 Mo de photos
+sources dont un PNG de 2,35 Mo pour une photographie (TEC-03), aucun test sur
+les deux routes serveur qui envoient des emails (TEC-04), et un gris à 4,38 de
+contraste sous le seuil AA de 4,5 sur le fond des panneaux (TEC-05). **TEC-02
+est réglé** : la 404 et les écrans d'erreur existent et sont aux couleurs du
+club.
 
 Une limite connue et hors périmètre de TEC-01 : sans JavaScript, les deux
 formulaires s'affichent mais n'envoient rien, puisqu'ils passent par `fetch`.
@@ -396,6 +397,12 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 ### Journal des sessions
 
 **2026-08-31**
+
+- **TEC-02 corrigé : page 404 et écrans d'erreur aux couleurs du club.** Trois fichiers, pour trois niveaux de panne. `not-found.tsx` répond à toute adresse inconnue (« This Page Took A Detour »), `error.tsx` attrape une erreur de rendu de page (« We Pulled A Muscle », avec un bouton de reprise et la référence pour retrouver l'erreur dans les journaux), et `global-error.tsx` couvre le cas où c'est le layout racine lui-même qui casse.
+- **Deux pièges de la version 16 de Next, lus dans la doc embarquée avant d'écrire.** La fonction de reprise s'appelle `unstable_retry` et non plus `reset` depuis la 16.2 : elle refait la requête et le rendu, là où `reset` se contentait de vider l'état, donc c'est la seule qui ait une chance d'aboutir sur une panne réseau passagère. Et `metadata` n'est pas lu dans `not-found.tsx`, seulement dans `global-not-found` : inutile d'y déclarer un `noindex`, Next le pose automatiquement sur toute réponse en 404.
+- **`global-error.tsx` ne dépend de rien**, par obligation : il remplace tout le document, donc aucune feuille de style du site ne l'atteint. Tout y est écrit en ligne, couleurs de la charte en dur, police système, et le lien de retour est une balise `<a>` nue et non `next/link`, parce que le routeur fait partie de ce qui vient d'échouer. La règle ESLint qui l'interdit est désactivée sur cette seule ligne, avec sa raison.
+- **Vérifié en conditions réelles**, pas seulement compilé : `/rien`, `/shop`, `/join-us` et `/calendar/nawak` répondent bien 404 et non 200 (un faux 200 ferait indexer des pages vides par Google) ; une route qui échoue volontairement, ajoutée puis supprimée, a servi à voir `error.tsx` sur un build de production et à cliquer sur son bouton de reprise ; et le layout a été temporairement piégé pour déclencher `global-error.tsx`. Aucune trace de ces tests ne subsiste. La 404 reste lisible sans JavaScript.
+- **Un détail de rendu corrigé au passage** : le zéro du « 404 » était en vert atténué, ce qui donnait un olive terne. Les trois chiffres partagent désormais la même teinte. Le vert du club perd sa valeur de signal dès qu'on l'emploie en décor : ici il ne sert qu'au trait de l'en-tête et au bouton.
 
 - **TEC-01 corrigé, le point bloquant de la revue.** Sans JavaScript, le site était un écran noir définitif : l'écran de chargement est un calque opaque servi par le serveur et retiré par le seul JavaScript, et les 67 blocs animés du site partent à `opacity: 0`. Un bloc `<noscript>` dans `src/app/layout.tsx` masque le calque et rend les blocs visibles ; il ne s'applique jamais quand le JavaScript tourne, le navigateur ignorant purement et simplement le contenu d'un `<noscript>` dans ce cas.
 - **Un défaut découvert au passage**, invisible dans les mesures et visible sur la capture : le hero attend jusqu'à 2,5 s avant d'apparaître, un délai calibré pour laisser passer un écran de chargement qui, sans JavaScript, ne s'affiche jamais. Le visiteur voyait donc la page, mais après 2,5 s devant une photo muette. Une troisième règle remet `--enter-delay` à zéro dans ce cas précis.
