@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { CLUB_EMAIL } from "@/lib/site";
+import { FOOTER_SOCIAL_LINKS, activeLinks } from "@/lib/nav-links";
 import { Reveal } from "@/components/ui/reveal";
 import { ContactForm } from "@/components/contact/contact-form";
 
@@ -47,6 +49,18 @@ const CONTACT_GALLERY = [
     file: "gallery-contact-1.jpg",
     from: "right-phone" as const,
     delay: "delay-[300ms]",
+    /*
+      Cette photo est presque carrée (2268 × 1841) là où ses voisines sont
+      larges (578 × 320). En mobile, le cadre étant deux fois plus large que
+      haut, elle est rognée sur sa hauteur et le centrage par défaut coupait les
+      visages : la bande visible commençait au pixel 437 alors que les têtes
+      occupent la zone 240 à 570. L'ancrage à 25 % fait glisser la photo vers le
+      bas dans son cadre et remonte cette bande à 218.
+
+      Rien à corriger en desktop : le cadre y est plus haut que large, la photo
+      est donc cadrée sur sa hauteur et les visages sont entiers.
+    */
+    position: "object-[50%_25%] md:object-center",
   },
   {
     file: "gallery-contact-3.png",
@@ -55,18 +69,24 @@ const CONTACT_GALLERY = [
   },
 ];
 
+/** Le lien Instagram vient de la navigation, seule source de vérité du site. */
+const INSTAGRAM = activeLinks(FOOTER_SOCIAL_LINKS).find(
+  (link) => link.label === "Instagram",
+);
+
 const CHANNELS = [
   {
     icon: Mail,
     label: "Email",
-    value: "gianlucalobianco03@gmail.com",
-    href: "mailto:gianlucalobianco03@gmail.com",
+    value: CLUB_EMAIL,
+    href: `mailto:${CLUB_EMAIL}`,
   },
   {
     icon: InstagramIcon,
     label: "Instagram · Fastest reply",
-    value: "@behybrid.run",
-    href: "https://www.instagram.com/behybrid.run/",
+    // "@behybrid.run" se déduit de l'URL : une poignée de moins à tenir à jour.
+    value: `@${INSTAGRAM?.href.replace(/\/$/, "").split("/").pop() ?? "behybrid.run"}`,
+    href: INSTAGRAM?.href ?? null,
   },
   {
     icon: MapPin,
@@ -221,10 +241,10 @@ export default function ContactPage() {
           >
             <Image
               src={`/photos/${photo.file}`}
-              alt="Photo du club BEHYBRID"
+              alt="BEHYBRID Run Club Brussels"
               fill
               sizes="(min-width: 860px) 33vw, 100vw"
-              className="object-cover"
+              className={`object-cover ${photo.position ?? ""}`}
             />
           </Reveal>
         ))}

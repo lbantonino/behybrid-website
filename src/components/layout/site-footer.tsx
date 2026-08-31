@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { NewsletterForm } from "./newsletter-form";
 import { Container } from "@/components/ui/container";
+import { siteCopyright } from "@/lib/site";
 import { Reveal } from "@/components/ui/reveal";
 import {
   FOOTER_CLUB_LINKS,
@@ -96,7 +97,7 @@ export function SiteFooter() {
       </Container>
 
       <Container className="flex flex-col items-start gap-4 border-t border-line py-7 text-left text-[12px] text-faint md:flex-row md:items-center md:justify-between md:gap-2 md:py-6 md:text-body-sm">
-        <span>© 2026 BEHYBRID — Brussels</span>
+        <span>{siteCopyright()}</span>
         {LEGAL_LINKS.length > 0 ? (
           <div className="grid w-full grid-cols-3 justify-between md:flex md:w-auto md:gap-8">
             {LEGAL_LINKS.map((link) => (

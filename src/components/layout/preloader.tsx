@@ -24,7 +24,9 @@ export function Preloader() {
     const runner = runnerRef.current;
     if (!overlay || !fill || !runner) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const dur = reduce ? 500 : RUN_DURATION;
     const easing = "cubic-bezier(0.45, 0, 0.55, 1)";
 
@@ -41,7 +43,7 @@ export function Preloader() {
         { transform: "translateX(0px)" },
         { transform: `translateX(${TRACK_WIDTH - RUNNER_WIDTH}px)` },
       ],
-      { duration: dur, easing, fill: "forwards" }
+      { duration: dur, easing, fill: "forwards" },
     );
 
     // Fondu de sortie une fois arrivé
@@ -69,7 +71,7 @@ export function Preloader() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-8 bg-bg"
+      className="preloader fixed inset-0 z-[100] flex flex-col items-center justify-center gap-8 bg-bg"
       aria-hidden
     >
       <div className="relative h-10" style={{ width: TRACK_WIDTH }}>

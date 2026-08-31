@@ -215,7 +215,7 @@ export default async function CalendarPage() {
           >
             <Image
               src={`/photos/${photo.file}`}
-              alt="Photo du club BEHYBRID"
+              alt="BEHYBRID Run Club Brussels"
               fill
               sizes="(min-width: 860px) 33vw, 100vw"
               className="object-cover"

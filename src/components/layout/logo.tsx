@@ -11,7 +11,7 @@ export function Logo({
   return (
     <Link
       href="/"
-      aria-label="BEHYBRID — retour à l'accueil"
+      aria-label="BEHYBRID — back to home"
       className={className}
       onClick={onClick}
     >

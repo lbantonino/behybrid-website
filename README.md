@@ -183,7 +183,7 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-30**
+**Dernière mise à jour : 2026-08-31**
 
 ### Où on en est
 
@@ -207,9 +207,10 @@ La revue du 29/08 a produit cinq correctifs, dont trois bugs réels : le décala
 
 ### Revue de code
 
-Une revue complète du site a été établie le **31/08/2026** sur le commit `91ba13c` :
-ce qui tient (mesuré, pas supposé), sept incohérences relevées, six risques
-techniques dont un bloquant, et les neuf points à traiter avant la mise en ligne.
+Une revue complète du site a été établie le **31/08/2026** sur le commit
+`91ba13c` : ce qui tient (mesuré, pas supposé), sept incohérences relevées, six
+risques techniques dont un bloquant, et les points à traiter avant la mise en
+ligne. Le rapport a été **mis à jour le même jour** après les corrections.
 
 **Rapport consultable** : https://claude.ai/code/artifact/2efadb48-a5d2-444d-96c5-ae7a3da8e373
 
@@ -218,19 +219,27 @@ techniques dont un bloquant, et les neuf points à traiter avant la mise en lign
 > qu'en publier un second, pour que le lien ci-dessus reste valable, et le
 > relire juste avant le déploiement.
 
-Le point bloquant de cette première revue, à ne pas perdre de vue : **sans
-JavaScript, le site est un écran noir définitif**. L'écran de chargement est un
-calque opaque servi dans le HTML et retiré par JavaScript seul, et toutes les
-révélations au scroll partent d'une opacité nulle. Une erreur de paquet, un
-bloqueur agressif ou une connexion qui lâche suffisent.
+**État au 31/08 après corrections.** Le point bloquant TEC-01 est réglé : sans
+JavaScript, le site n'est plus un écran noir. Cinq des sept incohérences sont
+traitées. Restent ouvertes **INC-03** (les portraits, devenus le point 7 de la
+checklist de déploiement) et **INC-04** (le rôle de Gaëtan, à trancher avec
+l'équipe), plus cinq risques techniques non bloquants : pas de page 404 ni
+d'écran d'erreur aux couleurs du club (TEC-02), 20 Mo de photos sources dont un
+PNG de 2,35 Mo pour une photographie (TEC-03), aucun test sur les deux routes
+serveur qui envoient des emails (TEC-04), et un gris à 4,38 de contraste sous le
+seuil AA de 4,5 sur le fond des panneaux (TEC-05).
+
+Une limite connue et hors périmètre de TEC-01 : sans JavaScript, les deux
+formulaires s'affichent mais n'envoient rien, puisqu'ils passent par `fetch`.
+Corriger cela demande une action serveur, c'est un autre chantier.
 
 ### Prochaine étape
 
-Dans cet ordre, décidé le 28/08 :
+Les deux premiers points de la liste du 28/08 sont faits : la newsletter est
+branchée sur Brevo (30/08) et la page `/contact` est terminée (30/08). Reste :
 
-1. **Brancher le formulaire newsletter sur Brevo.** Aujourd'hui il affiche une confirmation sans rien enregistrer, ce qui revient à mentir au visiteur. Créer ou utiliser la liste Brevo, appeler son API (clé en variable d'environnement, jamais en dur), et gérer les cas d'erreur : email déjà inscrit, échec réseau.
-2. **Écrire la page `/contact`.** Le squelette existe (en-tête, titre, les trois liens sociaux), il manque le formulaire et son traitement.
-3. **Écrire les trois pages légales** : `/legal-notice`, `/privacy`, `/cookie-policy`. Les pages existent et partagent le gabarit `LegalPage`, il n'y a que le contenu à insérer.
+1. **Écrire les trois pages légales** : `/legal-notice`, `/privacy`, `/cookie-policy`. Les pages existent et partagent le gabarit `LegalPage`, il n'y a que le contenu à insérer. Elles doivent couvrir **deux** sources de collecte de données, la newsletter et le formulaire de contact, et non une seule. La mention de consentement sous le formulaire de contact pointe déjà vers `/privacy`, encore vide.
+2. **Refaire la revue complète du site** une fois ces pages écrites, et la republier à la même adresse.
 
 **Puis** : la page `/join-us`, la boutique, l'espace membre. Leurs liens sont déjà en place dans `src/lib/nav-links.ts`, désactivés par `enabled: false`.
 
@@ -335,9 +344,47 @@ confirmation, et ne seraient donc jamais inscrits.
 `src/lib/nav-links.ts` masque boutique, espace membre et `/join-us` via `enabled:
 false`. Confirmer qu'aucun n'a été réactivé par inadvertance.
 
+**7. Remplacer les 9 portraits de « The Crew ».**
+Décision d'Antonino le 31/08 : demander à chaque membre de lui envoyer une photo,
+puis les valider ensemble (taille et poids) **avant** la mise en ligne. Rien ne
+casse au build, le site a juste l'air de fonctionner : c'est exactement le genre de
+point qui passe inaperçu jusqu'à ce qu'un visiteur voie un visage flou.
+
+État au 31/08, pour 4,3 Mo au total :
+
+| Fichier (`public/photos/`) | Poids | Taille | Verdict |
+| --- | --- | --- | --- |
+| `team-gianluca.jpeg` | 28 Ko | 640 × 640 | correct, ne pas y toucher |
+| `team-olivia.png` | 52 Ko | 192 × 206 | trop petit |
+| `team-gaetan.png` | 156 Ko | 278 × 390 | trop petit |
+| `team-clara.png` | 200 Ko | 320 × 290 | trop petit |
+| `team-andre.png` | 208 Ko | 312 × 304 | trop petit |
+| `team-adrien.png` | 396 Ko | 492 × 482 | trop lourd |
+| `team-anais.png` | 616 Ko | 584 × 566 | trop lourd |
+| `team-emie.png` | 728 Ko | 608 × 678 | trop lourd |
+| `team-antonino.png` | 2000 Ko | 1313 × 1198 | trop lourd |
+
+**Deux problèmes distincts, à ne pas confondre.** Les portraits sont affichés dans
+un cercle de 260 px en desktop (`src/components/layout/team-slider.tsx`), donc il
+faut environ **520 px de côté** pour rester net sur un écran Retina. Quatre fichiers
+sont en dessous : Olivia est agrandie de près de trois fois, donc visiblement floue.
+Pour ceux-là, **réexporter ne suffit pas**, il faut repartir du fichier d'origine,
+sinon on ne fait qu'étirer du flou. Les quatre autres ont le défaut inverse : celui
+d'Antonino pèse 2 Mo pour un cercle de 260 px, soit environ 40 fois plus de pixels
+qu'affichés.
+
+**La cause commune, c'est le format.** Gianluca pèse 28 Ko en JPEG pour la meilleure
+définition du lot ; tous les autres sont en PNG, un format fait pour les logos et
+les captures d'écran, pas pour les photos. Ce seul choix explique le rapport de 1 à 70.
+
+**Ce qu'il faut demander aux 8 membres concernés** : une photo en **JPEG, 640 × 640,
+cadrée carrée, visage centré**, moins de 300 Ko. Gianluca est déjà conforme.
+Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
+
 ### Reste à faire (vue d'ensemble)
 
-- Contenu des trois pages légales et formulaire de `/contact`
+- Contenu des trois pages légales (newsletter + formulaire de contact à couvrir)
+- Portraits de « The Crew » à remplacer avant la mise en ligne (point 7 de la checklist)
 - Référencement : image de partage `openGraph`, `sitemap.xml`, `robots.txt`
 - Page `/join-us`
 - Authentification et espace membre (Supabase)
@@ -347,6 +394,20 @@ false`. Confirmer qu'aucun n'a été réactivé par inadvertance.
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-08-31**
+
+- **TEC-01 corrigé, le point bloquant de la revue.** Sans JavaScript, le site était un écran noir définitif : l'écran de chargement est un calque opaque servi par le serveur et retiré par le seul JavaScript, et les 67 blocs animés du site partent à `opacity: 0`. Un bloc `<noscript>` dans `src/app/layout.tsx` masque le calque et rend les blocs visibles ; il ne s'applique jamais quand le JavaScript tourne, le navigateur ignorant purement et simplement le contenu d'un `<noscript>` dans ce cas.
+- **Un défaut découvert au passage**, invisible dans les mesures et visible sur la capture : le hero attend jusqu'à 2,5 s avant d'apparaître, un délai calibré pour laisser passer un écran de chargement qui, sans JavaScript, ne s'affiche jamais. Le visiteur voyait donc la page, mais après 2,5 s devant une photo muette. Une troisième règle remet `--enter-delay` à zéro dans ce cas précis.
+- **Mesuré avec Playwright, JavaScript désactivé**, avant et après. Avant : calque présent sur les 7 pages, 67 blocs invisibles sur 67, luminosité moyenne de l'accueil à 10/255. Après : calque absent, 0 bloc invisible, luminosité 56/255, page lisible en 1,2 s. Avec JavaScript, aucun changement : l'écran de chargement est toujours visible à 0,3 s, retiré à 2,9 s, et `--enter-delay` vaut toujours 2000 ms.
+- **INC-01, la langue.** `lang="fr"` alors que tout le contenu est en anglais : un lecteur d'écran prononçait l'anglais avec la phonétique française et Google classait le site dans la mauvaise langue. Passé à `lang="en"`, et les quatre descriptions françaises réécrites. Les lieux (« Parc du Cinquantenaire ») restent en français, ce sont des noms propres.
+- **INC-02, onze libellés d'accessibilité traduits.** Ce sont les seuls textes du site qu'on n'a jamais sous les yeux, donc les seuls qu'on ne relit jamais : c'est pour ça qu'ils avaient dérivé.
+- **INC-06, trois duplications supprimées.** URL Instagram dans `nav-links.ts`, copyright et email du club dans `site.ts`. Trois décisions vont plus loin qu'un simple déplacement : l'année du copyright est **calculée** dans le fuseau du club (rien à faire au 1er janvier, et même résultat côté serveur et côté navigateur), la poignée Instagram se **déduit** de l'URL, et l'adresse affichée est **la même constante** que celle qui reçoit les messages, qui pouvaient jusqu'ici diverger en silence.
+- **`src/lib/club-time.ts` extrait** pour partager le calcul de l'année entre un composant serveur et un composant client. Sans cette extraction, importer le copyright dans le menu mobile embarquait tout le jeu d'événements de secours du calendrier dans le paquet JavaScript envoyé au navigateur.
+- **INC-04** : Gaëtan passe de « Digital Producer » à « Pacer ». Le doublon subsiste (Anaïs est aussi Pacer) mais il a changé de nature : deux « Digital Producer » ressemblait à un oubli, deux pacers dans un run club se comprend. Antonino tranchera avec l'équipe.
+- **INC-05, décision inverse de la revue.** Les numéros `01` à `04` des cartes « What's BEHYBRID » sont **conservés**, choix assumé d'Antonino après avoir essayé de les retirer et d'y mettre un monogramme. Un commentaire dans le code enregistre que la question a été posée et tranchée, pour que personne ne les retire plus tard en croyant corriger un oubli.
+- **INC-07 clos par Antonino.** Le cadrage mobile de `gallery-contact-1.jpg` est descendu pour faire entrer les visages (bande visible 437→1405 devenue 218→1186), desktop inchangé. Le format hors norme ne le dérange pas.
+- **Portraits de l'équipe reportés au déploiement**, à la demande d'Antonino : il demandera une photo à chaque membre et on validera taille et poids ensemble. Devenu le **point 7 de la checklist de déploiement**, avec le détail des 9 fichiers.
 
 **2026-08-30**
 

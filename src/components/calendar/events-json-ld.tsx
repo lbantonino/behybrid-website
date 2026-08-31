@@ -1,8 +1,5 @@
-import {
-  CLUB_TIME_ZONE,
-  eventAnchor,
-  type CalendarEvent,
-} from '@/lib/calendar-events';
+import { eventAnchor, type CalendarEvent } from '@/lib/calendar-events';
+import { CLUB_TIME_ZONE } from '@/lib/club-time';
 import { absoluteUrl, SITE_URL } from '@/lib/site';
 
 /**

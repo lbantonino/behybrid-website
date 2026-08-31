@@ -13,6 +13,7 @@ import {
   activeLinks,
 } from "@/lib/nav-links";
 import { NavMenuLink, LogInLink, SignUpButton, AccountLink } from "./nav-items";
+import { siteCopyright } from "@/lib/site";
 
 // TODO: brancher sur la session Supabase une fois l'auth en place.
 const isAuthenticated = false;
@@ -122,7 +123,7 @@ export function SiteHeader() {
           type="button"
           onClick={() => setIsMenuOpen((open) => !open)}
           className="flex h-10 w-10 items-center justify-center md:hidden"
-          aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
         >
           <span className="sr-only">Menu</span>
@@ -230,7 +231,7 @@ export function SiteHeader() {
                         href={link.href}
                         target="_blank"
                         rel="noreferrer"
-                        aria-label={`BEHYBRID sur ${link.label}`}
+                        aria-label={`BEHYBRID on ${link.label}`}
                         onClick={() => setIsMenuOpen(false)}
                         // Pas de pastille : les logos sont posés sur le fond.
                         // Le rembourrage n'est pas décoratif, il porte la zone
@@ -252,7 +253,7 @@ export function SiteHeader() {
             ) : null}
 
             <p className="text-[11px] uppercase tracking-[1.5px] text-faint">
-              © 2026 BEHYBRID — Brussels
+              {siteCopyright()}
             </p>
           </div>
         </div>

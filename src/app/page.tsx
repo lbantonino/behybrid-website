@@ -138,7 +138,7 @@ const TEAM: TeamMember[] = [
   },
   {
     name: 'Gaëtan',
-    role: 'Digital Producer',
+    role: 'Pacer',
     tagline: 'Behind the lens, ahead of the pack.',
     photo: '/photos/team-gaetan.png',
   },
@@ -304,7 +304,7 @@ export default async function Home() {
       <section className="relative overflow-hidden">
         <Image
           src="/photos/hero-group-mobile.jpg"
-          alt="Le groupe BEHYBRID lors d'un run à Bruxelles"
+          alt="The BEHYBRID group on a run in Brussels"
           fill
           priority
           sizes="100vw"
@@ -312,7 +312,7 @@ export default async function Home() {
         />
         <Image
           src="/photos/hero-group-desktop.png"
-          alt="Le groupe BEHYBRID lors d'un run à Bruxelles"
+          alt="The BEHYBRID group on a run in Brussels"
           fill
           priority
           sizes="100vw"
@@ -534,6 +534,13 @@ export default async function Home() {
                   <TiltCard className="relative flex flex-row items-center gap-4 rounded-2xl border border-line bg-bg-alt p-5 text-left md:h-[31vh] md:max-h-[330px] md:min-h-[200px] md:flex-col md:items-stretch md:gap-0 md:p-7">
                     <div className="tilt-layer-deep flex items-start justify-between">
                       <CardMark icon={feature.icon} />
+                      {/*
+                        Numéros décoratifs, choix assumé d'Antonino le 31/08.
+                        Ces quatre cartes sont indépendantes, contrairement aux
+                        étapes "Become A Member" plus bas qui forment une vraie
+                        séquence. Ne pas les retirer en croyant corriger un
+                        oubli : la question a été posée et tranchée.
+                      */}
                       <span className="hidden font-display text-[22px] font-black leading-none text-white/10 md:block md:text-[30px]">
                         {String(index + 1).padStart(2, '0')}
                       </span>
@@ -565,7 +572,7 @@ export default async function Home() {
       >
         <Image
           src="/photos/how-we-move-desktop-mobile.jpg"
-          alt="Session de run BEHYBRID"
+          alt="A BEHYBRID training session in Brussels"
           fill
           sizes="100vw"
           className="object-cover"
@@ -851,7 +858,7 @@ export default async function Home() {
           >
             <Image
               src={`/photos/${photo.file}`}
-              alt="Photo du club BEHYBRID"
+              alt="BEHYBRID Run Club Brussels"
               fill
               sizes="(min-width: 860px) 33vw, 100vw"
               className="object-cover"

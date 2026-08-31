@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { TiltCard } from "@/components/ui/tilt-card";
 
 export const metadata: Metadata = {
-  title: "Design System — BEHYBRID (interne)",
+  title: "Design System — BEHYBRID (internal)",
   robots: { index: false, follow: false },
 };
 

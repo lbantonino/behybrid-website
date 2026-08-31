@@ -115,7 +115,7 @@ export function TeamSlider({ members }: { members: TeamMember[] }) {
               <button
                 type="button"
                 onClick={() => goTo(index - 1)}
-                aria-label="Personne précédente"
+                aria-label="Previous member"
                 className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 text-ink transition-colors hover:border-accent hover:text-accent"
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -124,7 +124,7 @@ export function TeamSlider({ members }: { members: TeamMember[] }) {
             <button
               type="button"
               onClick={() => goTo(index + 1)}
-              aria-label="Personne suivante"
+              aria-label="Next member"
               className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 text-ink transition-colors hover:border-accent hover:text-accent"
             >
               <ChevronRight className="h-5 w-5" />
@@ -145,7 +145,7 @@ export function TeamSlider({ members }: { members: TeamMember[] }) {
             <button
               type="button"
               onClick={() => goTo(i)}
-              aria-label={`Voir ${m.name}`}
+              aria-label={`Show ${m.name}`}
               aria-current={i === index}
               className={`font-display text-[13px] font-extrabold uppercase tracking-[2px] transition-colors md:text-[15px] ${
                 i === index

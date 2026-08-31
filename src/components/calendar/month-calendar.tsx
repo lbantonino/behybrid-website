@@ -2,11 +2,8 @@
 
 import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import {
-  eventAnchor,
-  getClubToday,
-  type CalendarEvent,
-} from '@/lib/calendar-events';
+import { eventAnchor, type CalendarEvent } from '@/lib/calendar-events';
+import { getClubToday } from '@/lib/club-time';
 
 type ClubToday = ReturnType<typeof getClubToday>;
 

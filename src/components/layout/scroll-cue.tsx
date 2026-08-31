@@ -10,7 +10,7 @@ export function ScrollCue({ targetId = "after-hero" }: { targetId?: string }) {
     <button
       type="button"
       onClick={handleClick}
-      aria-label="Défiler vers la section suivante"
+      aria-label="Scroll to the next section"
       className="flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-black/20 text-ink backdrop-blur-sm transition-colors [animation:cue-bounce_2.2s_ease-in-out_infinite] hover:border-accent hover:text-accent"
     >
       <ArrowDown className="h-5 w-5" />

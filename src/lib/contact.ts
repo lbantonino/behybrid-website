@@ -1,4 +1,5 @@
-import { isPlausibleEmail } from '@/lib/brevo';
+import { isPlausibleEmail } from "@/lib/brevo";
+import { CLUB_EMAIL } from "@/lib/site";
 
 /**
  * Formulaire de contact : le message part par email chez le club.
@@ -12,12 +13,12 @@ import { isPlausibleEmail } from '@/lib/brevo';
  */
 
 export const CONTACT_TOPICS = [
-  { value: 'joining', label: 'Joining the club' },
-  { value: 'partnership', label: 'Partnership' },
-  { value: 'other', label: 'Other' },
+  { value: "joining", label: "Joining the club" },
+  { value: "partnership", label: "Partnership" },
+  { value: "other", label: "Other" },
 ] as const;
 
-export type ContactTopic = (typeof CONTACT_TOPICS)[number]['value'];
+export type ContactTopic = (typeof CONTACT_TOPICS)[number]["value"];
 
 export type ContactMessage = {
   firstName: string;
@@ -29,15 +30,15 @@ export type ContactMessage = {
   company?: string;
 };
 
-export type ContactResult = 'sent' | 'invalid' | 'error';
+export type ContactResult = "sent" | "invalid" | "error";
 
 /** Les valeurs saisies finissent dans un email en HTML : jamais brutes. */
 function escapeHtml(value: string) {
   return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
 
 const LIMITS = { name: 80, email: 200, message: 4000 };
@@ -48,15 +49,16 @@ const LIMITS = { name: 80, email: 200, message: 4000 };
  * navigateur, et détailler ici n'aiderait qu'un robot.
  */
 function parse(input: Partial<ContactMessage>): ContactMessage | null {
-  const firstName = input.firstName?.trim() ?? '';
-  const lastName = input.lastName?.trim() ?? '';
-  const email = input.email?.trim().toLowerCase() ?? '';
-  const message = input.message?.trim() ?? '';
+  const firstName = input.firstName?.trim() ?? "";
+  const lastName = input.lastName?.trim() ?? "";
+  const email = input.email?.trim().toLowerCase() ?? "";
+  const message = input.message?.trim() ?? "";
   const topic = CONTACT_TOPICS.find((t) => t.value === input.topic)?.value;
 
   if (!firstName || firstName.length > LIMITS.name) return null;
   if (!lastName || lastName.length > LIMITS.name) return null;
-  if (!email || email.length > LIMITS.email || !isPlausibleEmail(email)) return null;
+  if (!email || email.length > LIMITS.email || !isPlausibleEmail(email))
+    return null;
   // Dix caractères : en dessous, il n'y a pas de message, seulement un test.
   if (message.length < 10 || message.length > LIMITS.message) return null;
   if (!topic) return null;
@@ -76,33 +78,33 @@ export async function sendContactMessage(
     champ étant masqué et hors du parcours au clavier.
   */
   if (input.company) {
-    console.warn('Contact : message ignoré, champ piège rempli.');
-    return 'sent';
+    console.warn("Contact : message ignoré, champ piège rempli.");
+    return "sent";
   }
 
   const data = parse(input);
 
-  if (!data) return 'invalid';
+  if (!data) return "invalid";
 
   const apiKey = process.env.BREVO_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL;
+  const to = process.env.CONTACT_TO_EMAIL || CLUB_EMAIL;
   const senderEmail = process.env.BREVO_SENDER_EMAIL;
-  const senderName = process.env.BREVO_SENDER_NAME ?? 'BEHYBRID';
+  const senderName = process.env.BREVO_SENDER_NAME ?? "BEHYBRID";
 
   if (!apiKey || !to || !senderEmail) {
     console.error(
-      'Contact : configuration absente (BREVO_API_KEY, CONTACT_TO_EMAIL, BREVO_SENDER_EMAIL).',
+      "Contact : configuration absente (BREVO_API_KEY, CONTACT_TO_EMAIL, BREVO_SENDER_EMAIL).",
     );
-    return 'error';
+    return "error";
   }
 
   const topicLabel = CONTACT_TOPICS.find((t) => t.value === data.topic)!.label;
   const fullName = `${data.firstName} ${data.lastName}`;
 
   try {
-    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: { 'api-key': apiKey, 'content-type': 'application/json' },
+    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: { "api-key": apiKey, "content-type": "application/json" },
       body: JSON.stringify({
         sender: { name: senderName, email: senderEmail },
         to: [{ email: to }],
@@ -121,12 +123,16 @@ export async function sendContactMessage(
       }),
     });
 
-    if (response.ok) return 'sent';
+    if (response.ok) return "sent";
 
-    console.error('Contact : Brevo a répondu', response.status, await response.text());
-    return 'error';
+    console.error(
+      "Contact : Brevo a répondu",
+      response.status,
+      await response.text(),
+    );
+    return "error";
   } catch (cause) {
-    console.error('Contact : appel Brevo impossible', cause);
-    return 'error';
+    console.error("Contact : appel Brevo impossible", cause);
+    return "error";
   }
 }
