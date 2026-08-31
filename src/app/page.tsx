@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image, { getImageProps } from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ScrollButton } from '@/components/ui/scroll-button';
@@ -294,30 +294,97 @@ function formatNextRunDate(event: CalendarEvent) {
   return `${weekday} ${day}/${month} - ${time}`;
 }
 
+/*
+  Le hero existe en deux cadrages, un portrait pour le téléphone et un paysage
+  pour l'ordinateur. Ils étaient rendus par deux <Image> dont on masquait l'une
+  en CSS (`md:hidden` / `hidden md:block`).
+
+  Masquer une image ne l'empêche pas d'être téléchargée : `display: none` agit
+  après coup, alors que le navigateur trouve les deux sources en lisant le HTML.
+  Mesuré sur un build de production, chaque visiteur téléchargeait donc les deux
+  photos : 1310 Ko de hero mobile sur un écran d'ordinateur (56 % de toutes les
+  images de la page), 181 Ko de hero desktop sur un iPhone.
+
+  La parade documentée par Next est `getImageProps` : on récupère les jeux de
+  sources optimisés des deux photos et on les place dans un <picture>. C'est le
+  navigateur qui choisit, avant de télécharger quoi que ce soit, et il n'en
+  télécharge qu'une.
+
+  Le point de bascule est écrit en dur en pixels, `--breakpoint-md` n'étant pas
+  lisible depuis un attribut `media`. Il doit rester égal à celui de Tailwind,
+  d'où le rappel ci-dessous.
+*/
+const HERO_ALT = 'The BEHYBRID group on a run in Brussels';
+/** Doit rester synchronisé avec `--breakpoint-md` dans globals.css. */
+const HERO_DESKTOP_FROM = '(min-width: 860px)';
+
+function heroSources() {
+  const common = { alt: HERO_ALT, sizes: '100vw', priority: true } as const;
+
+  const {
+    props: { srcSet: desktop },
+  } = getImageProps({
+    ...common,
+    src: '/photos/hero-group-desktop.png',
+    width: 1440,
+    height: 660,
+  });
+
+  // Le mobile fournit aussi les attributs communs (src de repli, chargement
+  // hâtif, priorité de récupération), d'où le `rest`.
+  const {
+    props: { srcSet: mobile, ...rest },
+  } = getImageProps({
+    ...common,
+    src: '/photos/hero-group-mobile.jpg',
+    width: 3812,
+    height: 5718,
+  });
+
+  return { desktop, mobile, rest };
+}
+
 export default async function Home() {
   await connection();
   const events = await getCalendarEvents();
   const nextRun = getNextRun(events);
+  const hero = heroSources();
 
   return (
     <>
       <section className="relative overflow-hidden">
-        <Image
-          src="/photos/hero-group-mobile.jpg"
-          alt="The BEHYBRID group on a run in Brussels"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover md:hidden"
+        {/*
+          `getImageProps` ne pose pas le préchargement que `priority` ajoutait.
+          On le remet à la main, mais conditionné à la largeur de l'écran : la
+          version précédente en posait deux, un par photo, et faisait donc
+          concourir pour la bande passante une image que le visiteur ne verrait
+          jamais avec celle qu'il attend.
+        */}
+        <link
+          rel="preload"
+          as="image"
+          imageSrcSet={hero.desktop}
+          imageSizes="100vw"
+          media={HERO_DESKTOP_FROM}
+          fetchPriority="high"
         />
-        <Image
-          src="/photos/hero-group-desktop.png"
-          alt="The BEHYBRID group on a run in Brussels"
-          fill
-          priority
-          sizes="100vw"
-          className="hidden object-cover md:block"
+        <link
+          rel="preload"
+          as="image"
+          imageSrcSet={hero.mobile}
+          imageSizes="100vw"
+          media="(max-width: 859.98px)"
+          fetchPriority="high"
         />
+        <picture>
+          <source media={HERO_DESKTOP_FROM} srcSet={hero.desktop} />
+          <source srcSet={hero.mobile} />
+          {/* eslint-disable-next-line jsx-a11y/alt-text -- l'alt vient de `rest` */}
+          <img
+            {...hero.rest}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/65" />
 
         {/* Bandeau défilant */}

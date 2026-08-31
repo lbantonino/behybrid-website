@@ -223,8 +223,9 @@ ligne. Le rapport a été **mis à jour le même jour** après les corrections.
 JavaScript, le site n'est plus un écran noir. Six des sept incohérences sont
 traitées, la septième (**INC-04**) n'en était pas une, voir ci-dessous. Reste
 ouverte **INC-03**, les portraits, devenus le point 7 de la checklist de
-déploiement, plus trois risques techniques non bloquants : 20 Mo de photos
-sources dont un PNG de 2,35 Mo pour une photographie (TEC-03), aucun test sur
+déploiement, plus trois risques techniques non bloquants : les photos sources
+restant à alléger, dont un PNG de 2,4 Mo pour une photographie (TEC-03, dont la
+partie code est faite), aucun test sur
 les deux routes serveur qui envoient des emails (TEC-04), et un gris à 4,38 de
 contraste sous le seuil AA de 4,5 sur le fond des panneaux (TEC-05). **TEC-02
 est réglé** : la 404 et les écrans d'erreur existent et sont aux couleurs du
@@ -397,6 +398,12 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 ### Journal des sessions
 
 **2026-08-31**
+
+- **Le hero était téléchargé deux fois par chaque visiteur.** Le premier point de TEC-03, et le plus coûteux : les deux cadrages du hero, mobile et desktop, étaient rendus par deux `<Image>` dont on masquait l'une en CSS. Or `display: none` agit après coup, alors que le navigateur trouve les deux sources en lisant le HTML, et `priority` posait un préchargement sur chacune. Mesuré sur un build de production, sans défiler : **1310 Ko de hero mobile téléchargés sur un écran d'ordinateur** (56 % de toutes les images de la page d'accueil), et 181 Ko de hero desktop sur un iPhone.
+- **Corrigé avec `getImageProps`**, la méthode documentée par Next pour ce cas : les jeux de sources optimisés des deux photos sont placés dans un `<picture>`, et le navigateur choisit avant de télécharger quoi que ce soit. Résultat mesuré : `2197 → 887 Ko` en desktop, `577 → 396 Ko` en mobile, une seule photo de hero servie à chaque fois, et le basculement tombe exactement sur le point de rupture de Tailwind (859 px → mobile, 860 px → desktop).
+- **Piège de `getImageProps`** : il ne pose pas le préchargement que `priority` ajoutait. Sans latence réseau, la différence est invisible, ce qui aurait pu faire croire que ce n'était pas un problème. Mesuré sur un réseau 4G simulé (9 Mb/s, 40 ms de latence, médiane sur 7 chargements), l'absence de préchargement coûtait **56 ms en desktop et 100 ms en mobile**. Deux `<link rel="preload">` ont donc été rétablis, **conditionnés par `media`** : la version d'origine en posait deux sans condition et faisait concourir pour la bande passante une photo que le visiteur ne verrait jamais.
+- **Correction à ma propre revue.** J'y écrivais que « le visiteur ne télécharge pas ces poids-là, Next redimensionne à la volée ». C'est vrai du redimensionnement et faux du nombre d'images : je raisonnais sur le poids des fichiers sources sans mesurer ce qui partait réellement sur le réseau. C'est le poids gaspillé qui compte, pas celui du dépôt.
+- **Reste de TEC-03**, à faire avec les portraits : convertir `hero-group-desktop.png` (2,4 Mo de PNG pour une photographie) en JPEG, et alléger les deux sources de plus de 3 Mo (`hero-group-mobile.jpg` fait 3812 × 5718, soit 21,8 mégapixels pour un téléphone).
 
 - **TEC-02 corrigé : page 404 et écrans d'erreur aux couleurs du club.** Trois fichiers, pour trois niveaux de panne. `not-found.tsx` répond à toute adresse inconnue (« This Page Took A Detour »), `error.tsx` attrape une erreur de rendu de page (« We Pulled A Muscle », avec un bouton de reprise et la référence pour retrouver l'erreur dans les journaux), et `global-error.tsx` couvre le cas où c'est le layout racine lui-même qui casse.
 - **Deux pièges de la version 16 de Next, lus dans la doc embarquée avant d'écrire.** La fonction de reprise s'appelle `unstable_retry` et non plus `reset` depuis la 16.2 : elle refait la requête et le rendu, là où `reset` se contentait de vider l'état, donc c'est la seule qui ait une chance d'aboutir sur une panne réseau passagère. Et `metadata` n'est pas lu dans `not-found.tsx`, seulement dans `global-not-found` : inutile d'y déclarer un `noindex`, Next le pose automatiquement sur toute réponse en 404.
