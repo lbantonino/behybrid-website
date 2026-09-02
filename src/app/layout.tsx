@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -31,6 +31,16 @@ export const metadata: Metadata = {
   robots: ALLOW_INDEXING
     ? { index: true, follow: true }
     : { index: false, follow: true },
+};
+
+/*
+  `themeColor` vit dans l'export `viewport` et non dans `metadata` : Next le
+  refuse à l'autre endroit et le signale au build, page par page. Il teinte la
+  barre du navigateur mobile au noir du site plutôt que de la laisser en gris
+  clair, ce qui prolonge la page au lieu de la couper.
+*/
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({
