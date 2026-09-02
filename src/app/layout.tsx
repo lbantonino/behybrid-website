@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Preloader } from "@/components/layout/preloader";
 import { ScrollReset } from "@/components/layout/scroll-reset";
+import { ClubJsonLd } from "@/components/layout/club-json-ld";
 import { ALLOW_INDEXING, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -70,6 +71,13 @@ export default function RootLayout({
             [style*="--enter-delay"] { --enter-delay: 0ms !important; }
           `}</style>
         </noscript>
+        {/*
+          Carte d'identité du club pour les moteurs de recherche. Posée dans le
+          layout et non sur l'accueil seul : l'identifiant `@id` en fait une
+          référence unique, à laquelle les événements du calendrier peuvent se
+          rattacher depuis n'importe quelle page.
+        */}
+        <ClubJsonLd />
         <ScrollReset />
         <Preloader />
         <SiteHeader />
