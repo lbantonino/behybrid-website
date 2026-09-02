@@ -42,39 +42,51 @@ const MONTH_LABELS = [
 ];
 const DAY_LABELS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
+/*
+  Convention de nommage, fixée par Antonino le 02/09 et valable ici comme dans
+  Supabase :
+
+  · les lieux sont des noms propres et gardent leurs majuscules d'origine,
+    « Parc du Cinquantenaire », « Parc Royal », « Parc de Woluwe » ;
+  · les titres d'entraînement ne prennent une majuscule qu'à la première
+    lettre : « Sprints », « Beat the streets », « 5km test ».
+
+  Les deux règles diffèrent à dessein : un nom de lieu s'écrit comme il
+  s'écrit, un titre d'événement suit la charte du club.
+*/
 export const FALLBACK_EVENTS: CalendarEvent[] = [
   {
     slug: 'sprints-2026-09-02',
     date: '2 SEP',
     day: 'WED',
     title: 'Sprints',
-    time: '19:30 · Parc du cinquantenaire',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-09-02T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
   {
     slug: 'intervals-2026-09-09',
     date: '9 SEP',
     day: 'WED',
     title: 'Intervals',
-    time: '19:30 · Parc du cinquantenaire',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-09-09T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
   {
     slug: 'intervals-2026-09-16',
     date: '16 SEP',
     day: 'WED',
     title: 'Intervals',
-    time: '19:30 · Parc du cinquantenaire',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-09-16T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
   {
     slug: 'beat-the-streets-2026-09-20',
@@ -92,66 +104,66 @@ export const FALLBACK_EVENTS: CalendarEvent[] = [
     date: '23 SEP',
     day: 'WED',
     title: 'Intervals',
-    time: '19:30 · Parc du cinquantenaire',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-09-23T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
   {
     slug: '5km-test-2026-09-30',
     date: '30 SEP',
     day: 'WED',
-    title: '5km TEST',
-    time: '19:30 · Parc du cinquantenaire',
+    title: '5km test',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-09-30T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
   {
     slug: 'sprints-2026-10-07',
     date: '7 OCT',
     day: 'WED',
     title: 'Sprints',
-    time: '19:30 · Parc du cinquantenaire',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-10-07T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
   {
     slug: 'intervals-2026-10-14',
     date: '14 OCT',
     day: 'WED',
     title: 'Intervals',
-    time: '19:30 · Parc du cinquantenaire',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-10-14T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
   {
     slug: 'sprints-2026-10-21',
     date: '21 OCT',
     day: 'WED',
     title: 'Sprints',
-    time: '19:30 · Parc du cinquantenaire',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-10-21T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
   {
     slug: 'threshold-30-2026-10-28',
     date: '28 OCT',
     day: 'WED',
     title: 'Threshold 30',
-    time: '19:30 · Parc du cinquantenaire',
+    time: '19:30 · Parc du Cinquantenaire',
     tag: 'PERFORM',
     startsAt: '2026-10-28T19:30:00',
     durationMinutes: 90,
-    location: 'Parc du cinquantenaire',
+    location: 'Parc du Cinquantenaire',
   },
 ];
 
