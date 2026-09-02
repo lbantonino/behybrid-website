@@ -7,11 +7,17 @@ import { getClubToday } from "@/lib/club-time";
  * Trois sources, dans cet ordre :
  *
  * 1. `NEXT_PUBLIC_SITE_URL`, le vrai domaine, à poser sur l'hébergeur ;
- * 2. `NEXT_PUBLIC_VERCEL_URL`, que Vercel renseigne tout seul à chaque
- *    déploiement. Elle permet à une préversion d'avoir des adresses justes
- *    sans qu'on ait à connaître son adresse d'avance, ce qui est impossible
- *    au premier déploiement puisqu'elle n'existe pas encore ;
- * 3. le serveur local, en développement.
+ * 2. `NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL`, l'adresse stable du projet
+ *    chez Vercel, du type `mon-projet.vercel.app` ;
+ * 3. `NEXT_PUBLIC_VERCEL_URL` en dernier recours ;
+ * 4. le serveur local, en développement.
+ *
+ * L'ordre entre 2 et 3 n'est pas cosmétique, il a coûté une image de partage
+ * invisible le 02/09. `VERCEL_URL` désigne le **déploiement**, pas le projet :
+ * une adresse à rallonge, différente à chaque mise en ligne, et surtout
+ * **protégée par l'authentification Vercel**. WhatsApp demandait donc l'image
+ * à cette adresse, recevait une redirection vers une page de connexion, et
+ * n'affichait aucune vignette. L'adresse stable, elle, est publique.
  *
  * La valeur vide est traitée comme absente. Ce n'est pas une précaution
  * théorique : le premier déploiement Vercel du 02/09 a échoué là-dessus.
@@ -21,9 +27,12 @@ import { getClubToday } from "@/lib/club-time";
  */
 function resolveSiteUrl() {
   const explicite = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  const vercel = process.env.NEXT_PUBLIC_VERCEL_URL?.trim();
+  const projetVercel =
+    process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  const deploiementVercel = process.env.NEXT_PUBLIC_VERCEL_URL?.trim();
 
-  const brut = explicite || (vercel ? `https://${vercel}` : "");
+  const hote = projetVercel || deploiementVercel;
+  const brut = explicite || (hote ? `https://${hote}` : "");
   if (!brut) return "http://localhost:3000";
 
   // Oubli fréquent : coller « behybridrunclub.com » sans le protocole.
