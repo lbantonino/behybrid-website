@@ -187,9 +187,16 @@ export function ContactForm() {
         </p>
       ) : null}
 
+      {/*
+        Une phrase par ligne sur les grands écrans, demandé par Antonino le
+        02/09. Le seuil est 1280 px et non le point de rupture desktop habituel
+        (860 px) : entre les deux, la colonne du formulaire ne fait que 300 à
+        390 px, la première phrase s'y coupe déjà en deux, et la coupure forcée
+        ajoutait une troisième ligne. En dessous, le texte se coupe tout seul.
+      */}
       <p className="text-body-sm leading-[1.5] text-faint">
-        By sending this message, you agree that we use your details to reply. See
-        our{' '}
+        By sending this message, you agree that we use your details to reply.
+        <br className="hidden xl:inline" /> See our{' '}
         <Link href="/privacy" className="underline hover:text-muted">
           Privacy Policy
         </Link>

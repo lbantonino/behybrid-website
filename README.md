@@ -399,6 +399,10 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-02**
 
+- **Une phrase par ligne sur grand écran**, demandé par Antonino dans la foulée. Les deux mentions gardent leur coupure naturelle en mobile, qu'il juge parfaite, et reçoivent une coupure forcée au-delà d'un seuil.
+- **Les deux seuils diffèrent, et ce n'est pas une incohérence.** La newsletter bascule au point de rupture desktop habituel (860 px) : elle vit dans le pied de page, dont la largeur y est déjà stable. Le formulaire de contact attend **1280 px** : entre 860 et 1280, sa colonne ne fait que 300 à 390 px, la première phrase s'y coupe déjà en deux, et la coupure forcée y ajoutait une troisième ligne. Constaté en mesurant, pas prévu.
+- **Vérifié sur dix largeurs** (375, 390, 430, 859, 860, 1024, 1279, 1280, 1440, 1920) : deux lignes partout, et le texte réellement rendu a été relu ligne par ligne pour confirmer que la coupure tombe bien entre les deux phrases.
+
 - **TEC-05 corrigé : les deux mentions sur les données personnelles passent le seuil d'accessibilité.** Sous le formulaire de contact et sous la newsletter, elles étaient en `#7a7a75` sur le fond des panneaux `#111111`, en 11 px : contraste mesuré **4,38**, pour un minimum AA de 4,5. Ce sont précisément les deux textes que le RGPD demande de rendre lisibles.
 - **Deux changements, pas un.** Le gris pâle `--color-faint` passe de `#7a7a75` à `#7e7e79`, ce qui porte le contraste à **4,63** sur les panneaux et 4,85 sur le fond. Et les deux mentions passent de `text-[11px]` à `text-body-sm` (13 px), à la demande d'Antonino. Agrandir seul n'aurait pas suffi : le seuil AA ne s'assouplit qu'à partir de 18,7 px, et personne ne veut une mention légale de cette taille sous un bouton d'envoi.
 - **Pourquoi 13 px et pas 12** : le 11 px correspondait au jeton `text-label`, conçu pour des libellés en capitales espacées du type `NEXT RUN`. Ces mentions sont des phrases en minuscules sur deux lignes, le même chiffre n'y produit pas la même lisibilité. `text-body-sm` existait déjà, ce qui évite d'ajouter une quinzième taille en dur.

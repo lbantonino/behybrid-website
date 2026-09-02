@@ -109,14 +109,17 @@ export function NewsletterForm() {
       ) : null}
 
       {/*
-        Les retours à la ligne étaient posés à la main, calibrés pour du 11 px.
-        Le passage à 13 px le 31/08 les a rendus faux : ils produisaient une
-        troisième ligne en mobile. Le texte se coupe désormais tout seul, ce qui
-        reste juste quelle que soit la taille de police ou la largeur d'écran.
+        En mobile le texte se coupe tout seul, et donne deux lignes de l'iPhone
+        SE au 430 px. En desktop, une coupure forcée met chaque phrase sur sa
+        ligne, demandé par Antonino le 02/09.
+
+        Les anciens retours à la ligne, posés pour du 11 px, produisaient une
+        troisième ligne une fois le texte passé à 13 px. Celui-ci ne s'applique
+        qu'au-delà du point de rupture, où la largeur est stable.
       */}
       <p className="max-w-[460px] text-body-sm leading-[1.5] text-faint">
-        By subscribing, you agree to receive news and updates from BEHYBRID. You
-        can unsubscribe at any time.
+        By subscribing, you agree to receive news and updates from BEHYBRID.
+        <br className="hidden md:inline" /> You can unsubscribe at any time.
       </p>
     </form>
   );
