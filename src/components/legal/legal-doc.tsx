@@ -95,19 +95,32 @@ export function LegalDoc({
   );
 }
 
-/** Titre de section à l'intérieur d'un document légal. */
+/**
+ * Titre de section à l'intérieur d'un document légal.
+ *
+ * Le niveau est réglable parce que la page contient deux documents : la version
+ * anglaise, dont le titre est le `h1` de la page, et la version française, dont
+ * le titre est un `h2`. Les sections anglaises sont donc des `h2` et les
+ * françaises des `h3`.
+ *
+ * Sans cela, la page passait du `h1` au `h3` : pour un lecteur d'écran, c'est
+ * un niveau manquant, et sa liste des titres devient inutilisable.
+ */
 export function LegalSection({
   title,
   children,
+  level = 2,
 }: {
   title: string;
   children: React.ReactNode;
+  level?: 2 | 3;
 }) {
+  const Heading = level === 2 ? "h2" : "h3";
   return (
     <section className="mt-10 first:mt-0">
-      <h3 className="font-display text-[17px] font-black uppercase tracking-[-0.01em] md:text-[20px]">
+      <Heading className="font-display text-[17px] font-black uppercase tracking-[-0.01em] md:text-[20px]">
         {title}
-      </h3>
+      </Heading>
       <div className="mt-3 space-y-3 text-body-sm leading-[1.75] text-muted md:text-body">
         {children}
       </div>
@@ -190,18 +203,5 @@ export function LegalLink({
     <Link href={href} className={className}>
       {children}
     </Link>
-  );
-}
-
-/**
- * Marqueur d'information manquante. Visible à dessein : tant qu'une valeur
- * n'est pas confirmée, mieux vaut qu'elle saute aux yeux plutôt que d'être
- * remplacée par une phrase inventée.
- */
-export function LegalPending({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="rounded-sm bg-accent/15 px-1.5 py-0.5 font-display text-[11px] font-bold uppercase tracking-[1px] text-accent">
-      {children}
-    </span>
   );
 }

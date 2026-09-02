@@ -1,23 +1,15 @@
 /*
   Identité légale du club, source unique des trois pages légales.
 
-  ────────────────────────────────────────────────────────────────────────
-  À COMPLÉTER PAR ANTONINO, avec Gianluca, AVANT LA MISE EN LIGNE.
-  Tant qu'une valeur vaut `null`, la page affiche un marqueur visible
-  « [à compléter] » plutôt qu'une phrase fausse : une mention légale
-  inventée est pire qu'une mention absente.
-  ────────────────────────────────────────────────────────────────────────
+  Toutes les valeurs ont été fournies par Antonino le 02/09 et vérifiées avec
+  lui : forme juridique, numéro d'entreprise, siège, administrateurs,
+  hébergeur. Rien n'est deviné ici.
 
-  Le point qui commande tous les autres est `legalForm`. Les obligations
-  belges ne sont pas les mêmes pour une ASBL, une association de fait et une
-  activité d'indépendant :
+  Le seul élément encore variable est le nom de domaine, qui n'apparaît pas
+  dans ce fichier : il vient de `NEXT_PUBLIC_SITE_URL`.
 
-  · ASBL                  numéro d'entreprise et siège social obligatoires,
-                          organe d'administration identifiable
-  · association de fait   pas de personnalité juridique : ce sont les
-                          personnes physiques qui répondent, il faut donc
-                          nommer un responsable et donner son adresse
-  · indépendant           numéro d'entreprise (BCE) et adresse professionnelle
+  Modifier une de ces valeurs modifie les trois pages légales d'un coup, ce
+  qui est exactement le but : elles ne doivent jamais pouvoir diverger.
 */
 export const CLUB = {
   /** Nom officiel, tel qu'il doit apparaître dans un acte. */
@@ -44,22 +36,30 @@ export const CLUB = {
    */
   vatStatus: "Non assujettie à la TVA",
 
-  /**
-   * Siège social.
-   *
-   * À VÉRIFIER : Antonino a écrit « 86 rue des alcyos, 1082 ». Le code postal
-   * 1082 est celui de Berchem-Sainte-Agathe, et la voie qui s'en approche
-   * s'écrit « Rue des Alcyons ». L'orthographe et la commune sont à confirmer
-   * sur l'extrait BCE avant la mise en ligne : une adresse de siège fausse
-   * dans des mentions légales n'est pas un détail.
-   */
-  address: "86 Rue des Alcyons, 1082 Berchem-Sainte-Agathe, Belgique",
+  /*
+    Siège social, confirmé par Antonino sur l'extrait BCE le 02/09.
+
+    Deux écritures, parce que les pages légales sont bilingues : la version
+    anglaise affichait sinon « Belgique » au milieu d'un texte anglais, le
+    mélange de langues que le reste du site a précisément éliminé. La rue et le
+    numéro ne se traduisent pas, seul le pays change.
+  */
+  address: "Rue des Alcyons 86, 1082 Berchem-Sainte-Agathe, Belgique",
+  addressEn: "Rue des Alcyons 86, 1082 Berchem-Sainte-Agathe, Belgium",
 
   /**
-   * Responsable de la publication. À confirmer : Antonino a donné une adresse
-   * au nom de Gianluca, sans préciser qui est officiellement responsable.
+   * Administrateurs désignés à l'article 15 des statuts. Une ASBL est
+   * représentée par son organe d'administration : c'est cette liste, et non
+   * une personne choisie au hasard, qui engage l'association.
    */
-  publisher: null as string | null,
+  administrators: ["Gianluca Lo Bianco", "Patrizia Tripoli"] as const,
+
+  /**
+   * Responsable de la publication du site, c'est-à-dire la personne qu'un
+   * lecteur ou une autorité contacte en premier. Gianluca Lo Bianco, qui est
+   * administrateur et titulaire de l'adresse de contact du club.
+   */
+  publisher: "Gianluca Lo Bianco",
 
   /** Adresse de contact officielle, donnée par Antonino le 02/09. */
   contactEmail: "gianluca.behybrid@gmail.com",
@@ -75,20 +75,16 @@ export const CLUB = {
  * Hébergeur du site. Son identité est obligatoire dans les mentions légales
  * belges, au même titre que celle de l'éditeur.
  *
- * Hostinger, confirmé par Antonino le 02/09, et non Vercel comme le prévoyait
- * le README. `hostinger.fr` est la façade française de la société lituanienne
- * Hostinger International Ltd., qui est l'entité à déclarer.
- *
- * À VÉRIFIER, et la conséquence dépasse ces pages : une application Next.js
- * avec des routes serveur ne tourne pas sur une formule d'hébergement mutualisé
- * classique, prévue pour du PHP ou des fichiers statiques. Il faut une offre
- * qui exécute Node.js. À confirmer avant de s'engager, sous peine de découvrir
- * le problème le jour de la mise en ligne.
+ * Vercel, confirmé par Antonino le 02/09 après un premier échange où Hostinger
+ * avait été cité. La distinction compte : Hostinger héberge le nom de domaine,
+ * ce qui n'est pas la même chose qu'héberger une application Next.js avec des
+ * routes serveur, laquelle exige un environnement qui exécute Node.js.
  */
 export const HOST = {
-  name: "Hostinger International Ltd.",
-  address: "Jonavos g. 60C, 44192 Kaunas, Lituanie",
-  website: "https://www.hostinger.fr",
+  name: "Vercel Inc.",
+  address: "340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis",
+  addressEn: "340 S Lemon Ave #4133, Walnut, CA 91789, United States",
+  website: "https://vercel.com",
 } as const;
 
 /**
@@ -107,14 +103,18 @@ export const PROCESSORS = [
   {
     name: "Brevo (Sendinblue SAS)",
     country: "France",
+    countryEn: "France",
     role: "Envoi des emails de confirmation et de la newsletter, hébergement de la liste d'inscrits, acheminement des messages du formulaire de contact.",
+    roleEn: "Sending confirmation emails and the newsletter, hosting the subscriber list, delivering contact form messages.",
     website: "https://www.brevo.com/legal/privacypolicy/",
   },
   {
     name: HOST.name,
-    country: "Lituanie",
+    country: "États-Unis",
+    countryEn: "United States",
     role: "Hébergement du site et acheminement des requêtes.",
-    website: "https://www.hostinger.fr/politique-de-confidentialite",
+    roleEn: "Hosting the website and routing requests.",
+    website: "https://vercel.com/legal/privacy-policy",
   },
 ] as const;
 
