@@ -28,6 +28,22 @@ const nextConfig: NextConfig = {
     relatifs, de rediriger l'envoi d'un formulaire, et de charger un greffon.
   */
   async headers() {
+    /*
+      En développement, le site est servi en clair : sur `localhost` comme sur
+      l'adresse réseau du Mac quand on le teste depuis un vrai téléphone.
+
+      `upgrade-insecure-requests` y est donc destructeur. Le navigateur
+      réécrirait chaque feuille de style, chaque script et chaque image en
+      `https://192.168.x.x:3000`, une adresse qui n'existe pas : la page reste
+      blanche, et rien dans la console ne pointe vers la vraie cause.
+
+      `Strict-Transport-Security` est écarté pour la même raison, en pire : le
+      navigateur mémorise l'instruction pendant deux ans, y compris après le
+      retrait de l'en-tête, ce qui rendrait le développement local inutilisable
+      durablement.
+    */
+    const enProduction = process.env.NODE_ENV === "production";
+
     const csp = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline'",
@@ -41,7 +57,7 @@ const nextConfig: NextConfig = {
       "base-uri 'self'",
       "object-src 'none'",
       "frame-ancestors 'none'",
-      "upgrade-insecure-requests",
+      ...(enProduction ? ["upgrade-insecure-requests"] : []),
     ].join("; ");
 
     return [
@@ -58,12 +74,17 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=(), payment=()",
           },
-          // Deux ans, sous-domaines compris. N'a d'effet qu'en HTTPS, donc
-          // inoffensif en développement.
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=63072000; includeSubDomains",
-          },
+          // Deux ans, sous-domaines compris. Uniquement en production : voir
+          // le commentaire ci-dessus, un navigateur qui l'a mémorisé refuse le
+          // HTTP local pendant toute la durée annoncée.
+          ...(enProduction
+            ? [
+                {
+                  key: "Strict-Transport-Security",
+                  value: "max-age=63072000; includeSubDomains",
+                },
+              ]
+            : []),
         ],
       },
     ];
