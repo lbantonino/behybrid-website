@@ -399,6 +399,10 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-02**
 
+- **Flèches de remontée retirées le jour même de leur ajout.** Antonino a jugé le rendu mauvais. Le code de la variante a été **supprimé** plutôt que laissé désactivé, pour ne pas laisser croire à une fonction disponible : le composant retrouve sa forme simple, l'animation `cue-bounce-up` disparaît. La décision est notée dans `scroll-cue.tsx` afin que la question ne soit pas reposée sans connaître la réponse.
+- **« Instagram » et « TikTok » sont désormais des liens**, dans la phrase de la première étape de « Become A Member ». Deux autres pistes ont été écartées avec Antonino : rendre le titre « FOLLOW » cliquable, car rien ne signale qu'un titre d'étape numérotée est un lien et personne ne l'essaierait ; et ajouter une icône Instagram à côté, car la phrase cite deux réseaux et une seule icône aurait fait croire que TikTok ne compte pas.
+- **Les adresses ne sont pas recopiées** : un helper `socialHref` les lit dans `nav-links.ts`, et lève une erreur sur un nom inconnu plutôt que de rendre un lien vide qu'on ne découvrirait qu'en cliquant.
+
 - **« BEHYBRID Merch » devient « 1 Free BH Merch »** dans le panneau « What You Get », correction d'Antonino.
 - **Flèches de remontée ajoutées sur l'accueil**, demandées par l'équipe. Deux sections en reçoivent une : « What's BEHYBRID » remonte tout en haut, « How We Move » remonte à la section précédente. Le hero n'en a pas, il n'y a rien au-dessus.
 - **`top-28` et non `top-8`**, contrairement à la symétrie demandée. L'en-tête est collant et fait 81 px de haut, mesuré : une flèche à 32 px du bord passerait dessous. 112 px la posent à 32 px sous l'en-tête, soit exactement la marge que la flèche du bas garde avec le bas de l'écran. La symétrie visuelle est respectée, la symétrie numérique ne l'aurait pas été.

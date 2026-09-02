@@ -20,6 +20,7 @@ import { TeamSlider, type TeamMember } from '@/components/layout/team-slider';
 import { TiltCard } from '@/components/ui/tilt-card';
 import { Reveal } from '@/components/ui/reveal';
 import { ReplayOnView } from '@/components/ui/replay-on-view';
+import { socialHref } from '@/lib/nav-links';
 import {
   eventAnchor,
   getCalendarEvents,
@@ -156,11 +157,47 @@ const TEAM: TeamMember[] = [
   },
 ];
 
+/*
+  Le lien est posé sur les mots « Instagram » et « TikTok » eux-mêmes, choix
+  arrêté avec Antonino le 02/09 après deux autres pistes.
+
+  Rendre le titre « FOLLOW » cliquable a été écarté : rien ne signale qu'un
+  titre d'étape numérotée est un lien, personne ne l'essaierait. Ajouter une
+  icône Instagram à côté aussi : la phrase cite deux réseaux, une seule icône
+  aurait fait croire que TikTok ne compte pas.
+
+  Un lien porté par le mot qu'il désigne dit où il mène avant qu'on clique.
+*/
+const STEP_LINK =
+  'text-ink underline decoration-accent/60 underline-offset-4 transition hover:decoration-accent hover:text-accent';
+
 const MEMBER_STEPS = [
   {
     number: '01',
     title: 'Follow',
-    description: 'Follow us on Instagram or TikTok.',
+    description: (
+      <>
+        Follow us on{' '}
+        <a
+          href={socialHref('Instagram')}
+          target="_blank"
+          rel="noreferrer noopener"
+          className={STEP_LINK}
+        >
+          Instagram
+        </a>{' '}
+        or{' '}
+        <a
+          href={socialHref('TikTok')}
+          target="_blank"
+          rel="noreferrer noopener"
+          className={STEP_LINK}
+        >
+          TikTok
+        </a>
+        .
+      </>
+    ),
   },
   {
     number: '02',
@@ -627,19 +664,6 @@ export default async function Home() {
           </div>
         </Container>
 
-        {/*
-          Flèche de retour, demandée par l'équipe le 02/09. Alignée sur la même
-          verticale que celle du bas, `right-8`.
-
-          `top-28` et non `top-8` : l'en-tête est collant et fait 80 pixels de
-          haut. Une flèche à 32 pixels du bord passerait dessous. 112 pixels la
-          posent à 32 pixels sous l'en-tête, soit la marge exacte que la flèche
-          du bas garde avec le bas de l'écran.
-        */}
-        <div className="absolute right-8 top-28 z-20 hidden md:block">
-          <ScrollCue targetId="top" direction="up" />
-        </div>
-
         {/* Indicateur de défilement vers "How We Move" (desktop) */}
         <div className="absolute bottom-8 right-8 z-20 hidden md:block">
           <ScrollCue targetId="how-we-move" />
@@ -764,11 +788,6 @@ export default async function Home() {
             <MoveMarqueeRow />
             <MoveMarqueeRow />
           </div>
-        </div>
-
-        {/* Flèche de retour vers "What's BEHYBRID" (desktop) */}
-        <div className="absolute right-8 top-28 z-20 hidden md:block">
-          <ScrollCue targetId="after-hero" direction="up" />
         </div>
 
         {/* Indicateur de défilement, au-dessus du bandeau (desktop) */}

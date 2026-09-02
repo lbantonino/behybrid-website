@@ -56,6 +56,19 @@ export const FOOTER_LEGAL_LINKS: NavLink[] = [
   { label: "Terms of Use", href: "/terms", enabled: false },
 ];
 
+/**
+ * Retrouve un réseau social par son nom.
+ *
+ * Sert à poser un lien dans une phrase (« Follow us on Instagram or TikTok »)
+ * sans recopier l'adresse : elle ne vit qu'ici. Lève une erreur si le nom est
+ * inconnu, plutôt que de rendre un lien vide qui ne se verrait qu'en cliquant.
+ */
+export function socialHref(label: string) {
+  const link = FOOTER_SOCIAL_LINKS.find((item) => item.label === label);
+  if (!link) throw new Error(`Réseau social inconnu : ${label}`);
+  return link.href;
+}
+
 /** Ne garde que les liens dont la page existe. */
 export function activeLinks(links: NavLink[]) {
   return links.filter((link) => link.enabled);
