@@ -2,15 +2,53 @@ import { getClubToday } from "@/lib/club-time";
 
 /**
  * Adresse publique du site, nécessaire dès qu'une URL doit être absolue :
- * données structurées lues par Google, images de partage sur les réseaux.
+ * données structurées lues par Google, plan du site, images de partage.
  *
- * À définir sur l'hébergeur (variable `NEXT_PUBLIC_SITE_URL`, sans barre
- * oblique finale). En développement, on retombe sur le serveur local, ce qui
- * n'a aucune conséquence : Google ne lit pas cette machine.
+ * Trois sources, dans cet ordre :
+ *
+ * 1. `NEXT_PUBLIC_SITE_URL`, le vrai domaine, à poser sur l'hébergeur ;
+ * 2. `NEXT_PUBLIC_VERCEL_URL`, que Vercel renseigne tout seul à chaque
+ *    déploiement. Elle permet à une préversion d'avoir des adresses justes
+ *    sans qu'on ait à connaître son adresse d'avance, ce qui est impossible
+ *    au premier déploiement puisqu'elle n'existe pas encore ;
+ * 3. le serveur local, en développement.
+ *
+ * La valeur vide est traitée comme absente. Ce n'est pas une précaution
+ * théorique : le premier déploiement Vercel du 02/09 a échoué là-dessus.
+ * Une variable créée puis laissée vide passe `??` sans déclencher le repli,
+ * `new URL("")` lève une erreur, et le build s'arrête sur un message qui ne
+ * dit pas d'où vient le problème.
  */
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
-).replace(/\/$/, "");
+function resolveSiteUrl() {
+  const explicite = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const vercel = process.env.NEXT_PUBLIC_VERCEL_URL?.trim();
+
+  const brut = explicite || (vercel ? `https://${vercel}` : "");
+  if (!brut) return "http://localhost:3000";
+
+  // Oubli fréquent : coller « behybridrunclub.com » sans le protocole.
+  const avecProtocole = /^https?:\/\//i.test(brut) ? brut : `https://${brut}`;
+  const sansBarreFinale = avecProtocole.replace(/\/$/, "");
+
+  try {
+    new URL(sansBarreFinale);
+  } catch {
+    /*
+      Adresse présente mais illisible : on refuse de continuer. Retomber en
+      silence sur le serveur local serait pire, le site partirait en
+      production en annonçant `localhost` à Google.
+    */
+    throw new Error(
+      `NEXT_PUBLIC_SITE_URL est illisible : ${JSON.stringify(brut)}. ` +
+        "Attendu une adresse complète, par exemple https://www.behybridrunclub.com, " +
+        "sans barre oblique finale.",
+    );
+  }
+
+  return sansBarreFinale;
+}
+
+export const SITE_URL = resolveSiteUrl();
 
 /**
  * Le site autorise-t-il les moteurs de recherche à l'indexer ?

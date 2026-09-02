@@ -399,6 +399,12 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-02**
 
+- **Premier déploiement Vercel échoué, et c'était un défaut de mon code.** Antonino avait créé `NEXT_PUBLIC_SITE_URL` en la laissant vide. Or `??` ne se déclenche que sur une valeur absente, jamais sur une chaîne vide : la valeur vide traversait le repli, `new URL("")` levait une erreur, et le build s'arrêtait sur `Failed to collect page data for /_not-found`, un message qui ne dit rien de la cause.
+- **`site.ts` rendu robuste**, avec trois sources dans l'ordre : `NEXT_PUBLIC_SITE_URL`, puis `NEXT_PUBLIC_VERCEL_URL` que Vercel renseigne seul, puis le serveur local. **Une valeur vide ou faite d'espaces est traitée comme absente.**
+- **Le repli sur `NEXT_PUBLIC_VERCEL_URL` résout un problème d'œuf et de poule** : au premier déploiement, l'adresse `.vercel.app` n'existe pas encore, on ne peut donc pas la renseigner d'avance. Le site s'en sert tout seul et sert des adresses justes dès la première mise en ligne, plan du site et image de partage compris.
+- **Deux tolérances ajoutées** : un domaine collé sans `https://` est complété, une barre oblique finale est retirée. En revanche une adresse réellement illisible **arrête le build avec un message explicite**, plutôt que de retomber en silence sur `localhost` et d'annoncer une machine locale à Google.
+- **Sept cas vérifiés** : variable absente, vide, pleine d'espaces, préversion Vercel seule, domaine sans protocole, domaine avec barre finale, adresse illisible. Plus deux builds réels, dont celui qui reproduisait exactement l'échec.
+
 - **Le favicon était encore celui de Next.js.** Le rond noir barré d'un triangle blanc, livré à la création du projet et resté en place depuis le premier commit. Personne ne le remarque en travaillant, parce qu'on ne regarde jamais son propre onglet ; tout le monde le remarque dans une barre de favoris. Remplacé par le monogramme BH blanc sur le noir du site (`icon.tsx`, 64 × 64, 610 octets).
 - **Fond opaque et non transparent**, pour l'icône d'onglet comme pour celle d'iOS : un monogramme blanc sur fond transparent disparaît purement et simplement dans un navigateur en thème clair.
 - **64 px et non 32** : les écrans à haute densité affichent l'icône sur le double de pixels, et une icône de 32 y paraît molle.
