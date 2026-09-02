@@ -399,6 +399,13 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-02**
 
+- **Animations allégées en mobile uniquement**, après mesure et à la demande d'Antonino. Le mobile portait exactement la même charge que le desktop, et davantage à l'usage : **48 révélations déclenchées sur un simple aller-retour** dans la page contre 44 en desktop, un écran de 844 px de haut faisant franchir bien plus de frontières.
+- **Deux changements, mobile seul.** Les durées passent de 3 s à 1,05 s et de 4 s à 1,4 s, les délais en cascade sont divisés par 2,5. Et la révélation **ne se joue plus qu'une fois** : remonter d'un cran ne refait plus tout réapparaître en fondu. Le desktop garde son rejeu à chaque retour, décision d'août inchangée.
+- **Résultat mesuré** : mobile `48 → 27` révélations, soit exactement le nombre de blocs, et un bloc devient lisible en **523 ms au lieu de 1452**. Desktop strictement inchangé, 44 révélations et 1482 ms.
+- **La durée est passée en variable CSS** plutôt qu'en valeur posée en ligne : une valeur en ligne ne peut pas être reprise par une requête média, une variable si. C'est ce qui permet d'alléger le mobile sans toucher au desktop ni dupliquer le composant.
+- **Commentaire mensonger corrigé** : le composant `Reveal` affirmait que l'effet était « désactivé en dessous du breakpoint desktop ». C'était faux, aucune règle ne le coupait. L'affirmation empêchait de chercher le problème au bon endroit.
+- **Vérifié** : pages toujours lisibles sans JavaScript, et effet toujours neutralisé pour qui demande à réduire les animations.
+
 - **Flèches de remontée retirées le jour même de leur ajout.** Antonino a jugé le rendu mauvais. Le code de la variante a été **supprimé** plutôt que laissé désactivé, pour ne pas laisser croire à une fonction disponible : le composant retrouve sa forme simple, l'animation `cue-bounce-up` disparaît. La décision est notée dans `scroll-cue.tsx` afin que la question ne soit pas reposée sans connaître la réponse.
 - **« Instagram » et « TikTok » sont désormais des liens**, dans la phrase de la première étape de « Become A Member ». Deux autres pistes ont été écartées avec Antonino : rendre le titre « FOLLOW » cliquable, car rien ne signale qu'un titre d'étape numérotée est un lien et personne ne l'essaierait ; et ajouter une icône Instagram à côté, car la phrase cite deux réseaux et une seule icône aurait fait croire que TikTok ne compte pas.
 - **Les adresses ne sont pas recopiées** : un helper `socialHref` les lit dans `nav-links.ts`, et lève une erreur sur un nom inconnu plutôt que de rendre un lien vide qu'on ne découvrirait qu'en cliquant.

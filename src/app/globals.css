@@ -239,10 +239,36 @@ body {
 */
 .reveal {
   opacity: 0;
-  /* Mêmes distance et courbe que les entrées du hero (slide-in-left/right).
-     La durée est posée par le composant, en ligne. */
+  /*
+    Mêmes distance et courbe que les entrées du hero (slide-in-left/right).
+
+    La durée et le délai viennent du composant, mais en variables et non en
+    valeurs directes : une valeur posée en ligne ne peut pas être reprise par
+    une requête média, alors qu'une variable, si. C'est ce qui permet
+    d'alléger le mobile juste en dessous sans toucher au desktop.
+  */
   transition-property: opacity, translate;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-duration: var(--reveal-duration, 3000ms);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/*
+  Mobile allégé, demandé par Antonino le 02/09 après mesure.
+
+  Le mobile portait exactement la même charge que le desktop : 27 blocs à
+  révéler, et 48 révélations déclenchées sur un simple aller-retour dans la
+  page, contre 44 en desktop. Sur un écran de 844 pixels de haut on franchit
+  bien plus de frontières, donc les fondus s'enchaînent sans répit.
+
+  On ne supprime pas l'effet, on le raccourcit : un bloc devenait lisible en
+  1,5 seconde, ce qui est très long pour une révélation au défilement.
+*/
+@media (max-width: 859.98px) {
+  .reveal {
+    transition-duration: calc(var(--reveal-duration, 3000ms) * 0.35);
+    transition-delay: calc(var(--reveal-delay, 0ms) * 0.4);
+  }
 }
 .reveal-from-left {
   translate: -48px 0;
