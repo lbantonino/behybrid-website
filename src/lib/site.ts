@@ -12,6 +12,21 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 ).replace(/\/$/, "");
 
+/**
+ * Le site autorise-t-il les moteurs de recherche à l'indexer ?
+ *
+ * Volontairement fermé par défaut : il faut poser explicitement
+ * `NEXT_PUBLIC_ALLOW_INDEXING=true` sur l'hébergeur de production. Toute autre
+ * valeur, et l'absence de variable, valent non.
+ *
+ * Ce sens est le seul sûr. Une préversion Vercel (`*.vercel.app`) partagée à
+ * un relecteur, ou n'importe quel déploiement d'essai, se retrouverait sinon
+ * indexée avant le vrai domaine : Google garderait deux adresses pour le même
+ * site, et le doublon survit longtemps à la correction. Oublier d'autoriser
+ * coûte quelques jours de référencement ; oublier d'interdire coûte des mois.
+ */
+export const ALLOW_INDEXING = process.env.NEXT_PUBLIC_ALLOW_INDEXING === "true";
+
 /** Transforme "/photos/x.jpg" en adresse absolue. */
 export function absoluteUrl(path: string) {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;

@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Preloader } from "@/components/layout/preloader";
 import { ScrollReset } from "@/components/layout/scroll-reset";
-import { SITE_URL } from "@/lib/site";
+import { ALLOW_INDEXING, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   // Sert de base à toutes les adresses relatives des métadonnées (images de
@@ -20,6 +20,17 @@ export const metadata: Metadata = {
     address: false,
     email: false,
   },
+  /*
+    Indexation fermée tant que `NEXT_PUBLIC_ALLOW_INDEXING` ne vaut pas "true".
+    Voir src/lib/site.ts pour la raison : une préversion indexée avant le vrai
+    domaine laisse dans Google un doublon qui survit longtemps.
+
+    `follow` reste vrai dans les deux cas : on ne demande pas à Google
+    d'ignorer les liens de la page, seulement de ne pas la publier.
+  */
+  robots: ALLOW_INDEXING
+    ? { index: true, follow: true }
+    : { index: false, follow: true },
 };
 
 export default function RootLayout({
