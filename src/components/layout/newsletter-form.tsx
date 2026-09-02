@@ -108,13 +108,15 @@ export function NewsletterForm() {
         </p>
       ) : null}
 
-      {/* Deux lignes partout, mais la coupure change selon la largeur : sur un
-          iPhone standard, la première phrase ne tient pas seule sur une ligne. */}
-      <p className="max-w-[460px] text-[11px] leading-[1.5] text-faint">
-        By subscribing, you agree to receive news and updates from
-        <br className="phone-lg:hidden md:hidden" /> BEHYBRID.
-        <br className="hidden phone-lg:inline md:inline" /> You can unsubscribe
-        at any time.
+      {/*
+        Les retours à la ligne étaient posés à la main, calibrés pour du 11 px.
+        Le passage à 13 px le 31/08 les a rendus faux : ils produisaient une
+        troisième ligne en mobile. Le texte se coupe désormais tout seul, ce qui
+        reste juste quelle que soit la taille de police ou la largeur d'écran.
+      */}
+      <p className="max-w-[460px] text-body-sm leading-[1.5] text-faint">
+        By subscribing, you agree to receive news and updates from BEHYBRID. You
+        can unsubscribe at any time.
       </p>
     </form>
   );

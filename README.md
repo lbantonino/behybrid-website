@@ -183,7 +183,7 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-08-31**
+**Dernière mise à jour : 2026-09-02**
 
 ### Où on en est
 
@@ -227,7 +227,7 @@ déploiement, plus trois risques techniques non bloquants : les photos sources
 restant à alléger, dont un PNG de 2,4 Mo pour une photographie (TEC-03, dont la
 partie code est faite), aucun test sur
 les deux routes serveur qui envoient des emails (TEC-04), et un gris à 4,38 de
-contraste sous le seuil AA de 4,5 sur le fond des panneaux (TEC-05). **TEC-02
+contraste sous le seuil AA de 4,5 sur le fond des panneaux (TEC-05, corrigé le 02/09). **TEC-02
 est réglé** : la 404 et les écrans d'erreur existent et sont aux couleurs du
 club.
 
@@ -396,6 +396,15 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-09-02**
+
+- **TEC-05 corrigé : les deux mentions sur les données personnelles passent le seuil d'accessibilité.** Sous le formulaire de contact et sous la newsletter, elles étaient en `#7a7a75` sur le fond des panneaux `#111111`, en 11 px : contraste mesuré **4,38**, pour un minimum AA de 4,5. Ce sont précisément les deux textes que le RGPD demande de rendre lisibles.
+- **Deux changements, pas un.** Le gris pâle `--color-faint` passe de `#7a7a75` à `#7e7e79`, ce qui porte le contraste à **4,63** sur les panneaux et 4,85 sur le fond. Et les deux mentions passent de `text-[11px]` à `text-body-sm` (13 px), à la demande d'Antonino. Agrandir seul n'aurait pas suffi : le seuil AA ne s'assouplit qu'à partir de 18,7 px, et personne ne veut une mention légale de cette taille sous un bouton d'envoi.
+- **Pourquoi 13 px et pas 12** : le 11 px correspondait au jeton `text-label`, conçu pour des libellés en capitales espacées du type `NEXT RUN`. Ces mentions sont des phrases en minuscules sur deux lignes, le même chiffre n'y produit pas la même lisibilité. `text-body-sm` existait déjà, ce qui évite d'ajouter une quinzième taille en dur.
+- **`#7e7e79` plutôt que `#7c7c77`**, qui suffirait tout juste à 4,50 : se poser sur le seuil, c'est repasser dessous au premier ajustement d'un fond. Le choix est commenté dans `globals.css` avec la consigne de ne pas « harmoniser » cette valeur vers le bas.
+- **Effet de bord rattrapé** : la mention newsletter portait deux `<br>` posés à la main, calibrés pour du 11 px. À 13 px ils produisaient une troisième ligne en mobile. Ils ont été retirés, le texte se coupe désormais tout seul. Vérifié sur six largeurs, de l'iPhone SE au 1920 : **deux lignes partout**.
+- **Erreur commise et corrigée en cours de route** : j'avais d'abord écrit `phone-lg:max-w-[460px]`, or `phone-lg` est une plage bornée (428 à 859,98 px) et non un minimum. La classe ne s'appliquait donc pas en desktop, où le paragraphe restait à 300 px et repassait à trois lignes.
 
 **2026-08-31**
 

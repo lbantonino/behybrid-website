@@ -81,7 +81,17 @@
   --color-bg-alt: #111111;
   --color-ink: #f4f4f1;
   --color-muted: #9c9c96;
-  --color-faint: #7a7a75;
+  /*
+    Éclairci de #7a7a75 le 31/08 : sur le fond des panneaux (#111111) l'ancienne
+    valeur donnait un contraste de 4,38, sous le seuil AA de 4,5. Elle porte
+    entre autres les deux mentions qui informent le visiteur sur ses données
+    personnelles, sous le formulaire de contact et sous la newsletter.
+
+    #7c7c77 suffirait tout juste (4,50). On prend quatre crans de plus (4,63)
+    pour ne pas repasser dessous au premier ajustement d'un fond. Ne pas
+    « harmoniser » cette valeur vers le bas.
+  */
+  --color-faint: #7e7e79;
   --color-line: rgba(255, 255, 255, 0.08);
   --color-accent: #c9f133;
 }

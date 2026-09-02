@@ -187,7 +187,7 @@ export function ContactForm() {
         </p>
       ) : null}
 
-      <p className="text-[11px] leading-[1.5] text-faint">
+      <p className="text-body-sm leading-[1.5] text-faint">
         By sending this message, you agree that we use your details to reply. See
         our{' '}
         <Link href="/privacy" className="underline hover:text-muted">
