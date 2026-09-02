@@ -31,6 +31,12 @@ export const metadata: Metadata = {
     dans un navigateur sur les quatre pages publiques.
 
   Si l'un de ces points change, cette page doit changer le même jour.
+
+  Seuil de 18 ans pour les mineurs, fixé par Antonino le 02/09. C'est plus
+  strict que la loi : la Belgique a abaissé à 13 ans l'âge du consentement
+  numérique. Rien n'interdit d'être plus protecteur que le minimum légal, et
+  pour un club sportif qui écrit à ses inscrits, c'est le choix prudent. À ne
+  pas « corriger » vers 13 ans en croyant rectifier une erreur.
 */
 export default function Page() {
   const controller = [
@@ -258,10 +264,14 @@ export default function Page() {
 
           <LegalSection level={3} title="Mineurs">
             <p>
-              Si vous êtes mineur, demandez l&apos;accord d&apos;un parent avant
-              de vous inscrire à la newsletter. Si vous constatez qu&apos;un
-              enfant s&apos;est inscrit sans cet accord, écrivez-nous et nous
-              supprimerons l&apos;adresse.
+              Si vous avez <strong className="text-ink">moins de 18 ans</strong>,
+              demandez l&apos;accord d&apos;un parent ou de votre tuteur avant de
+              vous inscrire à la newsletter.
+            </p>
+            <p>
+              Si vous constatez qu&apos;un mineur s&apos;est inscrit sans cet
+              accord, écrivez-nous : nous supprimons l&apos;adresse sans vous
+              demander de justification.
             </p>
           </LegalSection>
 
@@ -455,9 +465,12 @@ export default function Page() {
 
       <LegalSection title="Minors">
         <p>
-          If you are under 18, ask a parent before subscribing to the
-          newsletter. If you find that a child has subscribed without that
-          agreement, write to us and we will delete the address.
+          If you are <strong className="text-ink">under 18</strong>, ask a
+          parent or guardian before subscribing to the newsletter.
+        </p>
+        <p>
+          If you find that a minor has subscribed without that agreement, write
+          to us: we delete the address, no justification needed.
         </p>
       </LegalSection>
 
