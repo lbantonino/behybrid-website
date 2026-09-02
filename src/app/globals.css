@@ -220,6 +220,18 @@ body {
   }
 }
 
+/* Même rebond, inversé : une flèche vers le haut qui plonge vers le bas
+   dirait le contraire de ce qu'elle montre. */
+@keyframes cue-bounce-up {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
 /* Petit rebond du coureur du preloader */
 @keyframes run-bob {
   0%,

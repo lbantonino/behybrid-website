@@ -399,6 +399,14 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-02**
 
+- **« BEHYBRID Merch » devient « 1 Free BH Merch »** dans le panneau « What You Get », correction d'Antonino.
+- **Flèches de remontée ajoutées sur l'accueil**, demandées par l'équipe. Deux sections en reçoivent une : « What's BEHYBRID » remonte tout en haut, « How We Move » remonte à la section précédente. Le hero n'en a pas, il n'y a rien au-dessus.
+- **`top-28` et non `top-8`**, contrairement à la symétrie demandée. L'en-tête est collant et fait 81 px de haut, mesuré : une flèche à 32 px du bord passerait dessous. 112 px la posent à 32 px sous l'en-tête, soit exactement la marge que la flèche du bas garde avec le bas de l'écran. La symétrie visuelle est respectée, la symétrie numérique ne l'aurait pas été.
+- **Le rebond suit la direction** : une flèche vers le haut qui plonge vers le bas dirait le contraire de ce qu'elle montre. Nouvelle animation `cue-bounce-up`.
+- **Retour en haut par `smoothScrollToTop` et non par une ancre** posée sur le hero : viser une ancre applique le décalage d'en-tête et on s'arrêterait 80 px sous le haut réel. Vérifié en cliquant : la remontée finit exactement à 0.
+- **Navigation vérifiée au clic**, descente 0 → 821 → 1641 puis remontée 1641 → 821 → 0. Les flèches restent invisibles en mobile.
+- **Piège de test à connaître** : Playwright refuse de cliquer un élément en mouvement, et ces flèches rebondissent en boucle. Il faut `click({ force: true })`, sinon le test échoue sur « element is not stable » et laisse croire à un bug.
+
 - **L'image de partage ne s'affichait pas sur WhatsApp, et c'était encore mon repli.** Mesuré sur la préversion : la balise `og:image` citait `behybrid-website-vfgw-pf7ggkivy-antoninos-projects.vercel.app`, une adresse différente de celle qu'Antonino partage. Cette adresse renvoie un **302 vers la page de connexion Vercel** : WhatsApp demandait l'image, recevait un mur d'authentification, et n'affichait que le titre.
 - **La cause : `VERCEL_URL` désigne le déploiement, pas le projet.** Adresse à rallonge, différente à chaque mise en ligne, et protégée par l'authentification Vercel. L'adresse stable du projet vient de `VERCEL_PROJECT_PRODUCTION_URL`, et elle est publique. L'ordre des replis a été corrigé, la seconde ne servant plus que de dernier recours. Vérifié : la même image renvoie 200 et 195 681 octets sur l'adresse stable.
 - **Favicon sans fond, choix d'Antonino.** Le monogramme BH blanc seul, en PNG transparent de 661 octets. **Contrepartie mesurée et montrée** : posé sur un fond blanc, un monogramme blanc est invisible ; sur le gris clair d'un onglet inactif, à peine visible. Le fond noir précédent l'évitait au prix d'un carré sombre dont Antonino ne voulait pas. Décision notée dans le code pour qu'on ne la « corrige » pas plus tard.

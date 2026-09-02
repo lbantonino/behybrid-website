@@ -182,7 +182,7 @@ const MEMBER_STEPS = [
 const MEMBER_BENEFITS = [
   { icon: Footprints, label: '1 Track Session / Week' },
   { icon: Lightbulb, label: 'Weekly Training Tips' },
-  { icon: Shirt, label: 'BEHYBRID Merch' },
+  { icon: Shirt, label: '1 Free BH Merch' },
   { icon: Dumbbell, label: '1 Free Strength Session' },
   { icon: CalendarCheck, label: 'Priority Access To Events' },
   { icon: Percent, label: '15% Off Club Coaching' },
@@ -627,6 +627,19 @@ export default async function Home() {
           </div>
         </Container>
 
+        {/*
+          Flèche de retour, demandée par l'équipe le 02/09. Alignée sur la même
+          verticale que celle du bas, `right-8`.
+
+          `top-28` et non `top-8` : l'en-tête est collant et fait 80 pixels de
+          haut. Une flèche à 32 pixels du bord passerait dessous. 112 pixels la
+          posent à 32 pixels sous l'en-tête, soit la marge exacte que la flèche
+          du bas garde avec le bas de l'écran.
+        */}
+        <div className="absolute right-8 top-28 z-20 hidden md:block">
+          <ScrollCue targetId="top" direction="up" />
+        </div>
+
         {/* Indicateur de défilement vers "How We Move" (desktop) */}
         <div className="absolute bottom-8 right-8 z-20 hidden md:block">
           <ScrollCue targetId="how-we-move" />
@@ -751,6 +764,11 @@ export default async function Home() {
             <MoveMarqueeRow />
             <MoveMarqueeRow />
           </div>
+        </div>
+
+        {/* Flèche de retour vers "What's BEHYBRID" (desktop) */}
+        <div className="absolute right-8 top-28 z-20 hidden md:block">
+          <ScrollCue targetId="after-hero" direction="up" />
         </div>
 
         {/* Indicateur de défilement, au-dessus du bandeau (desktop) */}
