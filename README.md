@@ -399,6 +399,10 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-02**
 
+- **Le favicon était encore celui de Next.js.** Le rond noir barré d'un triangle blanc, livré à la création du projet et resté en place depuis le premier commit. Personne ne le remarque en travaillant, parce qu'on ne regarde jamais son propre onglet ; tout le monde le remarque dans une barre de favoris. Remplacé par le monogramme BH blanc sur le noir du site (`icon.tsx`, 64 × 64, 610 octets).
+- **Fond opaque et non transparent**, pour l'icône d'onglet comme pour celle d'iOS : un monogramme blanc sur fond transparent disparaît purement et simplement dans un navigateur en thème clair.
+- **64 px et non 32** : les écrans à haute densité affichent l'icône sur le double de pixels, et une icône de 32 y paraît molle.
+
 - **Plan de site, robots.txt et carte d'identité du club ajoutés.** Le référencement est complet, il ne manquait plus que ces trois pièces.
 - **Correction d'une erreur de ma part** : j'avais écrit que ces fichiers ne pouvaient pas être écrits avant que le nom de domaine soit arrêté, « parce qu'ils contiennent des adresses absolues ». C'était faux. Ils lisent `SITE_URL`, exactement comme le font déjà les données structurées du calendrier et l'image de partage. Ils sont donc écrits aujourd'hui et deviendront justes tout seuls le jour où `NEXT_PUBLIC_SITE_URL` sera posée. Une dépendance annoncée à tort, qui aurait retardé le travail sans raison.
 - **Le plan de site est déduit de `nav-links.ts`, pas recopié.** Le jour où la boutique ou l'espace membre passent à `enabled: true`, ils y entrent sans que personne y pense, et surtout ils ne peuvent pas y entrer par erreur tant qu'ils sont désactivés. `/style-guide` et `/newsletter/confirmed` en sont exclues : elles portent déjà un `noindex`.
