@@ -399,6 +399,12 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-02**
 
+- **Deux photos de galerie remplacées par leurs originaux**, fournis par Antonino. `gallery-1` arrivait en 5682 × 3788 (4,0 Mo) et `gallery-2` en 3938 × 5907 (6,2 Mo) : réduites à 1600 px sur le côté long, soit 564 et 524 Ko. Elles couvrent désormais les ~960 px que réclame un écran moderne, contre 578 et 377 auparavant.
+- **Attention au changement de proportions** : `gallery-2` est passée de paysage (1,18) à **portrait** (0,67), alors que le cadre fait 1,41 en desktop et 2,44 en mobile. Une image portrait y est rognée très fort en haut et en bas. Vérifié en capture dans les deux formats : le cadrage centré fonctionne, aucun visage coupé. À reregarder si quelqu'un remplace encore ces fichiers.
+- **Je m'étais trompé en réclamant « les originaux ».** L'historique Git le montre : sept des huit photos de galerie sont entrées dans le projet à 578 px ou moins, ce sont bien les fichiers qu'Antonino avait fournis, et ma conversion du 31/08 n'avait touché que le format, jamais les dimensions. Seule `gallery-contact-1` avait été réduite par moi, volontairement, de 2268 à 1200 px.
+- **Cinq photos de galerie restent un peu douces** (`gallery-3`, les trois `gallery-calendar-*`, `gallery-contact-3`) : leurs originaux n'existent plus. Point classé, ce n'est plus une tâche en attente.
+- **Fichier parasite supprimé** : `public/photos/public`, un doublon de 643 Ko du hero mobile que j'avais créé et **commité par erreur** le 31/08, sans doute par une commande `sips` dont le chemin de sortie était mal formé.
+
 - **Convention de nommage fixée par Antonino** : les lieux sont des noms propres et gardent leurs majuscules (« Parc du Cinquantenaire », « Parc Royal », « Parc de Woluwe ») ; les titres d'entraînement ne prennent une majuscule qu'à la première lettre (« Sprints », « Beat the streets », « 5km test »). Les deux règles diffèrent à dessein et sont écrites en commentaire dans `calendar-events.ts`, là où les données vivent.
 - **Corrigé dans le code** : 18 occurrences de « Parc du cinquantenaire » et le titre « 5km TEST ». Le jeu de secours est donc conforme.
 - **Pas corrigé dans Supabase, et c'est impossible depuis le site.** La clé utilisée par le serveur peut lire la table, pas l'écrire. Le script `docs/SUPABASE_RENOMMAGE.sql` est prêt : Antonino le colle dans l'éditeur SQL de Supabase. **Tant qu'il ne l'a pas fait, le site affiche encore les anciens noms**, puisqu'il lit la base et non le code.
