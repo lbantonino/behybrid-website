@@ -435,7 +435,12 @@ export default async function Home() {
         {/* Contenu */}
         <Container className="relative z-10 flex h-[calc(100svh-5rem)] flex-col justify-between gap-3 pb-8 pt-20 phone-lg:justify-center phone-lg:gap-6 phone-lg:pb-20 md:h-[calc(100vh-5rem)] md:min-h-[600px] md:flex-row md:items-center md:justify-between md:gap-12 md:pb-16 md:pt-20">
           <ReplayOnView initialDelay={2000} className="phone-lg:mt-8">
-            <div className="flex max-w-[640px] flex-col items-center gap-3 text-center [animation:slide-in-left_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:items-start md:gap-6 md:text-left">
+            {/*
+              L'entrée du titre est réservée au desktop depuis le 02/09 : en
+              mobile, seule la carte « Next Run » garde la sienne. Le préfixe
+              `md:` suffit, l'animation n'existe plus en dessous.
+            */}
+            <div className="flex max-w-[640px] flex-col items-center gap-3 text-center md:items-start md:gap-6 md:text-left md:[animation:slide-in-left_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both]">
               <span className="inline-flex mb-3 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 <span className="font-display text-[12px] font-bold uppercase tracking-[1.5px] text-ink">
@@ -609,9 +614,11 @@ export default async function Home() {
 
             {/* Chiffres clés (mobile) : bloc autonome, pour être réparti en
                 hauteur entre le paragraphe et les cartes */}
+            {/* Gardé animé en mobile : un des trois moments retenus. */}
             <Reveal
               from="left"
               delay={150}
+              mobile
               className="flex justify-between text-left md:hidden"
             >
               {CLUB_STATS.map((stat) => (
@@ -723,7 +730,7 @@ export default async function Home() {
 
           <div className="my-auto grid auto-rows-fr grid-cols-1 gap-6 md:my-0 md:auto-rows-auto md:grid-cols-2 md:gap-20">
             <ReplayOnView>
-              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-accent bg-black/25 p-5 backdrop-blur-md phone-lg:px-8 phone-lg:py-[37px] [animation:slide-in-right-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:p-12 md:[animation:slide-in-left-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both]">
+              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-accent bg-black/25 p-5 backdrop-blur-md phone-lg:px-8 phone-lg:py-[37px] md:rounded-3xl md:p-12 md:[animation:slide-in-left-translate_3s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both]">
                 <div className="flex items-start justify-between">
                   <Badge variant="accent" size="xs" className="mb-2 md:mb-0">
                     1 Run / Week
@@ -754,7 +761,7 @@ export default async function Home() {
             </ReplayOnView>
 
             <ReplayOnView>
-              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-white/40 bg-black/25 p-5 backdrop-blur-md phone-lg:px-8 phone-lg:py-[37px] [animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both] md:rounded-3xl md:border-white/25 md:p-12">
+              <TiltCard className="tilt-card--flat relative flex h-full flex-col rounded-[20px] border border-white/40 bg-black/25 p-5 backdrop-blur-md phone-lg:px-8 phone-lg:py-[37px] md:rounded-3xl md:border-white/25 md:p-12 md:[animation:slide-in-right-translate_4s_cubic-bezier(0.22,1,0.36,1)_var(--enter-delay,0ms)_both]">
                 <div className="flex items-start justify-between">
                   <Badge variant="white" size="xs" className="mb-2 md:mb-0">
                     1 Run / Month
@@ -913,9 +920,11 @@ export default async function Home() {
             </div>
 
             {/* Panneau des avantages */}
+            {/* Gardé animé en mobile : un des trois moments retenus. */}
             <Reveal
               from="right"
               duration={4000}
+              mobile
               className="mt-7 md:mt-0 md:h-full"
             >
               <TiltCard className="relative rounded-2xl border border-line bg-bg-alt px-5 py-[25px] phone-lg:px-6 phone-lg:py-[34px] md:flex md:h-full md:flex-col md:rounded-3xl md:px-9 md:py-10">

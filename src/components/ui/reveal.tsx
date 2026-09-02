@@ -48,6 +48,7 @@ export function Reveal({
   from = 'up',
   delay,
   duration = 3000,
+  mobile = false,
 }: {
   children: ReactNode;
   className?: string;
@@ -55,6 +56,13 @@ export function Reveal({
   delay?: number;
   /** Durée de l'animation, en ms. 3000 comme le bloc gauche du hero. */
   duration?: number;
+  /**
+   * Anime aussi en mobile. Fermé par défaut depuis le 02/09 : Antonino a
+   * choisi de ne garder que quelques moments forts par page. Il faut donc
+   * demander l'animation explicitement, plutôt que d'avoir à la retirer
+   * partout et à recommencer au prochain bloc ajouté.
+   */
+  mobile?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [shown, setShown] = useState(false);
@@ -89,7 +97,7 @@ export function Reveal({
   return (
     <div
       ref={ref}
-      className={`reveal ${FROM_CLASS[from]} ${shown ? 'reveal-shown' : ''} ${className}`}
+      className={`reveal ${FROM_CLASS[from]} ${mobile ? 'reveal-mobile' : ''} ${shown ? 'reveal-shown' : ''} ${className}`}
       style={
         {
           '--reveal-duration': `${duration}ms`,

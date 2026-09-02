@@ -187,10 +187,12 @@ export default function ContactPage() {
               <div className="mt-8 md:mt-0 md:flex md:min-h-0 md:flex-1 md:flex-col md:justify-center">
                 <div className="flex flex-col gap-2.5 md:gap-4">
                   {CHANNELS.map((channel, index) => (
+                    /* Seuls blocs animés en mobile : les trois cartes. */
                     <Reveal
                       key={channel.label}
                       from="left"
                       duration={2200}
+                      mobile
                       delay={150 + index * 140}
                     >
                       <Channel channel={channel} />

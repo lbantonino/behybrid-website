@@ -269,6 +269,26 @@ body {
     transition-duration: calc(var(--reveal-duration, 3000ms) * 0.35);
     transition-delay: calc(var(--reveal-delay, 0ms) * 0.4);
   }
+
+  /*
+    En mobile, seuls les blocs marqués `reveal-mobile` s'animent. Tous les
+    autres sont posés à l'écran, sans fondu ni glissement.
+
+    Choix d'Antonino le 02/09 : garder trois moments forts par page plutôt
+    qu'une animation partout. Une animation qui se produit sur chaque bloc ne
+    signale plus rien, elle devient un bruit de fond ; réservée à trois
+    endroits, elle redevient un accent.
+
+    Le repli porte sur la présentation seulement. L'observateur continue de
+    tourner et la classe `reveal-shown` continue d'être posée : ces règles
+    gagnent parce qu'elles sont plus spécifiques, et rien ne casse si un bloc
+    change de camp.
+  */
+  .reveal:not(.reveal-mobile) {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
 }
 .reveal-from-left {
   translate: -48px 0;

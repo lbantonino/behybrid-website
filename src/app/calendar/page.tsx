@@ -165,9 +165,11 @@ export default async function CalendarPage() {
         </Reveal>
 
         <div className="mt-7 flex flex-col gap-8 md:mt-10 md:grid md:grid-cols-[400px_1fr] md:items-start md:gap-14">
+          {/* Seul bloc animé en mobile : l'arrivée du calendrier lui-même. */}
           <Reveal
             from="left"
             delay={150}
+            mobile
             className="rounded-xl border border-line p-5 md:p-7"
           >
             <MonthCalendar events={allEvents} upcomingEvents={events} />

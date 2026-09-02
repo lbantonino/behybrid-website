@@ -399,6 +399,13 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-02**
 
+- **Animations réduites à trois moments par page, en mobile uniquement.** Antonino a choisi de ne garder que ce qui mérite un accent : la carte « Next Run », les chiffres clés et le panneau « What You Get » sur l'accueil ; l'arrivée du calendrier seule sur `/calendar`, les entraînements s'affichant directement ; les trois cartes email, Instagram et lieu sur `/contact`.
+- **Résultat mesuré**, mobile puis desktop inchangé : accueil `2/27` contre `27/27`, calendrier `1/21` contre `21/21`, contact `3/14` contre `14/14`. Les entrées du hero suivent la même règle : seule la carte « Next Run » garde la sienne en mobile, le titre et les deux cartes « How We Move » sont désormais réservés au desktop.
+- **L'option est fermée par défaut**, `mobile` doit être demandé explicitement sur un `Reveal`. C'est le sens qui vieillit le mieux : le prochain bloc ajouté n'animera pas le mobile sans qu'on l'ait voulu, plutôt que l'inverse qui obligerait à y penser à chaque fois.
+- **Le repli est purement visuel.** L'observateur continue de tourner et la classe `reveal-shown` continue d'être posée : la règle mobile gagne par spécificité, donc rien ne casse si un bloc change de camp.
+- **Vérifié** : les six pages répondent, et aucun bloc ne reste invisible sans JavaScript.
+- **Constaté au passage** : le premier lien Strava est arrivé en base, sur l'entraînement du 2 septembre. Neuf sur dix restent à fournir.
+
 - **Animations allégées en mobile uniquement**, après mesure et à la demande d'Antonino. Le mobile portait exactement la même charge que le desktop, et davantage à l'usage : **48 révélations déclenchées sur un simple aller-retour** dans la page contre 44 en desktop, un écran de 844 px de haut faisant franchir bien plus de frontières.
 - **Deux changements, mobile seul.** Les durées passent de 3 s à 1,05 s et de 4 s à 1,4 s, les délais en cascade sont divisés par 2,5. Et la révélation **ne se joue plus qu'une fois** : remonter d'un cran ne refait plus tout réapparaître en fondu. Le desktop garde son rejeu à chaque retour, décision d'août inchangée.
 - **Résultat mesuré** : mobile `48 → 27` révélations, soit exactement le nombre de blocs, et un bloc devient lisible en **523 ms au lieu de 1452**. Desktop strictement inchangé, 44 révélations et 1482 ms.
