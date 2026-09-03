@@ -198,17 +198,24 @@ export default async function CalendarPage() {
               aria-label="Follow BEHYBRID Run Club Brussels on Strava"
               className="group inline-flex items-center gap-3 self-start"
             >
-              <span className="font-display text-label font-bold uppercase tracking-wide text-muted transition-colors group-hover:text-ink">
-                Follow us on Strava
-              </span>
-              <span className="inline-flex items-center rounded-full border border-line px-3.5 py-2 transition-colors group-hover:border-accent">
+              <span className="inline-flex items-center rounded-full border border-line px-4 py-2.5 transition-colors group-hover:border-accent md:px-3.5 md:py-2">
+                {/*
+                  Plus grand en mobile qu'en desktop, choix d'Antonino le 03/09.
+                  Ce n'est pas une inversion par erreur : sur un téléphone, ce
+                  logo est le seul repère coloré de la page et il est vu de plus
+                  près, alors qu'en desktop il vient après le calendrier dans le
+                  regard et n'a pas besoin de peser autant.
+                */}
                 <Image
                   src="/icons/strava.png"
                   alt=""
                   width={9819}
                   height={2048}
-                  className="h-3.5 w-auto md:h-4"
+                  className="h-5 w-auto md:h-4"
                 />
+              </span>
+              <span className="font-display text-label font-bold uppercase tracking-wide text-muted transition-colors group-hover:text-ink">
+                Follow us on Strava
               </span>
             </a>
           </div>

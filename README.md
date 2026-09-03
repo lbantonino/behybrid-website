@@ -399,6 +399,7 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-03**
 
+- **Logo avant la phrase, et plus grand en mobile.** Le badge passe en tête, la phrase suit. Le logo mesure 20 px de haut en mobile contre 16 en desktop : ce n'est pas une inversion par erreur, sur un téléphone il est le seul repère coloré de la page et il est vu de plus près, alors qu'en desktop il vient après le calendrier dans le regard. Vérifié sans débordement jusqu'à 375 px de large.
 - **Le contour n'entoure plus que le logo Strava**, pas la phrase. « Follow us on Strava » redevient du texte courant, le badge redevient un badge. L'ensemble reste **un seul lien**, contour compris : séparer le texte du lien aurait divisé la zone cliquable par trois sur un téléphone, pour un gain visuel nul.
 - **Constaté au passage** : les horaires des entraînements sont passés de 19:30 à 19:00 en base. Le site l'a répercuté tout seul, sans redéploiement, ce qui confirme une fois de plus que la lecture Supabase est bien en direct.
 
