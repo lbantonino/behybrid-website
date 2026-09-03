@@ -399,6 +399,9 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-03**
 
+- **Le contour n'entoure plus que le logo Strava**, pas la phrase. « Follow us on Strava » redevient du texte courant, le badge redevient un badge. L'ensemble reste **un seul lien**, contour compris : séparer le texte du lien aurait divisé la zone cliquable par trois sur un téléphone, pour un gain visuel nul.
+- **Constaté au passage** : les horaires des entraînements sont passés de 19:30 à 19:00 en base. Le site l'a répercuté tout seul, sans redéploiement, ce qui confirme une fois de plus que la lecture Supabase est bien en direct.
+
 - **Plus de lien Strava par entraînement, un seul lien vers le club.** Décision de Gianluca et Antonino. Le mécanisme par événement fonctionnait, prouvé le 02/09 : un lien posé en base faisait apparaître le bouton sans redéploiement. Mais il demandait de créer l'event Strava et de coller son adresse chaque semaine, pour dix séances, avec le risque d'en oublier.
 - **Le fait qui a tranché** : le seul lien jamais renseigné portait sur l'entraînement du 02/09. Il est passé, il a quitté le calendrier avec lui, et le site est revenu à neuf « Strava soon ». Un « Strava soon » qui traîne la veille d'une course est pire que pas de bouton : il promet quelque chose qui n'arrive pas.
 - **Un badge unique sous le calendrier**, « Follow us on Strava » en gris avec le logo, lié au club. Sa place tombe juste dans les deux formats sans règle particulière : en desktop il termine la colonne de gauche, en mobile la grille redevient une pile et il se retrouve entre le calendrier et « Next Runs ».

@@ -183,23 +183,33 @@ export default async function CalendarPage() {
             mobile la grille redevient une pile, il se retrouve donc entre le
             calendrier et « Next Runs », exactement là où on l'attend.
           */}
+            {/*
+              Le contour n'entoure que le logo, pas la phrase : choix d'Antonino
+              le 03/09. La phrase reste du texte courant, le badge reste un badge.
+
+              L'ensemble demeure un seul lien, contour compris. Séparer le texte
+              du lien aurait divisé la zone cliquable par trois sur un téléphone,
+              pour un gain visuel nul.
+            */}
             <a
               href={socialHref('Strava')}
               target="_blank"
               rel="noreferrer noopener"
               aria-label="Follow BEHYBRID Run Club Brussels on Strava"
-              className="group inline-flex items-center gap-3 self-start rounded-full border border-line px-4 py-2.5 transition-colors hover:border-accent"
+              className="group inline-flex items-center gap-3 self-start"
             >
               <span className="font-display text-label font-bold uppercase tracking-wide text-muted transition-colors group-hover:text-ink">
                 Follow us on Strava
               </span>
-              <Image
-                src="/icons/strava.png"
-                alt=""
-                width={9819}
-                height={2048}
-                className="h-3.5 w-auto md:h-4"
-              />
+              <span className="inline-flex items-center rounded-full border border-line px-3.5 py-2 transition-colors group-hover:border-accent">
+                <Image
+                  src="/icons/strava.png"
+                  alt=""
+                  width={9819}
+                  height={2048}
+                  className="h-3.5 w-auto md:h-4"
+                />
+              </span>
             </a>
           </div>
 
