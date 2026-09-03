@@ -32,9 +32,15 @@ const CALENDAR_GALLERY = [
     delay: 'delay-[0ms] md:delay-[600ms]',
   },
   {
-    file: 'gallery-calendar-2.jpg',
+    file: 'gallery-calendar-4.jpg',
     from: 'right-phone' as const,
     delay: 'delay-[300ms]',
+    /*
+      Photo en portrait (1247 × 1600) dans un cadre large : les coureurs sont
+      vus de dos, têtes et maillots dans la moitié haute. L'ancrage à 35 %
+      garde les têtes et le nom du club dans le cadre.
+    */
+    position: 'object-[50%_35%]',
   },
   {
     file: 'gallery-calendar-3.jpg',
@@ -155,70 +161,46 @@ export default async function CalendarPage() {
             <br className="md:hidden" />
             Follow us on Strava to join.
           </p>
+
+          {/*
+            Le logo seul, sans texte : la phrase juste au-dessus dit déjà
+            « Follow us on Strava to join », le répéter à côté du badge ferait
+            doublon.
+
+            Centré en mobile, sous la phrase elle-même centrée. Aligné à gauche
+            en desktop, où il annonce le calendrier qui commence en dessous.
+
+            `flex` et non `inline-flex` : les marges automatiques ne centrent
+            pas un élément en ligne, elles y valent zéro. Avec `w-fit`, le bloc
+            garde la largeur de son contenu tout en se centrant.
+          */}
+          <a
+            href={socialHref('Strava')}
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label="Follow BEHYBRID Run Club Brussels on Strava"
+            className="mx-auto mt-5 flex w-fit items-center rounded-full border border-line px-4 py-2.5 transition-colors hover:border-accent md:mx-0 md:mt-6"
+          >
+            <Image
+              src="/icons/strava.png"
+              alt=""
+              width={9819}
+              height={2048}
+              className="h-3.5 w-auto md:h-4"
+            />
+          </a>
         </Reveal>
 
         <div className="mt-7 flex flex-col gap-8 md:mt-10 md:grid md:grid-cols-[400px_1fr] md:items-start md:gap-14">
-          {/*
-            Calendrier et lien Strava forment une seule case de la grille.
-            Sans cette enveloppe, le lien devenait un enfant direct et prenait
-            la deuxième colonne, celle de « Next Runs », qui se retrouvait
-            renvoyée à la ligne suivante.
-          */}
-          <div className="flex flex-col gap-4 md:gap-5">
-            {/* Seul bloc animé en mobile : l'arrivée du calendrier lui-même. */}
-            <Reveal
-              from="left"
-              delay={150}
-              mobile
-              className="rounded-xl border border-line p-5 md:p-7"
-            >
-              <MonthCalendar events={allEvents} upcomingEvents={events} />
-            </Reveal>
-
-          {/*
-            Un seul lien Strava, celui du club, posé sous le calendrier.
-
-            Sa place tombe juste dans les deux formats sans règle particulière :
-            en desktop il termine la colonne de gauche, sous le calendrier ; en
-            mobile la grille redevient une pile, il se retrouve donc entre le
-            calendrier et « Next Runs », exactement là où on l'attend.
-          */}
-            {/*
-              Le contour n'entoure que le logo, pas la phrase : choix d'Antonino
-              le 03/09. La phrase reste du texte courant, le badge reste un badge.
-
-              L'ensemble demeure un seul lien, contour compris. Séparer le texte
-              du lien aurait divisé la zone cliquable par trois sur un téléphone,
-              pour un gain visuel nul.
-            */}
-            <a
-              href={socialHref('Strava')}
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-label="Follow BEHYBRID Run Club Brussels on Strava"
-              className="group inline-flex items-center gap-3 self-start"
-            >
-              <span className="inline-flex items-center rounded-full border border-line px-4 py-2.5 transition-colors group-hover:border-accent md:px-3.5 md:py-2">
-                {/*
-                  Plus grand en mobile qu'en desktop, choix d'Antonino le 03/09.
-                  Ce n'est pas une inversion par erreur : sur un téléphone, ce
-                  logo est le seul repère coloré de la page et il est vu de plus
-                  près, alors qu'en desktop il vient après le calendrier dans le
-                  regard et n'a pas besoin de peser autant.
-                */}
-                <Image
-                  src="/icons/strava.png"
-                  alt=""
-                  width={9819}
-                  height={2048}
-                  className="h-5 w-auto md:h-4"
-                />
-              </span>
-              <span className="font-display text-label font-bold uppercase tracking-wide text-muted transition-colors group-hover:text-ink">
-                Follow us on Strava
-              </span>
-            </a>
-          </div>
+          {/* Seul bloc animé en mobile : l'arrivée du calendrier lui-même. */}
+          <Reveal
+            from="left"
+            delay={150}
+            mobile
+            className="rounded-xl border border-line p-5 md:p-7"
+          >
+            <MonthCalendar events={allEvents} upcomingEvents={events} />
+          </Reveal>
 
           <div>
             <Reveal from="right" duration={2200} delay={150}>
@@ -265,7 +247,7 @@ export default async function CalendarPage() {
               alt="BEHYBRID Run Club Brussels"
               fill
               sizes="(min-width: 860px) 33vw, 100vw"
-              className="object-cover"
+              className={`object-cover ${photo.position ?? ''}`}
             />
           </Reveal>
         ))}

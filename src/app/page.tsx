@@ -90,9 +90,16 @@ const GALLERY = [
     delay: 'delay-[300ms]',
   },
   {
-    file: 'gallery-3.jpg',
+    file: 'gallery-4.jpg',
     from: 'left' as const,
     delay: 'delay-[600ms] md:delay-[0ms]',
+    /*
+      Photo en portrait (996 × 1600) dans un cadre large : le cadrage centré
+      par défaut couperait les visages, qui se situent dans le tiers supérieur.
+      L'ancrage à 28 % fait glisser la photo vers le bas et ramène les têtes
+      dans le cadre, en desktop comme en mobile.
+    */
+    position: 'object-[50%_28%]',
   },
 ];
 
@@ -974,7 +981,7 @@ export default async function Home() {
               alt="BEHYBRID Run Club Brussels"
               fill
               sizes="(min-width: 860px) 33vw, 100vw"
-              className="object-cover"
+              className={`object-cover ${photo.position ?? ''}`}
             />
           </Reveal>
         ))}

@@ -399,6 +399,12 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-03**
 
+- **Le logo Strava passe au-dessus du calendrier, seul.** Antonino a repensé la place : la phrase d'accroche dit déjà « Follow us on Strava to join », répéter le texte à côté du badge faisait doublon. Il ne reste que le logo, centré en mobile sous la phrase, aligné à gauche en desktop au-dessus du calendrier. Retour à la petite taille.
+- **Piège CSS** : `mx-auto` ne centre pas un élément `inline-flex`, les marges automatiques y valent zéro. Passé en `flex` avec `w-fit`, qui garde la largeur du contenu tout en se centrant. Vérifié : centre du badge à 195 px sur un écran de 390.
+- **Deux photos de galerie remplacées** : `gallery-3` par `gallery-4` sur l'accueil, `gallery-calendar-2` par `gallery-calendar-4` sur le calendrier. Fournies en 11,3 Mo et 13,4 Mo, réduites à 380 et 392 Ko pour 996 × 1600 et 1247 × 1600, au-dessus des 960 px que réclame un écran moderne.
+- **Cadrage sur les visages, pas au centre.** Les deux sont en portrait dans un cadre large : le cadrage par défaut coupait les têtes. Ancrage à 28 % pour l'accueil, où les visages occupent le tiers supérieur, et à 35 % pour le calendrier, où les coureurs sont vus de dos et où ce réglage garde aussi le nom du club sur les maillots. Vérifié en capture dans les deux formats.
+- **Les deux anciennes photos sont supprimées du dépôt** plutôt que laissées orphelines.
+
 - **Logo avant la phrase, et plus grand en mobile.** Le badge passe en tête, la phrase suit. Le logo mesure 20 px de haut en mobile contre 16 en desktop : ce n'est pas une inversion par erreur, sur un téléphone il est le seul repère coloré de la page et il est vu de plus près, alors qu'en desktop il vient après le calendrier dans le regard. Vérifié sans débordement jusqu'à 375 px de large.
 - **Le contour n'entoure plus que le logo Strava**, pas la phrase. « Follow us on Strava » redevient du texte courant, le badge redevient un badge. L'ensemble reste **un seul lien**, contour compris : séparer le texte du lien aurait divisé la zone cliquable par trois sur un téléphone, pour un gain visuel nul.
 - **Constaté au passage** : les horaires des entraînements sont passés de 19:30 à 19:00 en base. Le site l'a répercuté tout seul, sans redéploiement, ce qui confirme une fois de plus que la lecture Supabase est bien en direct.
