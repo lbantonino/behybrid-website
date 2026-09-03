@@ -16,4 +16,7 @@ d'accroche, ou vaudrait-il mieux le poser en haut à droite, sur la ligne
 | `strava-mobile-A-actuelle.png` | badge centré sous la phrase, le calendrier commence à 335 px |
 | `strava-mobile-B-en-haut.png` | badge sur la ligne du surtitre, le calendrier commence à 260 px |
 
-La version A est celle actuellement en ligne.
+**Décision d'Antonino, 03/09 : la version B en mobile, la version A conservée
+en desktop.** Le placement diffère donc selon la largeur, à dessein : en mobile
+la hauteur est rare et le badge trouve sa place dans la ligne d'en-tête, en
+desktop il y a de l'espace et il annonce le calendrier juste en dessous.

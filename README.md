@@ -399,6 +399,10 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 
 **2026-09-03**
 
+- **Le badge Strava passe en haut à droite en mobile**, sur la ligne « Never Miss A Run ». Décision prise après comparaison en capture, les deux variantes étant conservées dans `docs/apercus/`. Centré sous la phrase, il formait un troisième bloc dans la pile et repoussait le calendrier de 75 px ; sur la ligne d'en-tête il appartient à quelque chose, motif déjà employé sur l'accueil où « About The Club » fait face à « Brussels · Est. 2024 ».
+- **Le desktop garde son placement**, à gauche au-dessus du calendrier : l'espace y est suffisant et le badge y annonce le calendrier. Le placement diffère donc selon la largeur, à dessein, et c'est écrit dans le code.
+- **Vérifié à la bascule** : un seul badge visible de part et d'autre de 860 px, aucun débordement, et le badge reste présent sans JavaScript.
+
 - **Le logo Strava passe au-dessus du calendrier, seul.** Antonino a repensé la place : la phrase d'accroche dit déjà « Follow us on Strava to join », répéter le texte à côté du badge faisait doublon. Il ne reste que le logo, centré en mobile sous la phrase, aligné à gauche en desktop au-dessus du calendrier. Retour à la petite taille.
 - **Piège CSS** : `mx-auto` ne centre pas un élément `inline-flex`, les marges automatiques y valent zéro. Passé en `flex` avec `w-fit`, qui garde la largeur du contenu tout en se centrant. Vérifié : centre du badge à 195 px sur un écran de 390.
 - **Deux photos de galerie remplacées** : `gallery-3` par `gallery-4` sur l'accueil, `gallery-calendar-2` par `gallery-calendar-4` sur le calendrier. Fournies en 11,3 Mo et 13,4 Mo, réduites à 380 et 392 Ko pour 996 × 1600 et 1247 × 1600, au-dessus des 960 px que réclame un écran moderne.

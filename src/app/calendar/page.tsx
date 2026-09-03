@@ -147,11 +147,38 @@ export default async function CalendarPage() {
       <EventHighlight />
       <Container className="pt-7 md:pt-14">
         <Reveal from="left">
-          <div className="flex items-center gap-2.5 md:gap-3.5">
-            <span className="h-px w-6 bg-accent md:w-8" />
-            <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-accent">
-              Never Miss A Run
-            </span>
+          {/*
+            En mobile, le badge Strava occupe la droite de cette ligne. Choix
+            d'Antonino le 03/09, après comparaison des deux placements en
+            capture (voir docs/apercus/).
+
+            Centré sous la phrase d'accroche, il formait un troisième bloc dans
+            la pile et repoussait le calendrier de 75 pixels. Ici il appartient
+            à la ligne d'en-tête, motif déjà employé sur l'accueil où
+            « About The Club » fait face à « Brussels · Est. 2024 ».
+          */}
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2.5 md:gap-3.5">
+              <span className="h-px w-6 bg-accent md:w-8" />
+              <span className="font-display text-label font-bold uppercase tracking-[2.5px] text-accent">
+                Never Miss A Run
+              </span>
+            </div>
+            <a
+              href={socialHref('Strava')}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Follow BEHYBRID Run Club Brussels on Strava"
+              className="flex shrink-0 items-center rounded-full border border-line px-3 py-2 transition-colors hover:border-accent md:hidden"
+            >
+              <Image
+                src="/icons/strava.png"
+                alt=""
+                width={9819}
+                height={2048}
+                className="h-3 w-auto"
+              />
+            </a>
           </div>
           <h1 className="mt-9 text-center font-display text-[42px] font-black uppercase leading-[0.92] tracking-[-0.02em] md:mt-4 md:text-left md:text-[70px] md:leading-[0.9]">
             Calendar
@@ -167,19 +194,16 @@ export default async function CalendarPage() {
             « Follow us on Strava to join », le répéter à côté du badge ferait
             doublon.
 
-            Centré en mobile, sous la phrase elle-même centrée. Aligné à gauche
-            en desktop, où il annonce le calendrier qui commence en dessous.
-
-            `flex` et non `inline-flex` : les marges automatiques ne centrent
-            pas un élément en ligne, elles y valent zéro. Avec `w-fit`, le bloc
-            garde la largeur de son contenu tout en se centrant.
+            Desktop uniquement : aligné à gauche, il annonce le calendrier qui
+            commence juste en dessous. En mobile, c'est celui de la ligne
+            d'en-tête qui prend le relais.
           */}
           <a
             href={socialHref('Strava')}
             target="_blank"
             rel="noreferrer noopener"
             aria-label="Follow BEHYBRID Run Club Brussels on Strava"
-            className="mx-auto mt-5 flex w-fit items-center rounded-full border border-line px-4 py-2.5 transition-colors hover:border-accent md:mx-0 md:mt-6"
+            className="mt-5 hidden w-fit items-center rounded-full border border-line px-4 py-2.5 transition-colors hover:border-accent md:mt-6 md:flex"
           >
             <Image
               src="/icons/strava.png"
