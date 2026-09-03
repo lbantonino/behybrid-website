@@ -3,6 +3,7 @@ import { MonthCalendar } from '@/components/calendar/month-calendar';
 import { EventHighlight } from '@/components/calendar/event-highlight';
 import { EventsJsonLd } from '@/components/calendar/events-json-ld';
 import { Container } from '@/components/ui/container';
+import { socialHref } from '@/lib/nav-links';
 import { Reveal } from '@/components/ui/reveal';
 import {
   eventAnchor,
@@ -60,29 +61,23 @@ function EventType({ tag }: { tag: CalendarEvent['tag'] }) {
   );
 }
 
+/*
+  Plus de lien Strava par entraînement depuis le 03/09, décision de Gianluca et
+  Antonino.
+
+  Le mécanisme fonctionnait, il a été prouvé le 02/09 : un lien posé en base
+  faisait apparaître le bouton sans redéploiement. Mais il demandait de créer
+  l'event Strava et de coller son adresse chaque semaine, pour dix séances à
+  l'avance, avec le risque d'en oublier. Un « Strava soon » qui traîne la veille
+  d'une course est pire que pas de bouton du tout : il promet quelque chose qui
+  n'arrive pas.
+
+  Un lien unique vers le club, sous le calendrier, remplace les dix. Il est
+  toujours juste, il ne demande aucun entretien, et un coureur qui suit le club
+  sur Strava y voit toutes les séances.
+*/
 function EventRow({ event }: { event: CalendarEvent }) {
   const [dateDay, dateMonth] = event.date.split(' ');
-  const action = event.stravaUrl ? (
-    <a
-      href={event.stravaUrl}
-      target="_blank"
-      rel="noreferrer"
-      aria-label={`Join ${event.title} on Strava`}
-      className="strava-action inline-flex shrink-0 items-center transition-opacity hover:opacity-80"
-    >
-      <Image
-        src="/icons/strava.png"
-        alt=""
-        width={9819}
-        height={2048}
-        className="h-3.5 w-auto md:h-4"
-      />
-    </a>
-  ) : (
-    <span className="shrink-0 font-display text-label font-bold uppercase tracking-wide text-faint">
-      Strava soon
-    </span>
-  );
 
   return (
     <div
@@ -110,7 +105,6 @@ function EventRow({ event }: { event: CalendarEvent }) {
           </h3>
           <p className="mt-0.5 text-label text-muted">{event.time}</p>
         </div>
-        <span className="shrink-0">{action}</span>
       </div>
 
       {/* Desktop */}
@@ -130,7 +124,6 @@ function EventRow({ event }: { event: CalendarEvent }) {
         </h3>
         <p className="mt-0.5 text-body-sm text-muted">{event.time}</p>
       </div>
-      <div className="hidden md:flex md:shrink-0">{action}</div>
     </div>
   );
 }
@@ -160,20 +153,55 @@ export default async function CalendarPage() {
           <p className="mt-3 max-w-[440px] text-center text-body-sm text-muted md:mt-4 md:text-left md:text-body">
             The next Perform and Connect runs.{' '}
             <br className="md:hidden" />
-            Join the event on Strava.
+            Follow us on Strava to join.
           </p>
         </Reveal>
 
         <div className="mt-7 flex flex-col gap-8 md:mt-10 md:grid md:grid-cols-[400px_1fr] md:items-start md:gap-14">
-          {/* Seul bloc animé en mobile : l'arrivée du calendrier lui-même. */}
-          <Reveal
-            from="left"
-            delay={150}
-            mobile
-            className="rounded-xl border border-line p-5 md:p-7"
-          >
-            <MonthCalendar events={allEvents} upcomingEvents={events} />
-          </Reveal>
+          {/*
+            Calendrier et lien Strava forment une seule case de la grille.
+            Sans cette enveloppe, le lien devenait un enfant direct et prenait
+            la deuxième colonne, celle de « Next Runs », qui se retrouvait
+            renvoyée à la ligne suivante.
+          */}
+          <div className="flex flex-col gap-4 md:gap-5">
+            {/* Seul bloc animé en mobile : l'arrivée du calendrier lui-même. */}
+            <Reveal
+              from="left"
+              delay={150}
+              mobile
+              className="rounded-xl border border-line p-5 md:p-7"
+            >
+              <MonthCalendar events={allEvents} upcomingEvents={events} />
+            </Reveal>
+
+          {/*
+            Un seul lien Strava, celui du club, posé sous le calendrier.
+
+            Sa place tombe juste dans les deux formats sans règle particulière :
+            en desktop il termine la colonne de gauche, sous le calendrier ; en
+            mobile la grille redevient une pile, il se retrouve donc entre le
+            calendrier et « Next Runs », exactement là où on l'attend.
+          */}
+            <a
+              href={socialHref('Strava')}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Follow BEHYBRID Run Club Brussels on Strava"
+              className="group inline-flex items-center gap-3 self-start rounded-full border border-line px-4 py-2.5 transition-colors hover:border-accent"
+            >
+              <span className="font-display text-label font-bold uppercase tracking-wide text-muted transition-colors group-hover:text-ink">
+                Follow us on Strava
+              </span>
+              <Image
+                src="/icons/strava.png"
+                alt=""
+                width={9819}
+                height={2048}
+                className="h-3.5 w-auto md:h-4"
+              />
+            </a>
+          </div>
 
           <div>
             <Reveal from="right" duration={2200} delay={150}>

@@ -12,7 +12,6 @@ export type CalendarEvent = {
   startsAt: string;
   durationMinutes: number;
   location: string;
-  stravaUrl?: string;
 };
 
 type SupabaseEventRow = {
@@ -23,7 +22,6 @@ type SupabaseEventRow = {
   title: string;
   location: string;
   event_type: EventTag;
-  strava_url: string | null;
 };
 
 const MONTH_LABELS = [
@@ -223,10 +221,16 @@ function mapSupabaseEvent(row: SupabaseEventRow): CalendarEvent {
     startsAt: `${row.event_date}T${startTime}:00`,
     durationMinutes: row.duration_minutes,
     location: row.location,
-    stravaUrl: row.strava_url ?? undefined,
   };
 }
 
+/*
+  La colonne `strava_url` existe toujours dans Supabase mais n'est plus lue
+  depuis le 03/09 : le site ne montre plus de lien Strava par entraînement,
+  seulement un lien unique vers le club sous le calendrier. La colonne est
+  laissée en place plutôt que supprimée, elle ne coûte rien et redeviendrait
+  utile si l'on revenait en arrière.
+*/
 export async function getCalendarEvents(): Promise<CalendarEvent[]> {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
@@ -237,7 +241,7 @@ export async function getCalendarEvents(): Promise<CalendarEvent[]> {
 
   try {
     const response = await fetch(
-      `${supabaseUrl}/rest/v1/events?select=slug,event_date,start_time,duration_minutes,title,location,event_type,strava_url&order=event_date.asc,start_time.asc`,
+      `${supabaseUrl}/rest/v1/events?select=slug,event_date,start_time,duration_minutes,title,location,event_type&order=event_date.asc,start_time.asc`,
       {
         cache: 'no-store',
         headers: {

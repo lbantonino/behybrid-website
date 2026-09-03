@@ -183,7 +183,7 @@ Chaque étape est autant un livrable qu'un apprentissage, dans une montée en co
 
 > Section mise à jour à chaque session de travail. Reflète l'état réel du projet et le point exact où l'on s'est arrêté.
 
-**Dernière mise à jour : 2026-09-02**
+**Dernière mise à jour : 2026-09-03**
 
 ### Où on en est
 
@@ -396,6 +396,15 @@ Objectif : passer de 4,3 Mo à environ 250 Ko, avec un rendu net partout.
 - Version anglaise du README
 
 ### Journal des sessions
+
+**2026-09-03**
+
+- **Plus de lien Strava par entraînement, un seul lien vers le club.** Décision de Gianluca et Antonino. Le mécanisme par événement fonctionnait, prouvé le 02/09 : un lien posé en base faisait apparaître le bouton sans redéploiement. Mais il demandait de créer l'event Strava et de coller son adresse chaque semaine, pour dix séances, avec le risque d'en oublier.
+- **Le fait qui a tranché** : le seul lien jamais renseigné portait sur l'entraînement du 02/09. Il est passé, il a quitté le calendrier avec lui, et le site est revenu à neuf « Strava soon ». Un « Strava soon » qui traîne la veille d'une course est pire que pas de bouton : il promet quelque chose qui n'arrive pas.
+- **Un badge unique sous le calendrier**, « Follow us on Strava » en gris avec le logo, lié au club. Sa place tombe juste dans les deux formats sans règle particulière : en desktop il termine la colonne de gauche, en mobile la grille redevient une pile et il se retrouve entre le calendrier et « Next Runs ».
+- **Piège de grille rencontré** : posé tel quel, le badge devenait un enfant direct de la grille et occupait la deuxième colonne, renvoyant « Next Runs » à la ligne suivante. Calendrier et badge sont désormais enveloppés dans une seule case.
+- **Nettoyage complet plutôt que code mort** : `stravaUrl` disparaît du type, de la requête Supabase et des données structurées, où chaque événement pointe désormais vers sa propre ancre. La colonne `strava_url` reste en base, elle ne coûte rien et redeviendrait utile en cas de retour en arrière.
+- **La phrase d'accroche ajustée** : « Join the event on Strava » promettait un lien par séance, elle devient « Follow us on Strava to join ».
 
 **2026-09-02**
 

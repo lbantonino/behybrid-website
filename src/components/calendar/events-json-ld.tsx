@@ -61,7 +61,7 @@ function buildEvent(event: CalendarEvent) {
       price: 0,
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
-      url: event.stravaUrl ?? `${SITE_URL}/calendar`,
+      url: `${SITE_URL}/calendar#${eventAnchor(event)}`,
     },
     location: {
       '@type': 'Place',
