@@ -118,7 +118,7 @@
   --text-body-sm: 13px;
   --text-label: 11px;
 
-  /* Bascule desktop/mobile de l'export Claude Design (au lieu du 768px par défaut de Tailwind) */
+  /* Bascule desktop/mobile propre au design (au lieu du 768px par défaut de Tailwind) */
   --breakpoint-md: 860px;
 }
 

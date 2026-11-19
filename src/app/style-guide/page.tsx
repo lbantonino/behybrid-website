@@ -66,7 +66,7 @@ const BREAKPOINTS = [
   {
     name: "md:",
     range: "à partir de 860px",
-    note: "Desktop. Bascule héritée de l'export Claude Design, pas le 768px de Tailwind",
+    note: "Desktop. Bascule propre au design, pas le 768px de Tailwind",
   },
 ];
 

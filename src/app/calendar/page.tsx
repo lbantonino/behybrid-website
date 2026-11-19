@@ -148,9 +148,8 @@ export default async function CalendarPage() {
       <Container className="pt-7 md:pt-14">
         <Reveal from="left">
           {/*
-            En mobile, le badge Strava occupe la droite de cette ligne. Choix
-            d'Antonino le 03/09, après comparaison des deux placements en
-            capture (voir docs/apercus/).
+            En mobile, le badge Strava occupe la droite de cette ligne, choisi
+            après comparaison des deux placements.
 
             Centré sous la phrase d'accroche, il formait un troisième bloc dans
             la pile et repoussait le calendrier de 75 pixels. Ici il appartient
